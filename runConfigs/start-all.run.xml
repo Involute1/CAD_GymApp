@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="start-all" type="CompoundRunConfigurationType">
+    <toRun name="Angular CLI Server (cad-frontend)" type="js.build_tools.npm" />
+    <toRun name="CadAuthServiceApplication" type="SpringBootApplicationConfigurationType" />
+    <toRun name="CadGymServiceApplication" type="SpringBootApplicationConfigurationType" />
+    <toRun name="CadUserServiceApplication" type="SpringBootApplicationConfigurationType" />
+    <toRun name="CadWorkoutServiceApplication" type="SpringBootApplicationConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>
