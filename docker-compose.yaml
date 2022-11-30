@@ -1,0 +1,93 @@
+version: '2'
+services:
+  frontend:
+    image: cad-frontend:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+    #links:
+    #  - backend
+    #depends_on:
+    #  - backend
+    #command: [ "./wait-for-it.sh", "-t", "20", "backend:8080", "--", "nginx", "-g", "daemon off;" ]
+  auth-service:
+    image: cad-auth:latest
+    restart: unless-stopped
+    ports:
+      - "7080:7080"
+    #links:
+    #  - postgres
+    #depends_on:
+    #  - postgres
+    #command: [ "./wait-for-it.sh", "postgres:5432", "--", "mvn", "spring-boot:run" ]
+    environment:
+      #SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cad1
+      #SPRING_DATASOURCE_USERNAME: cad
+      #SPRING_DATASOURCE_PASSWORD: 1234567890
+      GOOGLE_APPLICATION_CREDENTIALS: "/credentials/gcloud_credentials.json"
+    volumes:
+      - $HOME/.config/gcloud/application_default_credentials.json:/credentials/gcloud_credentials.json:ro
+
+  gym-service:
+    image: cad-gym:latest
+    restart: unless-stopped
+    ports:
+      - "7081:7081"
+    #links:
+    #  - postgres
+    #depends_on:
+    #  - postgres
+    #command: [ "./wait-for-it.sh", "postgres:5432", "--", "mvn", "spring-boot:run" ]
+    environment:
+      #SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cad1
+      #SPRING_DATASOURCE_USERNAME: cad
+      #SPRING_DATASOURCE_PASSWORD: 1234567890
+      GOOGLE_APPLICATION_CREDENTIALS: "/credentials/gcloud_credentials.json"
+    volumes:
+      - $HOME/.config/gcloud/application_default_credentials.json:/credentials/gcloud_credentials.json:ro
+
+  user-service:
+    image: cad-user:latest
+    restart: unless-stopped
+    ports:
+      - "7082:7082"
+    #links:
+    #  - postgres
+    #depends_on:
+    #  - postgres
+    #command: [ "./wait-for-it.sh", "postgres:5432", "--", "mvn", "spring-boot:run" ]
+    environment:
+      #SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cad1
+      #SPRING_DATASOURCE_USERNAME: cad
+      #SPRING_DATASOURCE_PASSWORD: 1234567890
+      GOOGLE_APPLICATION_CREDENTIALS: "/credentials/gcloud_credentials.json"
+    volumes:
+      - $HOME/.config/gcloud/application_default_credentials.json:/credentials/gcloud_credentials.json:ro
+
+  workout-service:
+    image: cad-workout:latest
+    restart: unless-stopped
+    ports:
+      - "7083:7083"
+    #links:
+    #  - postgres
+    #depends_on:
+    #  - postgres
+    #command: [ "./wait-for-it.sh", "postgres:5432", "--", "mvn", "spring-boot:run" ]
+    environment:
+      #SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cad1
+      #SPRING_DATASOURCE_USERNAME: cad
+      #SPRING_DATASOURCE_PASSWORD: 1234567890
+      GOOGLE_APPLICATION_CREDENTIALS: "/credentials/gcloud_credentials.json"
+    volumes:
+      - $HOME/.config/gcloud/application_default_credentials.json:/credentials/gcloud_credentials.json:ro
+#  postgres:
+#    image: postgres:latest
+#    restart: unless-stopped
+#    environment:
+#      PGDATA: /var/lib/postgresql/data/cad
+#      POSTGRES_DB: cad1
+#      POSTGRES_PASSWORD: 1234567890
+#      POSTGRES_USER: cad
+#    volumes:
+#      - ./data:/var/lib/postgresql/data:rw

@@ -11,7 +11,7 @@
     <groupId>de.htwg</groupId>
     <artifactId>cad-GymService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>cad-GymService</name>
     <description>cad-GymService</description>
     <properties>
