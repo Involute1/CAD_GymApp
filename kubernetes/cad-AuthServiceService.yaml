@@ -1,10 +1,12 @@
 apiVersion: v1
-kind: Pod
+kind: Service
 metadata:
-  name: auth-service
+  name: auth-service-service
 spec:
-  containers:
-    - name: auth-service
-      image: cad-auth:latest
-      ports:
-        - containerPort: 7080
+  selector:
+    app.kubernetes.io/name: auth-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 7080
+      name: http
