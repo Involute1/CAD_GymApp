@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth
+  name: gym
 spec:
   selector:
     matchLabels:
-      app: auth
+      app: gym
   replicas: 1
   template:
     metadata:
       labels:
-        app: auth
+        app: gym
     spec:
       containers:
-        - name: auth
-          image: cad-auth:latest
+        - name: gym
+          image: cad-gym:latest
           imagePullPolicy: Never
           ports:
-            - containerPort: 7080
+            - containerPort: 7081

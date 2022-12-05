@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth
+  name: frontend
 spec:
   selector:
     matchLabels:
-      app: auth
+      app: frontend
   replicas: 1
   template:
     metadata:
       labels:
-        app: auth
+        app: frontend
     spec:
       containers:
-        - name: auth
-          image: cad-auth:latest
+        - name: frontend
+          image: cad-frontend:latest
           imagePullPolicy: Never
           ports:
-            - containerPort: 7080
+            - containerPort: 80

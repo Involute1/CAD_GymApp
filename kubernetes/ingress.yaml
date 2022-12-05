@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /auth
+            pathType: Prefix
+            backend:
+              service:
+                name: auth
+                port:
+                  number: 7080
+          - path: /gym
+            pathType: Prefix
+            backend:
+              service:
+                name: gym
+                port:
+                  number: 7081
+          - path: /user
+            pathType: Prefix
+            backend:
+              service:
+                name: user
+                port:
+                  number: 7082
+          - path: /workout
+            pathType: Prefix
+            backend:
+              service:
+                name: workout
+                port:
+                  number: 7083
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80

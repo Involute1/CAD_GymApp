@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth
+  name: user
   labels:
-    run: auth
+    run: user
 spec:
   selector:
-    app: auth
+    app: user
   ports:
     - protocol: TCP
-      port: 7080
+      port: 7082
