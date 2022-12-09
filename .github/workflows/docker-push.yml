@@ -37,4 +37,4 @@ jobs:
         run: docker load --input /tmp/${{ inputs.tag }}.tar
       -
         name: Push docker image
-        run: docker push ${{ inputs.tag }}:${{ inputs.version }}
+        run: docker push ${{ secrets.DOCKER_USER }}/${{ inputs.tag }}:${{ inputs.version }}

@@ -13,6 +13,9 @@ on:
       version:
         required: true
         type: string
+    secrets:
+      DOCKER_USER:
+        required: true
 
 
 jobs:
@@ -24,7 +27,7 @@ jobs:
         uses: actions/checkout@v3
       -
         name: Build docker image
-        run: docker build -t ${{ inputs.tag }}:${{ inputs.version }} -o type=docker,dest=/tmp/${{ inputs.tag }}.tar ${{ inputs.context }}
+        run: docker build -t ${{ secrets.DOCKER_USER }}/${{ inputs.tag }}:${{ inputs.version }} -o type=docker,dest=/tmp/${{ inputs.tag }}.tar ${{ inputs.context }}
       -
         name: Upload docker image as artifact
         uses: actions/upload-artifact@v2

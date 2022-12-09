@@ -16,6 +16,7 @@ on:
 jobs:
   set-image-version:
     name: Set docker image tag version
+    runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.set-tag.outputs.version }}
     steps:
@@ -37,8 +38,10 @@ jobs:
     uses: ./.github/workflows/docker-build.yml
     with:
       context: ./cad-Frontend
-      tag: ${{ secrets.DOCKER_USER }}/cad-gym-frontend
+      tag: cad-gym-frontend
       version: ${{ needs.set-image-version.outputs.version }}
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
 
   build-auth-service:
     name: Build AuthService
@@ -46,8 +49,10 @@ jobs:
     uses: ./.github/workflows/docker-build.yml
     with:
       context: ./cad-AuthService
-      tag: ${{ secrets.DOCKER_USER }}/cad-gym-auth-service
+      tag: cad-gym-auth-service
       version: ${{ needs.set-image-version.outputs.version }}
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
 
   build-gym-service:
     name: Build GymService
@@ -55,8 +60,10 @@ jobs:
     uses: ./.github/workflows/docker-build.yml
     with:
       context: ./cad-GymService
-      tag: ${{ secrets.DOCKER_USER }}/cad-gym-gym-service
+      tag: cad-gym-gym-service
       version: ${{ needs.set-image-version.outputs.version }}
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
 
   build-user-service:
     name: Build UserService
@@ -64,8 +71,10 @@ jobs:
     uses: ./.github/workflows/docker-build.yml
     with:
       context: ./cad-UserService
-      tag: ${{ secrets.DOCKER_USER }}/cad-gym-user-service
+      tag: cad-gym-user-service
       version: ${{ needs.set-image-version.outputs.version }}
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
       
   build-workout-service:
     name: Build WorkoutService
@@ -73,8 +82,10 @@ jobs:
     uses: ./.github/workflows/docker-build.yml
     with:
       context: ./cad-WorkoutService
-      tag: ${{ secrets.DOCKER_USER }}/cad-gym-workout-service
+      tag: cad-gym-workout-service
       version: ${{ needs.set-image-version.outputs.version }}
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
       
   push-frontend:
     name: Push Frontend
@@ -87,7 +98,7 @@ jobs:
       - build-workout-service
     uses: ./.github/workflows/docker-push.yml
     with:
-      tag: ${{ secrets.DOCKER_USER }}/cad-gym-frontend
+      tag: cad-gym-frontend
       version: ${{ needs.set-image-version.outputs.version }}
     secrets:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -104,7 +115,7 @@ jobs:
       - build-workout-service
     uses: ./.github/workflows/docker-push.yml
     with:
-      tag: ${{ secrets.DOCKER_USER }}/cad-gym-auth-service
+      tag: cad-gym-auth-service
       version: ${{ needs.set-image-version.outputs.version }}
     secrets:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -121,7 +132,7 @@ jobs:
       - build-workout-service
     uses: ./.github/workflows/docker-push.yml
     with:
-      tag: ${{ secrets.DOCKER_USER }}/cad-gym-gym-service
+      tag: cad-gym-gym-service
       version: ${{ needs.set-image-version.outputs.version }}
     secrets:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -138,7 +149,7 @@ jobs:
       - build-workout-service
     uses: ./.github/workflows/docker-push.yml
     with:
-      tag: ${{ secrets.DOCKER_USER }}/cad-gym-user-service
+      tag: cad-gym-user-service
       version: ${{ needs.set-image-version.outputs.version }}
     secrets:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -155,7 +166,7 @@ jobs:
       - build-workout-service
     uses: ./.github/workflows/docker-push.yml
     with:
-      tag: ${{ secrets.DOCKER_USER }}/cad-gym-workout-service
+      tag: cad-gym-workout-service
       version: ${{ needs.set-image-version.outputs.version }}
     secrets:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
