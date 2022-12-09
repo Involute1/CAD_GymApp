@@ -14,7 +14,6 @@ spec:
     spec:
       containers:
         - name: gym
-          image: cad-gym:latest
-          imagePullPolicy: Never
+          image: drescherflo/cad-gym-gym-service:latest
           ports:
             - containerPort: 7081

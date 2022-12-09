@@ -14,7 +14,6 @@ spec:
     spec:
       containers:
         - name: user
-          image: cad-user:latest
-          imagePullPolicy: Never
+          image: drescherflo/cad-gym-user-service:latest
           ports:
             - containerPort: 7082

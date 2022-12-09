@@ -1,7 +1,7 @@
 version: '2'
 services:
   frontend:
-    image: cad-frontend:latest
+    image: drescherflo/cad-gym-frontend:latest
     restart: unless-stopped
     ports:
       - 80:80
@@ -11,7 +11,7 @@ services:
     #  - backend
     #command: [ "./wait-for-it.sh", "-t", "20", "backend:8080", "--", "nginx", "-g", "daemon off;" ]
   auth-service:
-    image: cad-auth:latest
+    image: drescherflo/cad-gym-auth-service:latest
     restart: unless-stopped
     ports:
       - "7080:7080"
@@ -29,7 +29,7 @@ services:
       - $HOME/.config/gcloud/application_default_credentials.json:/credentials/gcloud_credentials.json:ro
 
   gym-service:
-    image: cad-gym:latest
+    image: drescherflo/cad-gym-gym-service:latest
     restart: unless-stopped
     ports:
       - "7081:7081"
@@ -47,7 +47,7 @@ services:
       - $HOME/.config/gcloud/application_default_credentials.json:/credentials/gcloud_credentials.json:ro
 
   user-service:
-    image: cad-user:latest
+    image: drescherflo/cad-gym-user-service:latest
     restart: unless-stopped
     ports:
       - "7082:7082"
@@ -65,7 +65,7 @@ services:
       - $HOME/.config/gcloud/application_default_credentials.json:/credentials/gcloud_credentials.json:ro
 
   workout-service:
-    image: cad-workout:latest
+    image: drescherflo/cad-gym-workout-service:latest
     restart: unless-stopped
     ports:
       - "7083:7083"

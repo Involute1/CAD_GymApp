@@ -1,6 +1,6 @@
 
-docker build -f cad-AuthService\Dockerfile -t cad-auth cad-AuthService\
-docker build -f cad-GymService\Dockerfile -t cad-gym cad-GymService\
-docker build -f cad-UserService\Dockerfile -t cad-user cad-UserService\
-docker build -f cad-WorkoutService\Dockerfile -t cad-workout cad-WorkoutService\
-docker build -f cad-Frontend\Dockerfile -t cad-frontend cad-Frontend\
+docker build -t drescherflo/cad-gym-auth-service:latest cad-AuthService\
+docker build -t drescherflo/cad-gym-gym-service:latest cad-GymService\
+docker build -t drescherflo/cad-gym-user-service:latest cad-UserService\
+docker build -t drescherflo/cad-gym-workout-service:latest cad-WorkoutService\
+docker build -t drescherflo/cad-gym-frontend-service:latest cad-Frontend\

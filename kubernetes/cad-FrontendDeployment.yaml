@@ -14,7 +14,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: cad-frontend:latest
-          imagePullPolicy: Never
+          image: drescherflo/cad-gym-frontend:latest
           ports:
             - containerPort: 80

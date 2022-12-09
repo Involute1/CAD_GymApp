@@ -21,14 +21,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
-        name: Log in to Dockerhub
-        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-      -
         name: Download docker image artifact
         uses: actions/download-artifact@v3
         with:
           name: ${{ inputs.tag }}
           path: /tmp
+      -
+        name: Delete docker image artifact
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: ${{ inputs.tag }}
+      -
+        name: Log in to Dockerhub
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
       -
         name: Load downloaded docker image
         run: docker load --input /tmp/${{ inputs.tag }}.tar
