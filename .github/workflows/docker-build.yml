@@ -33,7 +33,7 @@ jobs:
         run: docker save -o /tmp/${{ inputs.tag }}.tar ${{ secrets.DOCKER_USER }}/${{ inputs.tag }}:${{ inputs.version }}
       -
         name: Upload docker image as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.tag }}
           path: /tmp/${{ inputs.tag }}.tar
