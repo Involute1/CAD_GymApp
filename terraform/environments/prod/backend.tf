@@ -1,1 +1,9 @@
-# file to store state in bucket
+terraform {
+  backend "remote" {
+    organization = "HTWG_CAD_GYM"
+
+    workspaces {
+      name = "CAD_GymApp"
+    }
+  }
+}

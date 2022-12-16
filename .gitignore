@@ -6,3 +6,6 @@
 *.iml
 out
 gen
+
+terraform/modules/.terraform/
+terraform/modules/.terraform.lock.hcl

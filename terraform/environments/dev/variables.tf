@@ -6,6 +6,10 @@ variable "eu-zone" {
   type = string
 }
 
-variable "eu-region" {
+variable "eu-location" {
   type = string
+}
+
+locals {
+  environment = "dev"
 }
