@@ -7,5 +7,9 @@
 out
 gen
 
-terraform/modules/.terraform/
-terraform/modules/.terraform.lock.hcl
+/terraform/environments/dev/.terraform/
+/terraform/environments/dev/.terraform.lock.hcl
+/terraform/environments/prod/.terraform/
+/terraform/environments/prod/.terraform.lock.hcl
+/terraform/environments/test/.terraform/
+/terraform/environments/test/.terraform.lock.hcl
