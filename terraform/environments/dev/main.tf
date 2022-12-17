@@ -20,7 +20,8 @@ module "project-services" {
   project_id  = var.project_id
 
   activate_apis = [
-    "container.googleapis.com" //kubernetes
+    "container.googleapis.com", //kubernetes
+    "artifactregistry.googleapis.com"
     #    "iam.googleapis.com", //iam
     #    "logging.googleapis.com", //logging
   ]
@@ -28,30 +29,29 @@ module "project-services" {
   disable_services_on_destroy = false
 }
 
-#module "gym-bucket" {
-#  source = "../../modules/storage"
-#  depends_on = [module.project-services]
-#
-#  bucket-name = local.environment
-#  project_id  = var.project_id
-#  eu-location = var.eu-location
-#}
+module "gym-bucket" {
+  source     = "../../modules/storage"
+  depends_on = [module.project-services]
+
+  environment = local.environment
+  project_id  = var.project_id
+  eu_location = var.eu_location
+}
 
 module "services" {
-  source     = "../../modules/services"
-  depends_on = [module.project-services]
+  source = "../../modules/services"
 
   service_account_display_name = var.service_account_display_name
   service_account_id           = var.service_account_id
 }
 
-#module "kubernetes" {
-#  source     = "../../modules/kubernetes"
-#  depends_on = [module.services, module.project-services]
-#
-#  cluster_name          = var.cluster_name
-#  eu_location           = var.eu_zone
-#  machine_type          = var.machine_type
-#  node_pool_name        = var.node_pool_name
-#  service_account_email = module.services.service_account_email
-#}
+module "kubernetes" {
+  source     = "../../modules/kubernetes"
+  depends_on = [module.services, module.project-services]
+
+  cluster_name          = var.cluster_name
+  eu_location           = var.eu_zone
+  machine_type          = var.machine_type
+  node_pool_name        = var.node_pool_name
+  service_account_email = module.services.service_account_email
+}

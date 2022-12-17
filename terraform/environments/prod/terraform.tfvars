@@ -1,0 +1,9 @@
+project_id                   = "cad-project-368216"
+eu_zone                      = "europe-west3-c"
+eu_location                  = "europe-west3"
+service_account_id           = "prod123456789"
+service_account_display_name = "prod-terraform-service-account"
+machine_type                 = "c2d-standard-2"
+cluster_name                 = "cluster-prod"
+node_pool_name               = "pool-prod"
+enable_apis                  = true
