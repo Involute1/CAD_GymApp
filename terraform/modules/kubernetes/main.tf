@@ -8,8 +8,8 @@ terraform {
 }
 
 resource "google_container_cluster" "primary" {
-  name     = var.cluster-name
-  location = var.eu-location
+  name     = var.cluster_name
+  location = var.eu_location
 
   # We can't create a cluster with no node pool defined, but we want to only use
   # separately managed node pools. So we create the smallest possible default
@@ -19,8 +19,8 @@ resource "google_container_cluster" "primary" {
 }
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
-  name       = var.node-pool-name
-  location   = var.eu-location
+  name       = var.node_pool_name
+  location   = var.eu_location
   cluster    = google_container_cluster.primary.name
   node_count = 1
 
@@ -30,7 +30,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     #    service_account = google_service_account.default.email
-    service_account = var.service-account-email
+    service_account = var.service_account_email
     oauth_scopes    = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]

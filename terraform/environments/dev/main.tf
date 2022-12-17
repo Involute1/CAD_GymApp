@@ -9,36 +9,49 @@ terraform {
 
 provider "google" {
   project = var.project_id
-  region  = var.eu-location
+  region  = var.eu_location
 }
 
-module "gym-bucket" {
-  source = "../../modules/storage"
+module "project-services" {
+  source  = "terraform-google-modules/project-factory/google//modules/project_services"
+  version = "~> 12.0"
 
-  bucket-name = "dev"
+  enable_apis = var.enable_apis
   project_id  = var.project_id
-  eu-location = var.eu-location
+
+  activate_apis = [
+    "container.googleapis.com" //kubernetes
+    #    "iam.googleapis.com", //iam
+    #    "logging.googleapis.com", //logging
+  ]
+
+  disable_services_on_destroy = false
 }
+
+#module "gym-bucket" {
+#  source = "../../modules/storage"
+#  depends_on = [module.project-services]
+#
+#  bucket-name = local.environment
+#  project_id  = var.project_id
+#  eu-location = var.eu-location
+#}
 
 module "services" {
-  source = "../../modules/services"
+  source     = "../../modules/services"
+  depends_on = [module.project-services]
 
-  service_account_display_name = "dev-terraform-service-account"
-  service_account_id           = "dev123456789"
+  service_account_display_name = var.service_account_display_name
+  service_account_id           = var.service_account_id
 }
 
-module "kubernetes" {
-  source     = "../../modules/kubernetes"
-  depends_on = [module.services]
-
-  cluster-name          = "cluster-dev"
-  eu-location           = var.eu-zone
-  machine_type          = "c2d-standard-2"
-  node-pool-name        = "pool-dev"
-  service-account-email = module.services.service-account-email
-}
-
-//TODO kubernetes deploy
-// add service account for ci/cd
-// google api´s to activate: kubernetes, google identity platform?, firestore(nosql), bucket, artifact registry?, Cloud SQL-Instanzen
-// put sensitive info somewhere safe
+#module "kubernetes" {
+#  source     = "../../modules/kubernetes"
+#  depends_on = [module.services, module.project-services]
+#
+#  cluster_name          = var.cluster_name
+#  eu_location           = var.eu_zone
+#  machine_type          = var.machine_type
+#  node_pool_name        = var.node_pool_name
+#  service_account_email = module.services.service_account_email
+#}

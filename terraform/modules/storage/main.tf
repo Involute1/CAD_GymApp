@@ -12,13 +12,18 @@ resource "random_id" "bucket_prefix" {
 }
 
 resource "google_storage_bucket" "gym-bucket" {
-  name          = "${random_id.bucket_prefix.hex}-gym-bucket-${var.bucket-name}"
+  name          = "${random_id.bucket_prefix.hex}-gym-bucket-${var.bucket_name}"
   project       = var.project_id
-  location      = var.eu-location
+  location      = var.eu_location
   force_destroy = true
   storage_class = "STANDARD"
 
   versioning {
     enabled = true
   }
+
+  #  lifecycle {
+  #    prevent_destroy = true
+  #  }
+
 }

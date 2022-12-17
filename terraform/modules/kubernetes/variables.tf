@@ -1,12 +1,12 @@
-variable "cluster-name" {
+variable "cluster_name" {
   type = string
 }
 
-variable "eu-location" {
+variable "eu_location" {
   type = string
 }
 
-variable "node-pool-name" {
+variable "node_pool_name" {
   type = string
 }
 
@@ -14,6 +14,6 @@ variable "machine_type" {
   type = string
 }
 
-variable "service-account-email" {
+variable "service_account_email" {
   type = string
 }

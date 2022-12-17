@@ -1,4 +1,4 @@
-variable "bucket-name" {
+variable "bucket_name" {
   type = string
 }
 
@@ -6,6 +6,6 @@ variable "project_id" {
   type = string
 }
 
-variable "eu-location" {
+variable "eu_location" {
   type = string
 }
