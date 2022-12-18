@@ -1,25 +1,22 @@
-#resource "google_identity_platform_config" "default" {
-#  project = var.project_id
-#}
+resource "google_identity_platform_project_default_config" "default" {
+  project = var.project_id
+  sign_in {
+    allow_duplicate_emails = false
 
-#resource "google_identity_platform_project_default_config" "default" {
-#  sign_in {
-#    allow_duplicate_emails = false
-#
-#    anonymous {
-#      enabled = false
-#    }
-#
-#    email {
-#      enabled           = true
-#      password_required = true
-#    }
-#
-#    phone_number {
-#      enabled = false
-#    }
-#  }
-#}
+    anonymous {
+      enabled = false
+    }
+
+    email {
+      enabled           = true
+      password_required = true
+    }
+
+    phone_number {
+      enabled = false
+    }
+  }
+}
 
 #this is just a test tenant, dont think we need this
 #resource "google_identity_platform_tenant" "tenant" {

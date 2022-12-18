@@ -31,7 +31,7 @@ module "project-services" {
   disable_services_on_destroy = false
 }
 
-module "gym-bucket" {
+module "storage" {
   source     = "../../modules/storage"
   depends_on = [module.project-services]
 
