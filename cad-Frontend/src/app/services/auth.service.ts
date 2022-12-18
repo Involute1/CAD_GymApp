@@ -13,6 +13,7 @@ export class AuthService {
   private firebaseApp?: FirebaseApp;
 
   constructor(private http: HttpClient) {
+    this.initFirebaseApp()
   }
 
   authHealthCheck(): Observable<boolean> {
