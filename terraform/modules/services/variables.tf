@@ -5,3 +5,7 @@ variable "service_account_id" {
 variable "service_account_display_name" {
   type = string
 }
+
+variable "project_id" {
+  type = string
+}
