@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { AuthService } from './services/auth.service';
-import { Observable } from 'rxjs';
-import { GymService } from './services/gym.service';
-import { UserService } from './services/user.service';
-import { WorkoutService } from './services/workout.service';
+import {Component} from '@angular/core';
+import {AuthService} from './services/auth.service';
+import {Observable} from 'rxjs';
+import {GymService} from './services/gym.service';
+import {UserService} from './services/user.service';
+import {WorkoutService} from './services/workout.service';
 
 export interface ServiceHealthCheck {
   name: string;
@@ -31,6 +31,10 @@ export class AppComponent {
     this.serviceHealthChecks.push(this.gymHealthCheck());
     this.serviceHealthChecks.push(this.userHealthCheck());
     this.serviceHealthChecks.push(this.workoutHealthCheck());
+  }
+
+  testAuth(): void {
+    this.authService.authorizeUser()
   }
 
   authHealthCheck(): ServiceHealthCheck {
