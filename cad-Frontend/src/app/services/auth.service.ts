@@ -22,8 +22,8 @@ export class AuthService {
 
   initFirebaseApp(): void {
     const config = {
-      apiKey: "AIzaSyCJ3eFjVDUFAxMYaAThsfnmxwM1fJRMcrY",
-      authDomain: "cad-project-368216.firebaseapp.com",
+      apiKey: "",
+      authDomain: "",
     };
 
     this.firebaseApp = initializeApp(config);

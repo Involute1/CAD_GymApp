@@ -7,7 +7,7 @@ export const environment = {
   authAPI: 'http://localhost:80/auth',
   gymAPI: 'http://localhost:80/gym',
   userAPI: 'http://localhost:80/user',
-  workoutAPI: 'http://localhost:80/workout'
+  workoutAPI: 'http://localhost:80/workout',
 };
 
 /*
