@@ -21,12 +21,17 @@ export class AuthService {
   }
 
   initFirebaseApp(): void {
+    // console.log(this.readSecretFromVault())
     const config = {
-      apiKey: "",
-      authDomain: "",
+      apiKey: environment.firebaseAuthApiKey,
+      authDomain: "cad-project-368216.firebaseapp.com",
     };
 
     this.firebaseApp = initializeApp(config);
+  }
+
+  async readSecretFromVault(): Promise<string | undefined> {
+    return await this.http.get<string>("https://secretmanager.googleapis.com/projects/282494517130/secrets/firebaseAuthApiKey").toPromise()
   }
 
   authorizeUser(): void {

@@ -22,7 +22,8 @@ module "project-services" {
   activate_apis = [
     "container.googleapis.com", //kubernetes
     "artifactregistry.googleapis.com",
-    "identitytoolkit.googleapis.com"
+    "identitytoolkit.googleapis.com",
+    "secretmanager.googleapis.com"
     #    "iam.googleapis.com", //iam
     #    "logging.googleapis.com", //logging
   ]
