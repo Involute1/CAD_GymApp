@@ -32,11 +32,7 @@ export class AppComponent {
     this.serviceHealthChecks.push(this.userHealthCheck());
     this.serviceHealthChecks.push(this.workoutHealthCheck());
   }
-
-  testAuth(): void {
-    this.authService.authorizeUser()
-  }
-
+  
   authHealthCheck(): ServiceHealthCheck {
     return {
       name: 'Auth-Service',
