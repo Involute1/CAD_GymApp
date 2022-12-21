@@ -18,9 +18,11 @@ resource "google_identity_platform_project_default_config" "default" {
   }
 }
 
-#this is just a test tenant, dont think we need this
-#resource "google_identity_platform_tenant" "tenant" {
-#  display_name          = "tenant"
+//TODO enable multi-tenacy
+
+#resource "google_identity_platform_tenant" "default_tenant" {
+#  project               = var.project_id
+#  display_name          = "default"
 #  allow_password_signup = true
 #}
 

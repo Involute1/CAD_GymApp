@@ -1,6 +1,5 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="CadAuthServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" />
     <module name="cad-AuthService" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.htwg.cadauthservice.CadAuthServiceApplication" />
     <method v="2">
