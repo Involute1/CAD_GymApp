@@ -1,3 +1,3 @@
-output "bucket-name" {
-  value = google_storage_bucket.gym-bucket.name
+output "bucket_name" {
+  value = google_storage_bucket.gym_bucket.name
 }

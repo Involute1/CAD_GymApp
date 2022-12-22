@@ -1,4 +1,4 @@
-resource "google_storage_bucket" "gym-bucket" {
+resource "google_storage_bucket" "gym_bucket" {
   name          = "gym-bucket-${var.environment}"
   project       = var.project_id
   location      = var.eu_location

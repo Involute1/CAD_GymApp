@@ -1,5 +1,5 @@
 locals {
-  environment = "test"
+  environment = "staging"
 }
 
 variable "project_id" {
