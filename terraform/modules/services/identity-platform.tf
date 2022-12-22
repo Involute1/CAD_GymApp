@@ -19,14 +19,9 @@ resource "google_identity_platform_project_default_config" "default" {
 
 }
 
-#resource "null_resource" "enable_multi_tenacy_skript" {
-#  provisioner "local-exec" {
-#    #    PATCH https://identitytoolkit.googleapis.com/admin/v2/{config.name=projects/*/config}
-#    #    {
-#    #    "multiTenant": {
-#    #      "allowTenants": true
-#    #    }
-#    #  }
-#  }
-#}
-//TODO enable multi-tenacy
+resource "null_resource" "enable_multi_tenancy_skript" {
+  provisioner "local-exec" {
+    command     = "enable_multi_tenancy.sh ${var.project_id}"
+    working_dir = "../../skripts"
+  }
+}
