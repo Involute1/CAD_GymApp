@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: workout
 spec:
   selector:
     matchLabels:
-      app: frontend
+      app: workout
   replicas: 1
   template:
     metadata:
       labels:
-        app: frontend
+        app: workout
     spec:
       containers:
-        - name: frontend
-          image: drescherflo/cad-gym-frontend:latest
+        - name: workout
+          image: drescherflo/cad-gym-workout-service:dev
           ports:
-            - containerPort: 80
+            - containerPort: 7083
