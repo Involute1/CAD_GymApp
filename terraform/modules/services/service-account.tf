@@ -4,10 +4,11 @@ resource "google_service_account" "tf_account" {
   project      = var.project_id
 }
 
-resource "google_project_iam_binding" "tf_service_account_iam_binding_toolkit" {
-  members = ["serviceAccount:${google_service_account.tf_account.email}"]
-  project = var.project_id
-  role    = "roles/identitytoolkit.admin"
+resource "google_project_iam_binding" "tf_service_account_iam_binding_roles" {
+  for_each = toset(["roles/identitytoolkit.admin", "roles/logging.admin"])
+  members  = ["serviceAccount:${google_service_account.tf_account.email}"]
+  project  = var.project_id
+  role     = each.key
 }
 
 resource "google_service_account_key" "tf_account_key" {
@@ -16,7 +17,11 @@ resource "google_service_account_key" "tf_account_key" {
 }
 
 resource "local_sensitive_file" "tf_account_key" {
-  filename = "${path.root}/../../../cad-AuthService/src/main/resources/tf_service_account_key.json"
+  for_each = toset([
+    "cad-AuthService/src/main/resources/", "cad-GymService/src/main/resources/", "cad-UserService/src/main/resources/",
+    "cad-WorkoutService/src/main/resources/"
+  ])
+  filename = "${path.root}/../../../${each.key}tf_service_account_key.json"
   content  = base64decode(google_service_account_key.tf_account_key.private_key)
 }
 

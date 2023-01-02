@@ -20,21 +20,19 @@
         <spring-cloud.version>2021.0.5</spring-cloud.version>
     </properties>
     <dependencies>
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.google.firebase</groupId>-->
-        <!--            <artifactId>firebase-admin</artifactId>-->
-        <!--            <version>6.11.0</version>-->
-        <!--        </dependency>-->
         <!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-admin -->
         <dependency>
             <groupId>com.google.firebase</groupId>
             <artifactId>firebase-admin</artifactId>
             <version>9.1.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-logging -->
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-logging</artifactId>
+            <version>3.13.7</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

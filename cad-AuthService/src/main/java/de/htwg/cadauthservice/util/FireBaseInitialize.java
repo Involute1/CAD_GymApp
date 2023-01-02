@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Service
-public class FBInitialize {
+public class FireBaseInitialize {
 
     @Value("${spring.cloud.gcp.project-id}")
     private String googleProjectId;
