@@ -21,6 +21,7 @@ public class LoggerUtil {
     private String googleProjectId;
 
     public static void log(String message) {
+        //TODO severity
         LogEntry firstEntry = LogEntry.newBuilder(Payload.StringPayload.of(message))
                 .setLogName("user-service")
                 .setResource(MonitoredResource.newBuilder("global")
@@ -37,7 +38,7 @@ public class LoggerUtil {
 
     @PostConstruct
     private void init() throws IOException {
-        InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("tf_service_account_key.json");
+        InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("classpath:tf_service_account_key.json");
         assert serviceAccount != null;
         cloudLoggingOptions = LoggingOptions.newBuilder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))

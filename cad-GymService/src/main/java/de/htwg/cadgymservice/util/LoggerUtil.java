@@ -37,7 +37,7 @@ public class LoggerUtil {
 
     @PostConstruct
     private void init() throws IOException {
-        InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("tf_service_account_key.json");
+        InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("classpath:tf_service_account_key.json");
         assert serviceAccount != null;
         cloudLoggingOptions = LoggingOptions.newBuilder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))

@@ -32,7 +32,7 @@ export class AppComponent {
     this.serviceHealthChecks.push(this.userHealthCheck());
     this.serviceHealthChecks.push(this.workoutHealthCheck());
   }
-  
+
   authHealthCheck(): ServiceHealthCheck {
     return {
       name: 'Auth-Service',
@@ -59,5 +59,9 @@ export class AppComponent {
       name: 'Workout-Service',
       status: this.workoutService.workoutHealthCheck(),
     };
+  }
+
+  login(): void {
+    this.authService.signIn()
   }
 }

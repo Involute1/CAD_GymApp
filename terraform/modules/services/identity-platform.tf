@@ -25,3 +25,19 @@ resource "null_resource" "enable_multi_tenancy_skript" {
     working_dir = "../../skripts"
   }
 }
+
+resource "google_apikeys_key" "identity_platform_api_key" {
+  name         = "tf${var.environment}apikey"
+  display_name = "tf_${var.environment}_identity_platform_api_key"
+  project      = var.project_id
+  restrictions {
+    api_targets {
+      service = "identitytoolkit.googleapis.com"
+    }
+  }
+}
+
+resource "local_sensitive_file" "identity_platform_api_key" {
+  filename = "${path.root}/../../../cad-Frontend/src/environments/apiKey.json"
+  content  = jsonencode({ "firebaseApiKey" = google_apikeys_key.identity_platform_api_key.key_string })
+}

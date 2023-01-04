@@ -23,7 +23,8 @@ module "project-services" {
     "container.googleapis.com", //kubernetes
     "artifactregistry.googleapis.com",
     "identitytoolkit.googleapis.com",
-    "secretmanager.googleapis.com"
+    "secretmanager.googleapis.com",
+    "apikeys.googleapis.com"
     #    "iam.googleapis.com", //iam
     #    "logging.googleapis.com", //logging
   ]
@@ -46,6 +47,7 @@ module "services" {
   service_account_display_name = var.service_account_display_name
   service_account_id           = var.service_account_id
   project_id                   = var.project_id
+  environment                  = local.environment
 }
 
 module "kubernetes" {

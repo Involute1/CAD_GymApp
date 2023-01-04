@@ -18,7 +18,7 @@ resource "google_service_account_key" "tf_account_key" {
 
 resource "local_sensitive_file" "tf_account_key" {
   for_each = toset([
-    "cad-AuthService/src/main/resources/", "cad-GymService/src/main/resources/", "cad-UserService/src/main/resources/",
+    "cad-GymService/src/main/resources/", "cad-UserService/src/main/resources/",
     "cad-WorkoutService/src/main/resources/"
   ])
   filename = "${path.root}/../../../${each.key}tf_service_account_key.json"

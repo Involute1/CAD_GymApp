@@ -2,13 +2,15 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import apiKey from './apiKey.json';
+
 export const environment = {
   production: false,
   authAPI: 'http://localhost:80/auth',
   gymAPI: 'http://localhost:80/gym',
   userAPI: 'http://localhost:80/user',
   workoutAPI: 'http://localhost:80/workout',
-  firebaseAuthApiKey: ''
+  firebaseApiKey: apiKey.firebaseApiKey
 };
 
 /*
