@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController("/tenant")
+@RestController
+@RequestMapping("/tenant")
 public class GoogleAuthTenantController {
     @DeleteMapping("/{tenantId}")
     public boolean deleteTenant(@PathVariable String tenantId) {
