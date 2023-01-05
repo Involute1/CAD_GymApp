@@ -1,20 +1,21 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="cad-user-docker" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
-    <deployment type="dockerfile">
-      <settings>
-        <option name="imageTag" value="cad-user" />
-        <option name="containerName" value="" />
-        <option name="portBindings">
-          <list>
-            <DockerPortBindingImpl>
-              <option name="containerPort" value="7082" />
-              <option name="hostPort" value="7082" />
-            </DockerPortBindingImpl>
-          </list>
-        </option>
-        <option name="sourceFilePath" value="cad-UserService/Dockerfile" />
-      </settings>
-    </deployment>
-    <method v="2" />
-  </configuration>
+    <configuration default="false" name="cad-user-docker" type="docker-deploy" factoryName="dockerfile"
+                   server-name="Docker">
+        <deployment type="dockerfile">
+            <settings>
+                <option name="imageTag" value="cad-user"/>
+                <option name="containerName" value=""/>
+                <option name="portBindings">
+                    <list>
+                        <DockerPortBindingImpl>
+                            <option name="containerPort" value="7082"/>
+                            <option name="hostPort" value="7082"/>
+                        </DockerPortBindingImpl>
+                    </list>
+                </option>
+                <option name="sourceFilePath" value="cad-UserService/Dockerfile"/>
+            </settings>
+        </deployment>
+        <method v="2"/>
+    </configuration>
 </component>
