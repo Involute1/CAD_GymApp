@@ -94,7 +94,7 @@ jobs:
     needs:
       - set-image-version
       - build-frontend
-      - build-auth-service
+      #      - build-auth-service
       - build-gym-service
       - build-user-service
       - build-workout-service
@@ -128,7 +128,7 @@ jobs:
     needs:
       - set-image-version
       - build-frontend
-      - build-auth-service
+      #      - build-auth-service
       - build-gym-service
       - build-user-service
       - build-workout-service
@@ -145,7 +145,7 @@ jobs:
     needs:
       - set-image-version
       - build-frontend
-      - build-auth-service
+      #      - build-auth-service
       - build-gym-service
       - build-user-service
       - build-workout-service
@@ -162,7 +162,7 @@ jobs:
     needs:
       - set-image-version
       - build-frontend
-      - build-auth-service
+      #      - build-auth-service
       - build-gym-service
       - build-user-service
       - build-workout-service
