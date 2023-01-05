@@ -8,13 +8,13 @@ spec:
   rules:
     - http:
         paths:
-          - path: /auth
-            pathType: Prefix
-            backend:
-              service:
-                name: auth
-                port:
-                  number: 7080
+          #          - path: /auth
+          #            pathType: Prefix
+          #            backend:
+          #              service:
+          #                name: auth
+          #                port:
+          #                  number: 7080
           - path: /gym
             pathType: Prefix
             backend:

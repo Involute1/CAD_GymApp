@@ -4,33 +4,33 @@ metadata:
   name: cad-gymapp
 build:
   artifacts:
-  - image: drescherflo/cad-gym-auth-service
-    context: cad-AuthService
-    docker: {}
-  - image: drescherflo/cad-gym-frontend
-    context: cad-Frontend
-    docker: {}
-  - image: drescherflo/cad-gym-gym-service
-    context: cad-GymService
-    docker: {}
-  - image: drescherflo/cad-gym-user-service
-    context: cad-UserService
-    docker: {}
-  - image: drescherflo/cad-gym-workout-service
-    context: cad-WorkoutService
-    docker: {}
+    #  - image: drescherflo/cad-gym-auth-service
+    #    context: cad-AuthService
+    #    docker: {}
+    - image: drescherflo/cad-gym-frontend
+      context: cad-Frontend
+      docker: { }
+    - image: drescherflo/cad-gym-gym-service
+      context: cad-GymService
+      docker: { }
+    - image: drescherflo/cad-gym-user-service
+      context: cad-UserService
+      docker: { }
+    - image: drescherflo/cad-gym-workout-service
+      context: cad-WorkoutService
+      docker: { }
 deploy:
   kubectl:
     manifests:
-    - kubernetes/cad-AuthServiceDeployment.yaml
-    - kubernetes/cad-AuthServiceService.yaml
-    - kubernetes/cad-FrontendDeployment.yaml
-    - kubernetes/cad-FrontendService.yaml
-    - kubernetes/cad-GymServiceDeployment.yaml
-    - kubernetes/cad-GymServiceService.yaml
-    - kubernetes/cad-UserServiceDeployment.yaml
-    - kubernetes/cad-UserServiceService.yaml
-    - kubernetes/cad-WorkoutServiceDeployment.yaml
-    - kubernetes/cad-WorkoutServiceService.yaml
-    - kubernetes/ingress.yaml
-    - kubernetes/ingressController.yaml
+      #    - kubernetes/cad-AuthServiceDeployment.yaml
+      #    - kubernetes/cad-AuthServiceService.yaml
+      - kubernetes/cad-FrontendDeployment.yaml
+      - kubernetes/cad-FrontendService.yaml
+      - kubernetes/cad-GymServiceDeployment.yaml
+      - kubernetes/cad-GymServiceService.yaml
+      - kubernetes/cad-UserServiceDeployment.yaml
+      - kubernetes/cad-UserServiceService.yaml
+      - kubernetes/cad-WorkoutServiceDeployment.yaml
+      - kubernetes/cad-WorkoutServiceService.yaml
+      - kubernetes/ingress.yaml
+      - kubernetes/ingressController.yaml

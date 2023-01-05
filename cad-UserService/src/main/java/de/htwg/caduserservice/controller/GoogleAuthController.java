@@ -2,9 +2,10 @@ package de.htwg.caduserservice.controller;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.ListUsersPage;
+import com.google.firebase.auth.FirebaseToken;
 import com.google.firebase.auth.UserRecord;
 import com.google.firebase.auth.multitenancy.Tenant;
+import com.google.firebase.auth.multitenancy.TenantAwareFirebaseAuth;
 import com.google.firebase.auth.multitenancy.TenantManager;
 import de.htwg.caduserservice.model.User;
 import de.htwg.caduserservice.util.LoggerUtil;
@@ -13,11 +14,34 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class GoogleAuthController {
 
+    //https://cloud.google.com/identity-platform/docs/multi-tenancy-managing-tenants#creating_a_user
+
+    @GetMapping("/verify")
+    public boolean verifyToken(String idToken) {
+        TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
+                .getAuthForTenant("TENANT-ID");
+        try {
+            // idToken comes from the client app
+            FirebaseToken token = tenantAuth.verifyIdToken(idToken);
+            // TenantId on the FirebaseToken should be set to TENANT-ID.
+            // Otherwise, "tenant-id-mismatch" error thrown.
+
+        } catch (FirebaseAuthException e) {
+            System.out.println("error verifying ID token: " + e.getMessage());
+        }
+        return true;
+    }
+
     @PostMapping("/user")
     public String registerUserWithTenant(User user) {
         //TODO var checks
         // create tenant and get id from it to use
         // maybe return user?
+
+        //This is for tenant specifig users, I think we need this since all our users belong to tenants
+        TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
+                .getAuthForTenant("TENANT-ID");
+
 
         FirebaseAuth defaultAuth = FirebaseAuth.getInstance();
         UserRecord createdRecord = null;
@@ -38,9 +62,12 @@ public class GoogleAuthController {
     }
 
     @GetMapping("/users")
-    public void getAllUser() {
+    public void getAllUser(String tenantId) {
+        TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
+                .getAuthForTenant(tenantId);
         try {
-            ListUsersPage users = FirebaseAuth.getInstance().listUsers(null);
+//            ListUsersPage users = FirebaseAuth.getInstance().listUsers(null);
+            tenantAuth.listUsers(null);
         } catch (FirebaseAuthException e) {
             LoggerUtil.log(e.getMessage());
         }
@@ -65,9 +92,12 @@ public class GoogleAuthController {
     }
 
     @PatchMapping("/user")
-    public void updateUser(User updatedUser) {
+    public void updateUser(User updatedUser, String tenantId) {
         //TODO var checks
         // return user?
+
+        TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
+                .getAuthForTenant(tenantId);
 
         UserRecord.UpdateRequest request = new UserRecord.UpdateRequest(updatedUser.uid())
                 .setEmail(updatedUser.email())
