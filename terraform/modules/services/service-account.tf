@@ -4,11 +4,14 @@ resource "google_service_account" "tf_account" {
   project      = var.project_id
 }
 
+//TODO set finer roles, i just gave admin because easier
 resource "google_project_iam_binding" "tf_service_account_iam_binding_roles" {
-  for_each = toset(["roles/identitytoolkit.admin", "roles/logging.admin"])
-  members  = ["serviceAccount:${google_service_account.tf_account.email}"]
-  project  = var.project_id
-  role     = each.key
+  for_each = toset([
+    "roles/identitytoolkit.admin", "roles/logging.admin", "roles/storage.admin"
+  ])
+  members = ["serviceAccount:${google_service_account.tf_account.email}"]
+  project = var.project_id
+  role    = each.key
 }
 
 resource "google_service_account_key" "tf_account_key" {
