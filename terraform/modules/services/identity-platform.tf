@@ -26,8 +26,16 @@ resource "null_resource" "enable_multi_tenancy_skript" {
   }
 }
 
+resource "random_string" "random_string_for_api_key" {
+  length  = 10
+  special = false
+  upper   = false
+  lower   = true
+}
+
+//TODO there was an error where this key name already exists in gcloud despite it being deleted before, why
 resource "google_apikeys_key" "identity_platform_api_key" {
-  name         = "tf${var.environment}apikey"
+  name         = "tf${var.environment}apikey${random_string.random_string_for_api_key.result}"
   display_name = "tf_${var.environment}_identity_platform_api_key"
   project      = var.project_id
   restrictions {

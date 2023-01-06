@@ -13,3 +13,4 @@ gen
 /terraform/environments/prod/.terraform.lock.hcl
 /terraform/environments/staging/.terraform/
 /terraform/environments/staging/.terraform.lock.hcl
+/data/

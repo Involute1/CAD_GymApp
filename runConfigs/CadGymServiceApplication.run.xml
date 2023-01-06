@@ -1,6 +1,5 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="CadGymServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" />
     <module name="cad-GymService" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="de.htwg.cadgymservice.CadGymServiceApplication" />
     <method v="2">
