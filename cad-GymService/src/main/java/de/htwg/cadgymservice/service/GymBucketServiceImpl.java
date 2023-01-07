@@ -1,6 +1,7 @@
 package de.htwg.cadgymservice.service;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
@@ -29,5 +30,32 @@ public class GymBucketServiceImpl implements IGymBucketService {
                 .setProjectId(googleProjectId)
                 .build().getService();
         this.bucket = storage.get(bucketId);
+    }
+
+    @Override
+    public Blob saveLogo(String firebaseId, byte[] data) {
+        this.bucket.reload();
+        return this.bucket.create(firebaseId, data, Bucket.BlobTargetOption.doesNotExist());
+    }
+
+    @Override
+    public Blob getLogo(String firebaseId) {
+        this.bucket.reload();
+        return this.bucket.get(firebaseId);
+    }
+
+    @Override
+    public Blob updateLogo(String firebaseId, byte[] updatedData) {
+        this.bucket.reload();
+        Blob oldBlob = this.bucket.get(firebaseId);
+        oldBlob.delete();
+        return saveLogo(firebaseId, updatedData);
+    }
+
+    @Override
+    public boolean deleteLogo(String firebaseId) {
+        this.bucket.reload();
+        Blob oldBlob = this.bucket.get(firebaseId);
+        return oldBlob.delete();
     }
 }

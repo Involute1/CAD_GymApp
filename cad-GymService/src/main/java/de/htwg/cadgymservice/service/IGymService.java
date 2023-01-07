@@ -1,7 +1,13 @@
 package de.htwg.cadgymservice.service;
 
-import de.htwg.cadgymservice.model.Gym;
+import de.htwg.cadgymservice.model.FirebaseGym;
 
 public interface IGymService {
-    Gym saveGym(Gym gym);
+    FirebaseGym saveGym(FirebaseGym gym);
+
+    FirebaseGym getGym(String firebaseId);
+
+    FirebaseGym updateGym(FirebaseGym updatedGym);
+
+    boolean deleteGym(String firebaseId);
 }

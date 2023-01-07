@@ -1,12 +1,12 @@
 package de.htwg.cadgymservice.controller;
 
+import com.google.cloud.storage.Blob;
+import de.htwg.cadgymservice.model.FirebaseGym;
 import de.htwg.cadgymservice.model.Gym;
 import de.htwg.cadgymservice.service.GymBucketServiceImpl;
 import de.htwg.cadgymservice.service.GymServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class GymController {
@@ -20,28 +20,31 @@ public class GymController {
     }
 
     @PostMapping("/")
-    public void insertGym(@RequestBody Gym gym) {
-
+    public Gym insertGym(@RequestBody Gym gym) {
+        FirebaseGym firebaseGym = gymService.saveGym(new FirebaseGym());
+        Blob blob = gymBucketService.saveLogo(firebaseGym.getFirebaseId(), gym.getLogo());
+        return new Gym(firebaseGym.getFirebaseId(), gym.getName(), gym.getTenantId(), gym.getDescription(), blob.getContent());
     }
 
-    @GetMapping("/{gymId}")
-    public Gym getGymById(@PathVariable String gymId) {
-        return null;
+    @GetMapping("/{firebaseId}")
+    public Gym getGymById(@PathVariable String firebaseId) {
+        FirebaseGym firebaseGym = gymService.getGym(firebaseId);
+        Blob blob = gymBucketService.getLogo(firebaseId);
+        return new Gym(firebaseGym.getFirebaseId(), firebaseGym.getName(), firebaseGym.getTenantId(), firebaseGym.getDescription(), blob.getContent());
     }
 
-    @GetMapping("/all")
-    public List<Gym> getAll() {
-        return null;
+    @DeleteMapping("/{firebaseId}")
+    public boolean deleteGym(@PathVariable String firebaseId) {
+        gymService.deleteGym(firebaseId);
+        gymBucketService.deleteLogo(firebaseId);
+        return true;
     }
 
-    @DeleteMapping("/{gymId}")
-    public void deleteGym(@PathVariable String gymId) {
-
-    }
-
-    @PatchMapping("/{gymId}")
-    public void updateGym(@PathVariable String gymId) {
-
+    @PatchMapping("/{firebaseId}")
+    public Gym updateGym(@PathVariable String firebaseId, @RequestBody Gym updatedGym) {
+        FirebaseGym firebaseGym = gymService.updateGym(new FirebaseGym(updatedGym.getFirebaseId(), updatedGym.getName(), updatedGym.getTenantId(), updatedGym.getDescription()));
+        Blob blob = gymBucketService.updateLogo(firebaseId, updatedGym.getLogo());
+        return new Gym(firebaseGym.getFirebaseId(), firebaseGym.getName(), firebaseGym.getTenantId(), firebaseGym.getDescription(), blob.getContent());
     }
 
 }

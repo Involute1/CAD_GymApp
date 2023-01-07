@@ -1,5 +1,6 @@
 package de.htwg.cadgymservice.model;
 
+import com.google.cloud.firestore.annotation.DocumentId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +12,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Gym implements Serializable {
+public class FirebaseGym implements Serializable {
+    @DocumentId
     private String firebaseId;
     private String name;
     private String tenantId;
     private String description;
-    private byte[] logo;
-
 }

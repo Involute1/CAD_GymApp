@@ -1,11 +1,9 @@
 package de.htwg.cadgymservice.service;
 
-import de.htwg.cadgymservice.model.Gym;
+import de.htwg.cadgymservice.model.FirebaseGym;
 import de.htwg.cadgymservice.repository.IGymRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
 
 @Service
 public class GymServiceImpl implements IGymService {
@@ -16,13 +14,24 @@ public class GymServiceImpl implements IGymService {
     }
 
     @Override
-    public Gym saveGym(Gym gym) {
+    public FirebaseGym saveGym(FirebaseGym gym) {
         return gymRepository.save(gym).block();
     }
 
-    @PostConstruct
-    public void test() {
-        gymRepository.save(new Gym("a", "a", "a")).block();
-        System.out.println("done");
+    @Override
+    public FirebaseGym getGym(String firebaseId) {
+        return gymRepository.findById(firebaseId).block();
+    }
+
+    @Override
+    public FirebaseGym updateGym(FirebaseGym updatedGym) {
+        gymRepository.deleteById(updatedGym.getTenantId()).block();
+        return saveGym(updatedGym);
+    }
+
+    @Override
+    public boolean deleteGym(String firebaseId) {
+        gymRepository.deleteById(firebaseId).block();
+        return true;
     }
 }
