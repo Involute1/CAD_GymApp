@@ -5,6 +5,8 @@ import de.htwg.cadworkoutservice.model.Set;
 import de.htwg.cadworkoutservice.model.Tag;
 import de.htwg.cadworkoutservice.model.Workout;
 import de.htwg.cadworkoutservice.repository.IExerciseRepository;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Service
 public class ExerciseServiceImpl implements IExerciseService {
+    private static final Log LOGGER = LogFactory.getLog(ExerciseServiceImpl.class);
 
     private final IExerciseRepository exerciseRepository;
 

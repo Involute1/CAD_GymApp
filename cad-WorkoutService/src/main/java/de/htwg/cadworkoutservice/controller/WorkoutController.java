@@ -2,6 +2,8 @@ package de.htwg.cadworkoutservice.controller;
 
 import de.htwg.cadworkoutservice.model.Workout;
 import de.htwg.cadworkoutservice.service.WorkoutServiceImpl;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +12,8 @@ import java.util.List;
 @RestController
 public class WorkoutController {
     //TODO testing
+    private static final Log LOGGER = LogFactory.getLog(Workout.class);
+
     private final WorkoutServiceImpl workoutService;
 
     public WorkoutController(@Autowired WorkoutServiceImpl workoutService) {

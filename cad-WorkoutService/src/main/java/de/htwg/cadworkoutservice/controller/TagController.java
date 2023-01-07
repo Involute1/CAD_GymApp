@@ -2,6 +2,8 @@ package de.htwg.cadworkoutservice.controller;
 
 import de.htwg.cadworkoutservice.model.Tag;
 import de.htwg.cadworkoutservice.service.TagServiceImpl;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @RequestMapping("/tag")
 public class TagController {
     //TODO testing
+    private static final Log LOGGER = LogFactory.getLog(TagController.class);
 
     private final TagServiceImpl tagService;
 

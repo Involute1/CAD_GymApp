@@ -21,10 +21,15 @@
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-logging -->
+        <!--        <dependency>-->
+        <!--            <groupId>com.google.cloud</groupId>-->
+        <!--            <artifactId>google-cloud-logging</artifactId>-->
+        <!--            <version>3.13.7</version>-->
+        <!--        </dependency>-->
+        <!-- Starter for Stackriver Logging -->
         <dependency>
             <groupId>com.google.cloud</groupId>
-            <artifactId>google-cloud-logging</artifactId>
-            <version>3.13.7</version>
+            <artifactId>spring-cloud-gcp-starter-logging</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.cloud</groupId>

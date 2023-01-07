@@ -5,6 +5,8 @@ import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.io.InputStream;
 
 @Service
 public class GymBucketServiceImpl implements IGymBucketService {
+    private static final Log LOGGER = LogFactory.getLog(GymBucketServiceImpl.class);
     @Value("${spring.cloud.gcp.project-id}")
     private String googleProjectId;
     @Value("${spring.cloud.gcp.bucket.name}")

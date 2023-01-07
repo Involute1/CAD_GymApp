@@ -2,6 +2,8 @@ package de.htwg.cadworkoutservice.controller;
 
 import de.htwg.cadworkoutservice.model.Set;
 import de.htwg.cadworkoutservice.service.SetServiceImpl;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,8 @@ import java.util.List;
 @RequestMapping("/set")
 public class SetController {
     //TODO testing
+    private static final Log LOGGER = LogFactory.getLog(SetController.class);
+
     private final SetServiceImpl setService;
 
     public SetController(@Autowired SetServiceImpl setService) {

@@ -3,8 +3,9 @@ package de.htwg.caduserservice.controller;
 import com.google.firebase.auth.*;
 import com.google.firebase.auth.multitenancy.TenantAwareFirebaseAuth;
 import de.htwg.caduserservice.model.UserData;
-import de.htwg.caduserservice.util.LoggerUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -12,17 +13,17 @@ import java.util.List;
 
 @RestController
 public class GoogleAuthUserController {
-
+    private static final Log LOGGER = LogFactory.getLog(GoogleAuthUserController.class);
     //https://cloud.google.com/identity-platform/docs/multi-tenancy-managing-tenants#creating_a_user
 
     @GetMapping("/verify")
     public boolean verifyToken(String idToken, String tenantId) {
         if (StringUtils.isBlank(idToken)) {
-            LoggerUtil.log("idToken is null or empty on verifyToken");
+            LOGGER.error("idToken is null or empty on verifyToken");
             return false;
         }
         if (StringUtils.isBlank(tenantId)) {
-            LoggerUtil.log("tenantId is null or empty on verifyToken");
+            LOGGER.error("tenantId is null or empty on verifyToken");
             return false;
         }
         TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
@@ -34,7 +35,7 @@ public class GoogleAuthUserController {
             // Otherwise, "tenant-id-mismatch" error thrown.
             return true;
         } catch (FirebaseAuthException e) {
-            LoggerUtil.log("error verifying ID token: " + e.getMessage());
+            LOGGER.error("error verifying ID token: " + e.getMessage());
             return false;
         }
     }
@@ -42,11 +43,11 @@ public class GoogleAuthUserController {
     @PostMapping("/register/{tenantId}")
     public UserData registerUserWithTenant(UserData userData, @PathVariable String tenantId) {
         if (StringUtils.isBlank(tenantId)) {
-            LoggerUtil.log("tenantId is null or empty on registerUserWithTenant");
+            LOGGER.error("tenantId is null or empty on registerUserWithTenant");
             return null;
         }
         if (StringUtils.isBlank(userData.displayName()) || StringUtils.isBlank(userData.email()) || StringUtils.isBlank(userData.password())) {
-            LoggerUtil.log("userData has empty values on registerUserWithTenant");
+            LOGGER.error("userData has empty values on registerUserWithTenant");
             return null;
         }
         TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
@@ -59,7 +60,7 @@ public class GoogleAuthUserController {
             UserRecord createdUser = tenantAuth.createUser(request);
             return new UserData(createdUser.getUid(), createdUser.getEmail(), "", createdUser.getDisplayName(), createdUser.getPhoneNumber(), createdUser.isEmailVerified(), createdUser.isDisabled(), createdUser.getPhotoUrl(), createdUser.getTenantId());
         } catch (FirebaseAuthException e) {
-            LoggerUtil.log(e.getMessage());
+            LOGGER.error(e.getMessage());
             return null;
         }
 
@@ -75,7 +76,7 @@ public class GoogleAuthUserController {
             users.iterateAll().forEach(user -> userDataList.add(new UserData(user.getUid(), user.getEmail(), "", user.getDisplayName(), user.getPhoneNumber(), user.isEmailVerified(), user.isDisabled(), user.getPhotoUrl(), user.getTenantId())));
             return userDataList;
         } catch (FirebaseAuthException e) {
-            LoggerUtil.log(e.getMessage());
+            LOGGER.error(e.getMessage());
             return new ArrayList<>();
         }
 
@@ -84,11 +85,11 @@ public class GoogleAuthUserController {
     @GetMapping("/{uid}/{tenantId}")
     public UserData getUser(@PathVariable String uid, @PathVariable String tenantId) {
         if (StringUtils.isBlank(uid)) {
-            LoggerUtil.log("UID was empty for getUser");
+            LOGGER.error("UID was empty for getUser");
             return null;
         }
         if (StringUtils.isBlank(tenantId)) {
-            LoggerUtil.log("tenantId is null or empty on getUser");
+            LOGGER.error("tenantId is null or empty on getUser");
             return null;
         }
         TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
@@ -97,7 +98,7 @@ public class GoogleAuthUserController {
             UserRecord user = tenantAuth.getUser(uid);
             return new UserData(user.getUid(), user.getEmail(), "", user.getDisplayName(), user.getPhoneNumber(), user.isEmailVerified(), user.isDisabled(), user.getPhotoUrl(), user.getTenantId());
         } catch (FirebaseAuthException e) {
-            LoggerUtil.log(e.getMessage());
+            LOGGER.error(e.getMessage());
             return null;
         }
 
@@ -106,15 +107,15 @@ public class GoogleAuthUserController {
     @PatchMapping("/{uid}/{tenantId}")
     public UserData updateUser(UserData updatedUserData, @PathVariable String tenantId, @PathVariable String uid) {
         if (StringUtils.isBlank(uid)) {
-            LoggerUtil.log("UID was empty for updateUser");
+            LOGGER.error("UID was empty for updateUser");
             return null;
         }
         if (StringUtils.isBlank(tenantId)) {
-            LoggerUtil.log("tenantId is null or empty on updateUser");
+            LOGGER.error("tenantId is null or empty on updateUser");
             return null;
         }
         if (StringUtils.isBlank(updatedUserData.displayName()) || StringUtils.isBlank(updatedUserData.email()) || StringUtils.isBlank(updatedUserData.password())) {
-            LoggerUtil.log("updatedUserData has empty values on updateUser");
+            LOGGER.error("updatedUserData has empty values on updateUser");
             return null;
         }
         TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
@@ -132,7 +133,7 @@ public class GoogleAuthUserController {
             UserRecord userRecord = tenantAuth.updateUser(request);
             return new UserData(userRecord.getUid(), userRecord.getEmail(), "", userRecord.getDisplayName(), userRecord.getPhoneNumber(), userRecord.isEmailVerified(), userRecord.isDisabled(), userRecord.getPhotoUrl(), userRecord.getTenantId());
         } catch (FirebaseAuthException e) {
-            LoggerUtil.log(e.getMessage());
+            LOGGER.error(e.getMessage());
             return null;
         }
 
@@ -141,11 +142,11 @@ public class GoogleAuthUserController {
     @DeleteMapping("/{uid}/{tenantId}")
     public boolean deleteUser(@PathVariable String uid, @PathVariable String tenantId) {
         if (uid.isEmpty()) {
-            LoggerUtil.log("UID was empty for deleteUser");
+            LOGGER.error("UID was empty for deleteUser");
             return false;
         }
         if (StringUtils.isBlank(tenantId)) {
-            LoggerUtil.log("tenantId is null or empty on deleteUser");
+            LOGGER.error("tenantId is null or empty on deleteUser");
             return false;
         }
         TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
@@ -154,7 +155,7 @@ public class GoogleAuthUserController {
             tenantAuth.deleteUser(uid);
             return true;
         } catch (FirebaseAuthException e) {
-            LoggerUtil.log(e.getMessage());
+            LOGGER.error(e.getMessage());
             return false;
         }
     }

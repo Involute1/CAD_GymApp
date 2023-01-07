@@ -5,12 +5,14 @@ import de.htwg.cadgymservice.model.FirebaseGym;
 import de.htwg.cadgymservice.model.Gym;
 import de.htwg.cadgymservice.service.GymBucketServiceImpl;
 import de.htwg.cadgymservice.service.GymServiceImpl;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class GymController {
-
+    private static final Log LOGGER = LogFactory.getLog(GymController.class);
     private final GymServiceImpl gymService;
     private final GymBucketServiceImpl gymBucketService;
 

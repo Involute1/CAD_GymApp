@@ -2,6 +2,8 @@ package de.htwg.cadworkoutservice.service;
 
 import de.htwg.cadworkoutservice.model.Tag;
 import de.htwg.cadworkoutservice.repository.ITagRepository;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +11,8 @@ import java.util.List;
 
 @Service
 public class TagServiceImpl implements ITagService {
+    private static final Log LOGGER = LogFactory.getLog(TagServiceImpl.class);
+
     private final ITagRepository tagRepository;
 
     public TagServiceImpl(@Autowired ITagRepository tagRepository) {
