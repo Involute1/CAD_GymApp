@@ -24,7 +24,8 @@ module "project-services" {
     "artifactregistry.googleapis.com",
     "identitytoolkit.googleapis.com",
     "secretmanager.googleapis.com",
-    "apikeys.googleapis.com"
+    "apikeys.googleapis.com",
+    "firestore.googleapis.com"
     #    "iam.googleapis.com", //iam
     #    "logging.googleapis.com", //logging
   ]
