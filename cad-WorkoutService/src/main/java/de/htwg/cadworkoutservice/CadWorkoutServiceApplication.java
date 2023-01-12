@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CadWorkoutServiceApplication {
 
     public static void main(String[] args) {
+        System.setProperty("GOOGLE_CLOUD_PROJECT", "cad-project-368216");
         SpringApplication.run(CadWorkoutServiceApplication.class, args);
     }
 
