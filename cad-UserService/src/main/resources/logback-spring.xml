@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <property name="projectId" value="${projectId:-${GOOGLE_CLOUD_PROJECT}}"/>
     <include resource="com/google/cloud/spring/logging/logback-appender.xml"/>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>

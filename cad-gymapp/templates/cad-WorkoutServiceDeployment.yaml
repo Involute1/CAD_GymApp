@@ -14,6 +14,10 @@ spec:
     spec:
       containers:
         - name: workout
-          image: drescherflo/cad-gym-workout-service:dev
+          image: cad-gym-workout-service:latest
+          imagePullPolicy: Never
           ports:
             - containerPort: 7083
+          env:
+            - name: "GOOGLE_APPLICATION_CREDENTIALS"
+              value: "classpath:tf_service_account_key.json"
