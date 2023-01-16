@@ -33,4 +33,3 @@ deploy:
       - kubernetes/cad-WorkoutServiceDeployment.yaml
       - kubernetes/cad-WorkoutServiceService.yaml
       - kubernetes/ingress.yaml
-      - kubernetes/ingressController.yaml
