@@ -28,6 +28,10 @@ public class Exercise implements Serializable {
     @JoinColumn(name = "WORKOUT_ID", nullable = false)
     private Workout workout;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = true, targetEntity = WorkoutPlan.class)
+    @JoinColumn(name = "WORKOUT_PLAN_FKEY")
+    private WorkoutPlan workoutPlan;
+
     public Exercise(String name, List<Set> sets, List<Tag> tags) {
         this.name = name;
         this.sets = sets;
