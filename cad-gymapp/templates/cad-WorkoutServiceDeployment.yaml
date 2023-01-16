@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: workout
-          image: europe-west3-docker.pkg.dev/cad-project-368216/cad-repo-dev/cad-gym-workout-service:latest
+          image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-workout-service:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 7083

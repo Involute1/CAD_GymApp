@@ -13,7 +13,7 @@ export class AuthService {
 
   private firebaseConfig = {
     apiKey: environment.firebaseApiKey,
-    authDomain: "cad-project-368216.firebaseapp.com"
+    authDomain: "cad-gym-app.firebaseapp.com"
   };
   private app;
 
