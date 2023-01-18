@@ -1,4 +1,4 @@
-package de.cadinvoicecronjob.model;
+package de.htwg.cadinvoicecronjob.model;
 
 public enum BillingModel {
     FREE, STANDARD, ENTERPRISE;

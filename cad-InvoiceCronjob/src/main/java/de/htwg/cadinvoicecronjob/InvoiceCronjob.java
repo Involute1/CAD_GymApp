@@ -1,8 +1,8 @@
-package de.cadinvoicecronjob;
+package de.htwg.cadinvoicecronjob;
 
 import com.google.gson.Gson;
-import de.cadinvoicecronjob.model.Gym;
-import de.cadinvoicecronjob.model.Invoice;
+import de.htwg.cadinvoicecronjob.model.Gym;
+import de.htwg.cadinvoicecronjob.model.Invoice;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -22,7 +22,7 @@ public class InvoiceCronjob {
         LOGGER.info("Starting Invoice Generation");
 
         String gymServiceName = System.getenv("GYM_SERVICE");
-        String gymServiceUrl = "http:// " + gymServiceName == null ? "localhost:7081" : gymServiceName;
+        String gymServiceUrl = "http://" + (gymServiceName == null ? "localhost:7081" : gymServiceName);
         LOGGER.debug("Gym Service URL: " + gymServiceUrl);
 
         LOGGER.info("Requesting gyms");

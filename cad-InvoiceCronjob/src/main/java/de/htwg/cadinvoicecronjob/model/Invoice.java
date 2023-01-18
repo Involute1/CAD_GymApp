@@ -1,4 +1,4 @@
-package de.cadinvoicecronjob.model;
+package de.htwg.cadinvoicecronjob.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
