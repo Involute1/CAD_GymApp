@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  creationTimestamp: "2023-01-18T22:25:00Z"
+  generation: 1
+  name: invoice
+  namespace: default
+  resourceVersion: "269624"
+  uid: 1773e092-d1d7-446a-8231-049825ec8a60
+spec:
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      name: cad-invoice-cronjob
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+            - image: drescherflo/cad-gym-invoice-cronjob
+              imagePullPolicy: Always
+              name: cad-invoice-cronjob
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: OnFailure
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+  schedule: '* * 1 * *'
+  successfulJobsHistoryLimit: 3
+  suspend: false
