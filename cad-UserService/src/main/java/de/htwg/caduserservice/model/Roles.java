@@ -1,5 +1,5 @@
 package de.htwg.caduserservice.model;
 
 public enum Roles {
-    User, Admin
+    User, Trainer, Admin
 }

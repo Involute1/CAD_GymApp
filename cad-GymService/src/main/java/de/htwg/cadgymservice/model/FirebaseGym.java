@@ -18,4 +18,5 @@ public class FirebaseGym implements Serializable {
     private String name;
     private String tenantId;
     private String description;
+    private BillingModel billingModel;
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class GoogleAuthUserController {
@@ -58,7 +59,7 @@ public class GoogleAuthUserController {
                 .setPassword(userData.password());
         try {
             UserRecord createdUser = tenantAuth.createUser(request);
-            return new UserData(createdUser.getUid(), createdUser.getEmail(), "", createdUser.getDisplayName(), createdUser.getPhoneNumber(), createdUser.isEmailVerified(), createdUser.isDisabled(), createdUser.getPhotoUrl(), createdUser.getTenantId());
+            return new UserData(UUID.fromString(createdUser.getUid()), createdUser.getEmail(), "", createdUser.getDisplayName(), createdUser.getPhoneNumber(), createdUser.isEmailVerified(), createdUser.isDisabled(), createdUser.getPhotoUrl(), createdUser.getTenantId());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -73,7 +74,7 @@ public class GoogleAuthUserController {
         try {
             List<UserData> userDataList = new ArrayList<>();
             ListUsersPage users = tenantAuth.listUsers(null);
-            users.iterateAll().forEach(user -> userDataList.add(new UserData(user.getUid(), user.getEmail(), "", user.getDisplayName(), user.getPhoneNumber(), user.isEmailVerified(), user.isDisabled(), user.getPhotoUrl(), user.getTenantId())));
+            users.iterateAll().forEach(user -> userDataList.add(new UserData(UUID.fromString(user.getUid()), user.getEmail(), "", user.getDisplayName(), user.getPhoneNumber(), user.isEmailVerified(), user.isDisabled(), user.getPhotoUrl(), user.getTenantId())));
             return userDataList;
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
@@ -96,7 +97,7 @@ public class GoogleAuthUserController {
                 .getAuthForTenant(tenantId);
         try {
             UserRecord user = tenantAuth.getUser(uid);
-            return new UserData(user.getUid(), user.getEmail(), "", user.getDisplayName(), user.getPhoneNumber(), user.isEmailVerified(), user.isDisabled(), user.getPhotoUrl(), user.getTenantId());
+            return new UserData(UUID.fromString(user.getUid()), user.getEmail(), "", user.getDisplayName(), user.getPhoneNumber(), user.isEmailVerified(), user.isDisabled(), user.getPhotoUrl(), user.getTenantId());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -131,7 +132,7 @@ public class GoogleAuthUserController {
                 .setDisabled(updatedUserData.isDisabled());
         try {
             UserRecord userRecord = tenantAuth.updateUser(request);
-            return new UserData(userRecord.getUid(), userRecord.getEmail(), "", userRecord.getDisplayName(), userRecord.getPhoneNumber(), userRecord.isEmailVerified(), userRecord.isDisabled(), userRecord.getPhotoUrl(), userRecord.getTenantId());
+            return new UserData(UUID.fromString(userRecord.getUid()), userRecord.getEmail(), "", userRecord.getDisplayName(), userRecord.getPhoneNumber(), userRecord.isEmailVerified(), userRecord.isDisabled(), userRecord.getPhotoUrl(), userRecord.getTenantId());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
             return null;

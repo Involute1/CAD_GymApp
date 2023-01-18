@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/tenant")
@@ -49,7 +50,7 @@ public class GoogleAuthTenantController {
                 .setEmailLinkSignInEnabled(false);
         try {
             Tenant updatedTenant = tenantManager.updateTenant(request);
-            return new TenantData(updatedTenant.getTenantId(), updatedTenant.getDisplayName());
+            return new TenantData(UUID.fromString(updatedTenant.getTenantId()), updatedTenant.getDisplayName());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -65,7 +66,7 @@ public class GoogleAuthTenantController {
         TenantManager tenantManager = FirebaseAuth.getInstance().getTenantManager();
         try {
             Tenant tenant = tenantManager.getTenant(tenantId);
-            return new TenantData(tenant.getTenantId(), tenant.getDisplayName());
+            return new TenantData(UUID.fromString(tenant.getTenantId()), tenant.getDisplayName());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -78,7 +79,7 @@ public class GoogleAuthTenantController {
         try {
             List<TenantData> tenantDataList = new ArrayList<>();
             ListTenantsPage tenants = tenantManager.listTenants(null);
-            tenants.iterateAll().forEach(e -> tenantDataList.add(new TenantData(e.getTenantId(), e.getDisplayName())));
+            tenants.iterateAll().forEach(e -> tenantDataList.add(new TenantData(UUID.fromString(e.getTenantId()), e.getDisplayName())));
             return tenantDataList;
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
@@ -99,7 +100,7 @@ public class GoogleAuthTenantController {
                 .setPasswordSignInAllowed(true);
         try {
             Tenant createdTenant = tenantManager.createTenant(request);
-            return new TenantData(createdTenant.getTenantId(), createdTenant.getDisplayName());
+            return new TenantData(UUID.fromString(createdTenant.getTenantId()), createdTenant.getDisplayName());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
             return null;
