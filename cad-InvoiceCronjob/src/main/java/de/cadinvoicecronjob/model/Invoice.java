@@ -1,6 +1,7 @@
-package de.htwg.cadgymservice.model.request;
+package de.cadinvoicecronjob.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

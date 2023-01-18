@@ -4,6 +4,7 @@ import com.google.cloud.firestore.annotation.DocumentId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -11,7 +12,7 @@ import java.util.Date;
 public class FirebaseInvoice {
     @DocumentId
     private String firebaseId;
-    private Date BillingDate;
+    private LocalDateTime BillingDate;
     private double Amount;
-    private Date DueDate;
+    private LocalDateTime DueDate;
 }
