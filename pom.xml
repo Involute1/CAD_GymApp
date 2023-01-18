@@ -14,5 +14,6 @@
         <module>cad-GymService</module>
         <module>cad-UserService</module>
         <module>cad-WorkoutService</module>
+        <module>cad-ReportingService</module>
     </modules>
 </project>
