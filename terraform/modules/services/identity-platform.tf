@@ -1,3 +1,9 @@
+#resource "google_identity_platform_config" "default" {
+#  project = var.project_id
+#
+#
+#}
+
 resource "google_identity_platform_project_default_config" "default" {
   project = var.project_id
   sign_in {
@@ -19,10 +25,10 @@ resource "google_identity_platform_project_default_config" "default" {
 
 }
 
-resource "null_resource" "enable_multi_tenancy_skript" {
+resource "null_resource" "enable_multi_tenancy_script" {
   provisioner "local-exec" {
     command     = "enable_multi_tenancy.sh ${var.project_id}"
-    working_dir = "../../skripts"
+    working_dir = "../../scripts"
   }
 }
 
@@ -35,6 +41,7 @@ resource "random_string" "random_string_for_api_key" {
 
 //TODO there was an error where this key name already exists in gcloud despite it being deleted before, why
 resource "google_apikeys_key" "identity_platform_api_key" {
+  //sensitive = true
   name         = "tf${var.environment}apikey${random_string.random_string_for_api_key.result}"
   display_name = "tf_${var.environment}_identity_platform_api_key"
   project      = var.project_id

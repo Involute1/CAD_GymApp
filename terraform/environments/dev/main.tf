@@ -25,9 +25,8 @@ module "project-services" {
     "identitytoolkit.googleapis.com",
     "secretmanager.googleapis.com",
     "apikeys.googleapis.com",
-    "firestore.googleapis.com"
-    #    "iam.googleapis.com", //iam
-    #    "logging.googleapis.com", //logging
+    "firestore.googleapis.com",
+    "cloudresourcemanager.googleapis.com"
   ]
 
   disable_services_on_destroy = false
