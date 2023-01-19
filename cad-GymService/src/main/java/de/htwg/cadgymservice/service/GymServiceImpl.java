@@ -7,6 +7,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GymServiceImpl implements IGymService {
     private static final Log LOGGER = LogFactory.getLog(GymServiceImpl.class);
@@ -36,5 +38,10 @@ public class GymServiceImpl implements IGymService {
     public boolean deleteGym(String firebaseId) {
         gymRepository.deleteById(firebaseId).block();
         return true;
+    }
+
+    @Override
+    public List<FirebaseGym> getGyms() {
+        return gymRepository.findAll().collectList().block();
     }
 }

@@ -67,8 +67,8 @@ public class GoogleAuthUserController {
 
     }
 
-    @GetMapping("/all")
-    public List<UserData> getAllUserForTenant(String tenantId) {
+    @GetMapping("/all/{tenantId}")
+    public List<UserData> getAllUserForTenant(@PathVariable String tenantId) {
         TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
                 .getAuthForTenant(tenantId);
         try {
