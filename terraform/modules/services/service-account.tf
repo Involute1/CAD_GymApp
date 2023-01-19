@@ -1,3 +1,23 @@
+resource "google_service_account" "tf_account_gymService" {
+  account_id   = var.service_account_id
+  display_name = var.service_account_display_name
+  project      = var.project_id
+}
+
+//TODO add random for accout id
+
+resource "google_service_account" "tf_account" {
+  account_id   = var.service_account_id
+  display_name = var.service_account_display_name
+  project      = var.project_id
+}
+
+resource "google_service_account" "tf_account" {
+  account_id   = var.service_account_id
+  display_name = var.service_account_display_name
+  project      = var.project_id
+}
+
 resource "google_service_account" "tf_account" {
   account_id   = var.service_account_id
   display_name = var.service_account_display_name
@@ -17,6 +37,7 @@ resource "google_project_iam_binding" "tf_service_account_iam_binding_roles" {
 }
 
 resource "google_service_account_key" "tf_account_key" {
+  #  sensitive = true
   service_account_id = google_service_account.tf_account.name
   public_key_type    = "TYPE_X509_PEM_FILE"
 }

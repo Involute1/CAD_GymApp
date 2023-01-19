@@ -1,4 +1,5 @@
 terraform {
+  #  https://registry.terraform.io/providers/hashicorp/helm/latest/docs
   required_providers {
     helm = {
       source  = "hashicorp/helm"
