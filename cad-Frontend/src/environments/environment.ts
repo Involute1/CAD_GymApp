@@ -10,14 +10,9 @@ export const environment = {
   gymAPI: 'http://localhost:7081/gym',
   userAPI: 'http://localhost:7082/user',
   workoutAPI: 'http://localhost:7083/workout',
-  firebaseApiKey: apiKey.firebaseApiKey,
+  firebase: {
+    apiKey: apiKey.firebaseApiKey,
+    authDomain: 'cad-gym-app.firebaseapp.com',
+    projectId: 'cad-gym-app',
+  },
 };
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

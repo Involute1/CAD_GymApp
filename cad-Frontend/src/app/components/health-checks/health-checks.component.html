@@ -1,0 +1,23 @@
+<div class="healthChecks">
+  <h2>HealthChecks</h2>
+  <table
+    [dataSource]="serviceHealthChecks"
+    class="mat-elevation-z8 healthCheckTable"
+    mat-table
+  >
+    <!-- Position Column -->
+    <ng-container matColumnDef="service">
+      <th *matHeaderCellDef mat-header-cell>Service</th>
+      <td *matCellDef="let service" mat-cell>{{ service.name }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="status">
+      <th *matHeaderCellDef mat-header-cell>Status</th>
+      <td *matCellDef="let service" mat-cell>{{ service.status | async }}</td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+  </table>
+</div>
