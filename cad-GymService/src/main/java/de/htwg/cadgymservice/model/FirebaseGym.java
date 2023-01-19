@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,4 +20,5 @@ public class FirebaseGym implements Serializable {
     private String tenantId;
     private String description;
     private BillingModel billingModel;
+    private List<FirebaseInvoice> invoices;
 }
