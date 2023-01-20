@@ -50,13 +50,13 @@ module "services" {
   environment                  = local.environment
 }
 
-#module "kubernetes" {
-#  source     = "../../modules/kubernetes"
-#  depends_on = [module.services, module.project-services]
-#
-#  cluster_name          = var.cluster_name
-#  eu_location           = var.eu_zone
-#  machine_type          = var.machine_type
-#  node_pool_name        = var.node_pool_name
-#  service_account_email = module.services.service_account_email
-#}
+module "kubernetes" {
+  source     = "../../modules/kubernetes"
+  depends_on = [module.services, module.project-services]
+
+  cluster_name          = var.cluster_name
+  eu_location           = var.eu_zone
+  machine_type          = var.machine_type
+  node_pool_name        = var.node_pool_name
+  service_account_email = module.services.service_account_email
+}

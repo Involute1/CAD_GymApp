@@ -9,7 +9,7 @@ spec:
       template:
         spec:
           containers:
-            - image: drescherflo/cad-gym-invoice-cronjob
+            - image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-invoice-cronjob:latest
               env:
                 - name: GYM_SERVICE_URL
                   valueFrom:
