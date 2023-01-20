@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-frontend:latest
+          env:
+            - name: GYM_SERVICE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-configmap
+                  key: gym_service_name
+            - name: GYM_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-configmap
+                  key: gym_service_port
+            - name: USER_SERVICE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-configmap
+                  key: user_service_name
+            - name: USER_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-configmap
+                  key: user_service_port
+            - name: WORKOUT_SERVICE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-configmap
+                  key: workout_service_name
+            - name: WORKOUT_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-configmap
+                  key: workout_service_port
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80

@@ -22,10 +22,9 @@ build:
 deploy:
   kubectl:
     manifests:
-      #    - kubernetes/cad-AuthServiceDeployment.yaml
-      #    - kubernetes/cad-AuthServiceService.yaml
-      - kubernetes/cad-FrontendDeployment.yaml
-      - kubernetes/cad-FrontendService.yaml
+      - kubernetes/frontend-configmap.yaml
+      - kubernetes/frontend-deployment.yaml
+      - kubernetes/frontend-service.yaml
       - kubernetes/cad-GymServiceDeployment.yaml
       - kubernetes/cad-GymServiceService.yaml
       - kubernetes/cad-UserServiceDeployment.yaml

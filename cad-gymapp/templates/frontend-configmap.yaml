@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-configmap
+data:
+  gym_service_name: "gym-service-service"
+  gym_service_port: "7081"
+  user_service_name: "user-service-service"
+  user_service_port: "7082"
+  workout_service_name: "workout-service-service"
+  workout_service_port: "7083"
