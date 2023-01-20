@@ -18,36 +18,21 @@ spec:
         - name: frontend
           image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-frontend:latest
           env:
-            - name: GYM_SERVICE_NAME
+            - name: GYM_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
                   name: frontend-configmap
-                  key: gym_service_name
-            - name: GYM_SERVICE_PORT
+                  key: gym_service_url
+            - name: USER_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
                   name: frontend-configmap
-                  key: gym_service_port
-            - name: USER_SERVICE_NAME
+                  key: user_service_url
+            - name: WORKOUT_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
                   name: frontend-configmap
-                  key: user_service_name
-            - name: USER_SERVICE_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: frontend-configmap
-                  key: user_service_port
-            - name: WORKOUT_SERVICE_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: frontend-configmap
-                  key: workout_service_name
-            - name: WORKOUT_SERVICE_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: frontend-configmap
-                  key: workout_service_port
+                  key: workout_service_url
           imagePullPolicy: Always
           ports:
             - containerPort: 80
