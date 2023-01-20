@@ -18,6 +18,10 @@ variable "namespace_name" {
   type = string
 }
 
-variable "pod_name" {
+variable "service_name" {
+  type = string
+}
+
+variable "monitor_type" {
   type = string
 }

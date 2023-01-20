@@ -2,7 +2,7 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "4.46.0"
+      version = "4.49.0"
     }
   }
 }
@@ -63,10 +63,11 @@ module "services" {
 #  source = "../../modules/monitoring"
 #  depends_on = [module.services, module.project-services, module.kubernetes]
 #
-#  project_id = var.project_id
-#  environment = local.environment
-#  cluster_name = ""
-#  location = ""
-#  namespace_name = ""
-#  pod_name = ""
+#  project_id     = var.project_id
+#  environment    = local.environment
+#  cluster_name   = var.cluster_name
+#  location       = var.eu_zone
+#  namespace_name = var.k8n_ingress_namespace_name
+#  service_name   = var.k8n_ingress_service_name
+#  monitor_type   = var.monitor_type
 #}

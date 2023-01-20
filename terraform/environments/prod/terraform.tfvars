@@ -7,3 +7,6 @@ machine_type                 = "c2d-standard-2"
 cluster_name                 = "cluster-prod"
 node_pool_name               = "pool-prod"
 enable_apis                  = true
+k8n_ingress_namespace_name   = "ingress-nginx"
+k8n_ingress_service_name     = "ingress-nginx-controller"
+monitor_type                 = "k8s_service"
