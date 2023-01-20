@@ -58,3 +58,15 @@ module "services" {
 #  node_pool_name        = var.node_pool_name
 #  service_account_email = module.services.kubernetes_service_account
 #}
+
+#module "monitoring" {
+#  source = "../../modules/monitoring"
+#  depends_on = [module.services, module.project-services, module.kubernetes]
+#
+#  project_id = var.project_id
+#  environment = local.environment
+#  cluster_name = ""
+#  location = ""
+#  namespace_name = ""
+#  pod_name = ""
+#}

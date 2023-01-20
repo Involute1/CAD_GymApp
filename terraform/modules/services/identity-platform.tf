@@ -27,7 +27,7 @@ resource "google_identity_platform_project_default_config" "default" {
 
 resource "null_resource" "enable_multi_tenancy_script" {
   provisioner "local-exec" {
-    command     = "enable_multi_tenancy.sh ${var.project_id}"
+    command     = "./enable_multi_tenancy.sh ${var.project_id}"
     working_dir = "../../scripts"
   }
 }
@@ -40,7 +40,6 @@ resource "random_string" "random_string_for_api_key" {
 }
 
 resource "google_apikeys_key" "identity_platform_api_key" {
-  #  sensitive = true
   name         = "tf${var.environment}apikey${random_string.random_string_for_api_key.result}"
   display_name = "tf_${var.environment}_identity_platform_api_key"
   project      = var.project_id
