@@ -19,27 +19,27 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: gym
+                name: gym-service-service
                 port:
                   number: 7081
           - path: /user
             pathType: Prefix
             backend:
               service:
-                name: user
+                name: user-service-service
                 port:
                   number: 7082
           - path: /workout
             pathType: Prefix
             backend:
               service:
-                name: workout
+                name: workout-service-service
                 port:
                   number: 7083
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: frontend
+                name: frontend-service
                 port:
                   number: 80

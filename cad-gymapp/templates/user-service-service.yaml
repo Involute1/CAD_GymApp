@@ -1,12 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: gym
-  labels:
-    run: gym
+  name: user-service-service
 spec:
   selector:
-    app: gym
+    app: user-service
   ports:
     - protocol: TCP
-      port: 7081
+      port: 7082

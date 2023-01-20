@@ -6,10 +6,6 @@ import apiKey from './apiKey.json';
 
 export const environment = {
   production: false,
-  authAPI: 'http://localhost:80/auth',
-  gymAPI: 'http://localhost:7081/gym',
-  userAPI: 'http://localhost:7082/user',
-  workoutAPI: 'http://localhost:7083/workout',
   firebase: {
     apiKey: apiKey.firebaseApiKey,
     authDomain: 'cad-gym-app.firebaseapp.com',

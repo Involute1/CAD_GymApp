@@ -22,14 +22,19 @@ build:
 deploy:
   kubectl:
     manifests:
-      #    - kubernetes/cad-AuthServiceDeployment.yaml
-      #    - kubernetes/cad-AuthServiceService.yaml
-      - kubernetes/cad-FrontendDeployment.yaml
-      - kubernetes/cad-FrontendService.yaml
-      - kubernetes/cad-GymServiceDeployment.yaml
-      - kubernetes/cad-GymServiceService.yaml
-      - kubernetes/cad-UserServiceDeployment.yaml
-      - kubernetes/cad-UserServiceService.yaml
-      - kubernetes/cad-WorkoutServiceDeployment.yaml
-      - kubernetes/cad-WorkoutServiceService.yaml
-      - kubernetes/ingress.yaml
+      - cad-gymapp/templates/frontend-configmap.yaml
+      - cad-gymapp/templates/frontend-deployment.yaml
+      - cad-gymapp/templates/frontend-service.yaml
+      - cad-gymapp/templates/gym-service-deployment.yaml
+      - cad-gymapp/templates/gym-service-service.yaml
+      - cad-gymapp/templates/user-service-configmap.yaml
+      - cad-gymapp/templates/user-service-secret.yaml
+      - cad-gymapp/templates/user-service-deployment.yaml
+      - cad-gymapp/templates/user-service-service.yaml
+      - cad-gymapp/templates/workout-service-configmap.yaml
+      - cad-gymapp/templates/workout-service-secret.yaml
+      - cad-gymapp/templates/workout-service-deployment.yaml
+      - cad-gymapp/templates/workout-service-service.yaml
+      - cad-gymapp/templates/invoice-cronjob-configmap.yaml
+      - cad-gymapp/templates/invoice-cronjob.yaml
+      - cad-gymapp/templates/ingress.yaml
