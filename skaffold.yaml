@@ -31,6 +31,8 @@ deploy:
       - kubernetes/user-service-secret.yaml
       - kubernetes/user-service-deployment.yaml
       - kubernetes/user-service-service.yaml
-      - kubernetes/cad-WorkoutServiceDeployment.yaml
-      - kubernetes/cad-WorkoutServiceService.yaml
+      - kubernetes/workout-service-configmap.yaml
+      - kubernetes/workout-service-secret.yaml
+      - kubernetes/workout-service-deployment.yaml
+      - kubernetes/workout-service-service.yaml
       - kubernetes/ingress.yaml
