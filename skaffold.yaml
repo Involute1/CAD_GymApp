@@ -22,17 +22,19 @@ build:
 deploy:
   kubectl:
     manifests:
-      - kubernetes/frontend-configmap.yaml
-      - kubernetes/frontend-deployment.yaml
-      - kubernetes/frontend-service.yaml
-      - kubernetes/gym-service-deployment.yaml
-      - kubernetes/gym-service-service.yaml
-      - kubernetes/user-service-configmap.yaml
-      - kubernetes/user-service-secret.yaml
-      - kubernetes/user-service-deployment.yaml
-      - kubernetes/user-service-service.yaml
-      - kubernetes/workout-service-configmap.yaml
-      - kubernetes/workout-service-secret.yaml
-      - kubernetes/workout-service-deployment.yaml
-      - kubernetes/workout-service-service.yaml
-      - kubernetes/ingress.yaml
+      - cad-gymapp/templates/frontend-configmap.yaml
+      - cad-gymapp/templates/frontend-deployment.yaml
+      - cad-gymapp/templates/frontend-service.yaml
+      - cad-gymapp/templates/gym-service-deployment.yaml
+      - cad-gymapp/templates/gym-service-service.yaml
+      - cad-gymapp/templates/user-service-configmap.yaml
+      - cad-gymapp/templates/user-service-secret.yaml
+      - cad-gymapp/templates/user-service-deployment.yaml
+      - cad-gymapp/templates/user-service-service.yaml
+      - cad-gymapp/templates/workout-service-configmap.yaml
+      - cad-gymapp/templates/workout-service-secret.yaml
+      - cad-gymapp/templates/workout-service-deployment.yaml
+      - cad-gymapp/templates/workout-service-service.yaml
+      - cad-gymapp/templates/invoice-cronjob-configmap.yaml
+      - cad-gymapp/templates/invoice-cronjob.yaml
+      - cad-gymapp/templates/ingress.yaml
