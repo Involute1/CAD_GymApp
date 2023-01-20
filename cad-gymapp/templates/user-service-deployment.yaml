@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service-deployment
+  labels:
+    app: user-service
+spec:
+  selector:
+    matchLabels:
+      app: user-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-user-service:latest
+          env:
+            - name: SQL_DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: user-service-configmap
+                  key: sql_db_url
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: user-service-configmap
+                  key: spring_datasource_url
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: user-service-secret
+                  key: spring_datasource_username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-service-secret
+                  key: spring_datasource_password
+          command: ["./wait-for-it.sh"]
+          args: ["$(SQL_DB_URL)", "--", "mvn", "spring-boot:run"]
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 7082

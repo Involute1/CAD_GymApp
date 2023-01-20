@@ -27,8 +27,10 @@ deploy:
       - kubernetes/frontend-service.yaml
       - kubernetes/gym-service-deployment.yaml
       - kubernetes/gym-service-service.yaml
-      - kubernetes/cad-UserServiceDeployment.yaml
-      - kubernetes/cad-UserServiceService.yaml
+      - kubernetes/user-service-configmap.yaml
+      - kubernetes/user-service-secret.yaml
+      - kubernetes/user-service-deployment.yaml
+      - kubernetes/user-service-service.yaml
       - kubernetes/cad-WorkoutServiceDeployment.yaml
       - kubernetes/cad-WorkoutServiceService.yaml
       - kubernetes/ingress.yaml
