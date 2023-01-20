@@ -18,17 +18,23 @@ import java.util.List;
 
 public class InvoiceCronjob {
     private static final Log LOGGER = LogFactory.getLog(InvoiceCronjob.class);
-    private static final double COST_PER_USER = 0.3; // TODO: env?
+    private static final double COST_PER_USER = 0.3;
+    private static final String DEFAULT_GYM_SERVICE_URL = "http://localhost:7081";
+    private static final String DEFAULT_USER_SERVICE_URL = "http://localhost:7082";
 
     public static void main(String[] args) throws IOException, InterruptedException {
         LOGGER.info("Starting Invoice Generation");
 
-        String gymServiceName = System.getenv("GYM_SERVICE");
-        String gymServiceUrl = "http://" + (gymServiceName == null ? "localhost:7081" : gymServiceName);
+        String gymServiceUrl = System.getenv("GYM_SERVICE_URL");
+        if (gymServiceUrl == null) {
+            gymServiceUrl = DEFAULT_GYM_SERVICE_URL;
+        }
         LOGGER.debug("Gym Service URL: " + gymServiceUrl);
 
-        String userServiceName = System.getenv("GYM_SERVICE");
-        String userServiceUrl = "http://" + (userServiceName == null ? "localhost:7082" : userServiceName);
+        String userServiceUrl = System.getenv("GYM_SERVICE_URL");
+        if (userServiceUrl == null) {
+            userServiceUrl = DEFAULT_USER_SERVICE_URL;
+        }
         LOGGER.debug("User Service URL: " + userServiceUrl);
 
         LOGGER.info("Requesting gyms");
@@ -46,6 +52,7 @@ public class InvoiceCronjob {
 
 
         LOGGER.info("Creating invoices");
+        String finalUserServiceUrl = userServiceUrl;
         List<Invoice> invoices = Arrays.stream(gyms).map(gym -> {
             double amount = switch (gym.getBillingModel()) {
                 case FREE: yield 0;
@@ -55,7 +62,7 @@ public class InvoiceCronjob {
                     HttpRequest usersRequest = HttpRequest.newBuilder()
                             .header("Content-Type", "application/json")
                             .GET()
-                            .uri(URI.create(userServiceUrl + "/all/" + gym.getTenantId()))
+                            .uri(URI.create(finalUserServiceUrl + "/all/" + gym.getTenantId()))
                             .build();
                     HttpResponse<String> usersResponse;
                     try {
