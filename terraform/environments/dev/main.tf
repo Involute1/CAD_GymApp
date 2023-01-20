@@ -20,7 +20,7 @@ module "project-services" {
   project_id  = var.project_id
 
   activate_apis = [
-    "container.googleapis.com", //kubernetes
+    "container.googleapis.com",
     "artifactregistry.googleapis.com",
     "identitytoolkit.googleapis.com",
     "secretmanager.googleapis.com",
@@ -32,22 +32,20 @@ module "project-services" {
   disable_services_on_destroy = false
 }
 
-module "storage" {
-  source     = "../../modules/storage"
-  depends_on = [module.project-services]
-
-  environment = local.environment
-  project_id  = var.project_id
-  eu_location = var.eu_location
-}
+#module "storage" {
+#  source     = "../../modules/storage"
+#  depends_on = [module.project-services]
+#
+#  environment = local.environment
+#  project_id  = var.project_id
+#  eu_location = var.eu_location
+#}
 
 module "services" {
   source = "../../modules/services"
 
-  service_account_display_name = var.service_account_display_name
-  service_account_id           = var.service_account_id
-  project_id                   = var.project_id
-  environment                  = local.environment
+  project_id  = var.project_id
+  environment = local.environment
 }
 
 #module "kubernetes" {
@@ -58,5 +56,5 @@ module "services" {
 #  eu_location           = var.eu_zone
 #  machine_type          = var.machine_type
 #  node_pool_name        = var.node_pool_name
-#  service_account_email = module.services.service_account_email
+#  service_account_email = module.services.kubernetes_service_account
 #}
