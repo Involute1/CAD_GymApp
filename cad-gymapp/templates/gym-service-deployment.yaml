@@ -1,19 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gym
+  name: gym-service-deployment
+  labels:
+    app: gym-service
 spec:
   selector:
     matchLabels:
-      app: gym
-  replicas: 1
+      app: gym-service
+  replicas: 2
   template:
     metadata:
       labels:
-        app: gym
+        app: gym-service
     spec:
       containers:
-        - name: gym
+        - name: gym-service
           image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-gym-service:latest
           imagePullPolicy: Always
           ports:
