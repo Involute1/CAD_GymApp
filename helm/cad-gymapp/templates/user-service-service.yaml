@@ -7,4 +7,5 @@ spec:
     app: user-service
   ports:
     - protocol: TCP
-      port: 7082
+      port: {{ .Values.userService.port }}
+      targetPort: 7082

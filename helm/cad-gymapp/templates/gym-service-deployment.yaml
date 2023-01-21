@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: gym-service
-  replicas: 2
+  replicas: {{ .Values.replicas }}
   template:
     metadata:
       labels:
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: gym-service
-          image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-gym-service:latest
-          imagePullPolicy: Always
+          image: {{ .Values.gymService.image }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - containerPort: 7081
