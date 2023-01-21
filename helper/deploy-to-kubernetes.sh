@@ -18,13 +18,15 @@ docker push europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-workout
 docker push europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-frontend:latest
 docker push europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-invoice-cronjob:latest
 
+cd helm
+
 helm upgrade --install ingress-nginx ingress-nginx \
   --repo https://kubernetes.github.io/ingress-nginx \
   --namespace ingress-nginx --create-namespace
 helm upgrade --install postgresql-user postgresql-ha \
   --repo https://charts.bitnami.com/bitnami \
-  --values=helm/postgresql-user-values.yaml
+  --values=postgresql-user-values.yaml
 helm upgrade --install postgresql-workout postgresql-ha \
   --repo https://charts.bitnami.com/bitnami \
-  --values=helm/postgresql-workout-values.yaml
+  --values=postgresql-workout-values.yaml
 helm upgrade --install gymapp cad-gymapp
