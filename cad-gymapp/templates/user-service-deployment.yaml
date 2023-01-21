@@ -39,7 +39,7 @@ spec:
                   name: user-service-secret
                   key: spring_datasource_password
           command: ["./wait-for-it.sh"]
-          args: ["$(SQL_DB_URL)", "--", "mvn", "spring-boot:run"]
+          args: ["$(SQL_DB_URL)", "--", "java", "-jar", "/UserService.jar"]
           imagePullPolicy: Always
           ports:
             - containerPort: 7082
