@@ -1,3 +1,5 @@
+#export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
 cd ../terraform/environments/dev
 terraform init
 terraform apply -auto-approve

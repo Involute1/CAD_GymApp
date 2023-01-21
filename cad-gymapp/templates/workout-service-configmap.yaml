@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: workout-service-configmap
 data:
-  sql_db_url: "postgres:5432"  # TODO: Set correct URL
-  spring_datasource_url: "jdbc:postgresql://postgres:5432/cad1"  # TODO: Set correct URL
+  sql_db_url: "postgresql-workout-postgresql-ha-pgpool:5432"
+  spring_datasource_url: "jdbc:postgresql://postgresql-workout-postgresql-ha-pgpool:5432/cad"

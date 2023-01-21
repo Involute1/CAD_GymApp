@@ -1,0 +1,12 @@
+## PostgreSQL parameters
+##
+postgresql:
+  ## PostgreSQL configuration parameters
+  ## @param postgresql.username PostgreSQL username
+  ## @param postgresql.password PostgreSQL password
+  ## @param postgresql.database PostgreSQL database
+  ##
+  #username: cad
+  password: "test123"
+  database: "cad"
+  repmgrPassword: "qwertzuiop"
