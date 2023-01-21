@@ -27,4 +27,7 @@ helm upgrade --install postgresql-user postgresql-ha \
 helm upgrade --install postgresql-workout postgresql-ha \
   --repo https://charts.bitnami.com/bitnami \
   --values=postgresql-workout-values.yaml
+
+sleep 10  # required for ingress to fully start up
+
 helm upgrade --install gymapp cad-gymapp
