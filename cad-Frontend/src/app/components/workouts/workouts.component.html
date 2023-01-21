@@ -1,0 +1,8 @@
+<ng-container *ngIf="workouts$ | async; let workouts">
+  <div *ngFor="let workout of workouts">
+    <div>{{ workout.workoutDate | date }}</div>
+    <div *ngFor="let exercise of workout.exercises">
+      <div>{{ exercise.name }}</div>
+    </div>
+  </div>
+</ng-container>

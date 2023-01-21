@@ -143,6 +143,248 @@ export class WorkoutService {
     //return this.http.post<Workout>(`${this.workoutUrl}/workout`, workout);
   }
 
+  getWorkouts(userId: string): Observable<Workout[]> {
+    return of([
+      {
+        workoutDate: new Date(),
+
+        exercises: [
+          {
+            id: 0,
+            name: 'benchpress',
+            sets: [
+              {
+                weight: 10,
+                repetition: 10,
+              },
+              {
+                weight: 10,
+                repetition: 10,
+              },
+              {
+                weight: 10,
+                repetition: 10,
+              },
+              {
+                weight: 10,
+                repetition: 10,
+              },
+            ],
+            tags: [
+              {
+                name: 'monday',
+              },
+            ],
+            day: 'monday',
+          },
+          {
+            id: 1,
+            name: 'Pullups',
+            sets: [
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+            ],
+            tags: [
+              {
+                name: 'monday',
+              },
+            ],
+            day: 'monday',
+          },
+          {
+            id: 2,
+            name: 'Pullups',
+            sets: [
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+            ],
+            tags: [
+              {
+                name: 'monday',
+              },
+            ],
+            day: 'monday',
+          },
+          {
+            id: 3,
+            name: 'Pullups',
+            sets: [
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+            ],
+            tags: [
+              {
+                name: 'tuesday',
+              },
+            ],
+            day: 'tuesday',
+          },
+        ],
+      },
+      {
+        workoutDate: new Date(),
+
+        exercises: [
+          {
+            id: 0,
+            name: 'benchpress',
+            sets: [
+              {
+                weight: 10,
+                repetition: 10,
+              },
+              {
+                weight: 10,
+                repetition: 10,
+              },
+              {
+                weight: 10,
+                repetition: 10,
+              },
+              {
+                weight: 10,
+                repetition: 10,
+              },
+            ],
+            tags: [
+              {
+                name: 'monday',
+              },
+            ],
+            day: 'monday',
+          },
+          {
+            id: 1,
+            name: 'Pullups',
+            sets: [
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+            ],
+            tags: [
+              {
+                name: 'monday',
+              },
+            ],
+            day: 'monday',
+          },
+          {
+            id: 2,
+            name: 'Pullups',
+            sets: [
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+            ],
+            tags: [
+              {
+                name: 'monday',
+              },
+            ],
+            day: 'monday',
+          },
+          {
+            id: 3,
+            name: 'Pullups',
+            sets: [
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+              {
+                weight: 80,
+                repetition: 10,
+              },
+            ],
+            tags: [
+              {
+                name: 'tuesday',
+              },
+            ],
+            day: 'tuesday',
+          },
+        ],
+      },
+    ]);
+    //return this.http.post<Workout>(`${this.workoutUrl}/workout`, workout);
+  }
+
   private mapToWorkoutPlanView(workoutPlan: WorkoutPlan): WorkoutPlanView {
     let dailyExcercises = [];
     dailyExcercises.push(this.getExercisesForDay(workoutPlan, 'monday'));

@@ -32,6 +32,7 @@ import { RippleModule } from 'primeng/ripple';
 import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
+import { WorkoutsComponent } from './components/workouts/workouts.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MessageService } from 'primeng/api';
     HomeComponent,
     UserProfileComponent,
     CaptureWorkoutComponent,
+    WorkoutsComponent,
   ],
   imports: [
     BrowserModule,

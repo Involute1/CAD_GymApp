@@ -11,6 +11,7 @@ import { HomeComponent } from './components/home/home.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CaptureWorkoutComponent } from './components/capture-workout/capture-workout.component';
+import { WorkoutsComponent } from './components/workouts/workouts.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
@@ -34,6 +35,11 @@ const routes: Routes = [
       {
         path: 'capture-workout',
         component: CaptureWorkoutComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'workouts',
+        component: WorkoutsComponent,
         canActivate: [AuthGuard],
       },
     ],

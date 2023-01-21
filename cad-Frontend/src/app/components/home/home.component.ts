@@ -4,7 +4,7 @@ import {
   WorkoutService,
 } from '../../shared/services/workout.service';
 import { AuthService } from '../../shared/services/auth.service';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +18,8 @@ export class HomeComponent {
     private workoutService: WorkoutService,
     private authService: AuthService
   ) {
-    this.workoutPlan$ = this.workoutService
-      .getWorkoutPlan(this.authService.userData.uid)
-      .pipe(tap((asd) => console.log(asd)));
+    this.workoutPlan$ = this.workoutService.getWorkoutPlan(
+      this.authService.userData.uid
+    );
   }
 }
