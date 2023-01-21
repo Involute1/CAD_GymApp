@@ -20,6 +20,8 @@ import { HealthChecksComponent } from './components/health-checks/health-checks.
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from './components/home/home.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { HttpClientModule } from '@angular/common/http';
     ForgotPasswordComponent,
     VerifyEmailComponent,
     HealthChecksComponent,
+    HomeComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,

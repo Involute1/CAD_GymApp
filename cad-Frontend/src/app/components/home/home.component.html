@@ -1,0 +1,22 @@
+<h2>Workout Plan</h2>
+<ng-container *ngIf="workoutPlan$ | async; let workoutPlan">
+  <div class="container">
+    <div
+      class="item"
+      *ngFor="let dailyExcercies of workoutPlan.dailyExcercises"
+    >
+      {{ dailyExcercies.day }}
+      <div *ngFor="let exercise of dailyExcercies.exercises">
+        {{ exercise.name }}
+        Sets:
+        <div *ngFor="let set of exercise.sets">
+          {{ set.repetition + " repetitions with " + set.weight + " kg; " }}
+        </div>
+        Tags:
+        <div *ngFor="let tag of exercise.tags">
+          {{ " " + tag.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

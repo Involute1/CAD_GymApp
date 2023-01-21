@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { GymService } from '../../services/gym.service';
-import { UserService } from '../../services/user.service';
-import { WorkoutService } from '../../services/workout.service';
+import { GymService } from '../../shared/services/gym.service';
+import { UserService } from '../../shared/services/user.service';
+import { WorkoutService } from '../../shared/services/workout.service';
 import { Observable } from 'rxjs';
 
 @Component({

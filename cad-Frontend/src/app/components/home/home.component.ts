@@ -1,0 +1,25 @@
+import { Component } from '@angular/core';
+import {
+  WorkoutPlanView,
+  WorkoutService,
+} from '../../shared/services/workout.service';
+import { AuthService } from '../../shared/services/auth.service';
+import { Observable, tap } from 'rxjs';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
+})
+export class HomeComponent {
+  workoutPlan$: Observable<WorkoutPlanView>;
+
+  constructor(
+    private workoutService: WorkoutService,
+    private authService: AuthService
+  ) {
+    this.workoutPlan$ = this.workoutService
+      .getWorkoutPlan(this.authService.userData.uid)
+      .pipe(tap((asd) => console.log(asd)));
+  }
+}
