@@ -138,6 +138,11 @@ export class WorkoutService {
     );*/
   }
 
+  createWorkout(workout: Workout): Observable<Workout> {
+    return of({} as Workout);
+    //return this.http.post<Workout>(`${this.workoutUrl}/workout`, workout);
+  }
+
   private mapToWorkoutPlanView(workoutPlan: WorkoutPlan): WorkoutPlanView {
     let dailyExcercises = [];
     dailyExcercises.push(this.getExercisesForDay(workoutPlan, 'monday'));
@@ -169,6 +174,11 @@ export interface WorkoutPlanView {
   dailyExcercises: DailyExercies[];
 }
 
+export interface Workout {
+  workoutDate: Date;
+  exercises: Exercise[];
+}
+
 export interface DailyExercies {
   exercises: Exercise[];
   day: string;
@@ -180,11 +190,11 @@ export interface WorkoutPlan {
 }
 
 export interface Exercise {
-  id: number;
+  id?: number;
   name: string;
   sets: Set[];
   tags: Tag[];
-  day: string;
+  day?: string;
 }
 
 export interface Set {

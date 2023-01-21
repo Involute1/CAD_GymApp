@@ -10,6 +10,7 @@ import { AuthGuard } from './shared/guard/auth.guard';
 import { HomeComponent } from './components/home/home.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CaptureWorkoutComponent } from './components/capture-workout/capture-workout.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
@@ -28,6 +29,11 @@ const routes: Routes = [
       {
         path: 'user',
         component: UserProfileComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'capture-workout',
+        component: CaptureWorkoutComponent,
         canActivate: [AuthGuard],
       },
     ],
