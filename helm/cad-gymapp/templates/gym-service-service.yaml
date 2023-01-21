@@ -7,4 +7,5 @@ spec:
     app: gym-service
   ports:
     - protocol: TCP
-      port: 7081
+      port: {{ .Values.gymService.port }}
+      targetPort: 7081

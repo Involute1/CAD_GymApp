@@ -3,13 +3,13 @@ kind: CronJob
 metadata:
   name: invoice-cronjob
 spec:
-  schedule: '* * 1 * *'
+  schedule: "{{ .Values.invoiceCronjob.schedule }}"
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-            - image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-invoice-cronjob:latest
+            - image: {{ .Values.invoiceCronjob.image }}
               env:
                 - name: GYM_SERVICE_URL
                   valueFrom:
@@ -21,6 +21,6 @@ spec:
                     configMapKeyRef:
                       name: invoice-cronjob-configmap
                       key: user_service_url
-              imagePullPolicy: Always
+              imagePullPolicy: {{ .Values.imagePullPolicy }}
               name: invoice-cronjob
-          restartPolicy: OnFailure
+          restartPolicy: {{ .Values.invoiceCronjob.restartPolicy }}

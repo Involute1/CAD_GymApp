@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workout-service-configmap
+data:
+  sql_db_url: {{ .Values.workoutService.sqlDbUrl }}
+  spring_datasource_url: {{ .Values.workoutService.springDatasourceUrl }}

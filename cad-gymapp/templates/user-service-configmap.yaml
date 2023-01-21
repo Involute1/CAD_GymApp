@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: user-service-configmap
-data:
-  sql_db_url: "postgresql-user-postgresql-ha-pgpool:5432"
-  spring_datasource_url: "jdbc:postgresql://postgresql-user-postgresql-ha-pgpool:5432/cad"

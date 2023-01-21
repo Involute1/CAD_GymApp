@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: workout-service
-  replicas: 2
+  replicas: {{ .Values.replicas }}
   template:
     metadata:
       labels:
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: workout
-          image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-workout-service:latest
+          image: {{ .Values.workoutService.image }}
           env:
             - name: SQL_DB_URL
               valueFrom:
@@ -40,6 +40,6 @@ spec:
                   key: spring_datasource_password
           command: [ "./wait-for-it.sh" ]
           args: [ "$(SQL_DB_URL)", "--", "java", "-jar", "/WorkoutService.jar" ]
-          imagePullPolicy: Always
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - containerPort: 7083

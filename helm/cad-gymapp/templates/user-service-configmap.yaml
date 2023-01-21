@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-service-configmap
+data:
+  sql_db_url: {{ .Values.userService.sqlDbUrl }}
+  spring_datasource_url: {{ .Values.userService.springDatasourceUrl }}

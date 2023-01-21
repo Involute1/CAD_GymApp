@@ -7,4 +7,5 @@ spec:
     app: workout-service
   ports:
     - protocol: TCP
-      port: 7083
+      port: {{ .Values.workoutService.port }}
+      targetPort: 7083
