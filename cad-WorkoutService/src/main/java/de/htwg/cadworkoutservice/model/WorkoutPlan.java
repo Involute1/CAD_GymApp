@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "WORKOUT_PLAN")
@@ -26,6 +27,12 @@ public class WorkoutPlan {
     @Column(name = "EXERCISES")
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Exercise.class, mappedBy = "id")
     private List<Exercise> exercises;
+
+    @Column(name = "USER_ID")
+    private UUID userId;
+
+    @Column(name = "CREATOR_ID")
+    private UUID creatorId;
 
     public List<Exercise> getExercises() {
         return exercises;

@@ -31,7 +31,7 @@ public class InvoiceCronjob {
         }
         LOGGER.debug("Gym Service URL: " + gymServiceUrl);
 
-        String userServiceUrl = System.getenv("GYM_SERVICE_URL");
+        String userServiceUrl = System.getenv("USER_SERVICE_URL");
         if (userServiceUrl == null) {
             userServiceUrl = DEFAULT_USER_SERVICE_URL;
         }
@@ -55,8 +55,10 @@ public class InvoiceCronjob {
         String finalUserServiceUrl = userServiceUrl;
         List<Invoice> invoices = Arrays.stream(gyms).map(gym -> {
             double amount = switch (gym.getBillingModel()) {
-                case FREE: yield 0;
-                case STANDARD: yield 100;
+                case FREE:
+                    yield 0;
+                case STANDARD:
+                    yield 100;
                 case ENTERPRISE: {
                     LOGGER.info("Requesting users for gym");
                     HttpRequest usersRequest = HttpRequest.newBuilder()
