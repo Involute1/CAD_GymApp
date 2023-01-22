@@ -56,8 +56,7 @@ jobs:
         run: |
           DEPLOYMENT_TYPE=${{ needs.set-deployment-type.outputs.deployment-type }}
           echo $DEPLOYMENT_TYPE  # debug
-          cd terraform/environments/$(DEPLOYMENT_TYPE)/
-          pwd  # debug
+          cd terraform/environments/$DEPLOYMENT_TYPE/ || exit -1
       -
         name: Terraform Init
         run: terraform init
@@ -124,7 +123,7 @@ jobs:
         run: |
           DEPLOYMENT_TYPE=${{ needs.set-deployment-type.outputs.deployment-type }}
           export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-          gcloud container clusters get-credentials cluster-$(DEPLOYMENT_TYPE)
+          gcloud container clusters get-credentials cluster-$DEPLOYMENT_TYPE
       -
         name: Deploy application
         run: |
@@ -133,7 +132,7 @@ jobs:
             --repo https://kubernetes.github.io/ingress-nginx \
             --namespace ingress-nginx --create-namespace
           
-          cd helm
+          cd helm || exit -1
           if [[ $DEPLOYMENT_TYPE == 'dev' ]]; then
             echo "Deploying to dev"
             helm upgrade --install postgresql-user postgresql-ha \
@@ -176,15 +175,15 @@ jobs:
                 helm upgrade --install postgresql-user postgresql-ha \                                                                                               
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-user-values.yaml \
-                  --namespace enterprise-$(client) --create-namespace
+                  --namespace enterprise-$client --create-namespace
                 helm upgrade --install postgresql-workout postgresql-ha \                                                                                                  
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-workout-values.yaml \
-                  --namespace enterprise-$(client) --create-namespace
+                  --namespace enterprise-$client --create-namespace
                 helm upgrade --install gymapp cad-gymapp \
                   --values=gymapp-staging-enterprise-deployment.yaml \
-                  --set ingress.host="$(client).gymapp-htwg.com" \
-                  --namespace enterprise-$(client) --create-namespace
+                  --set ingress.host="$client.gymapp-htwg.com" \
+                  --namespace enterprise-$client --create-namespace
               done < enterprise-clients.txt
           else
             echo "Deploying to prod"
@@ -218,14 +217,14 @@ jobs:
                 helm upgrade --install postgresql-user postgresql-ha \                                                                                               
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-user-values.yaml \
-                  --namespace enterprise-$(client) --create-namespace
+                  --namespace enterprise-$client --create-namespace
                 helm upgrade --install postgresql-workout postgresql-ha \                                                                                                  
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-workout-values.yaml \
-                  --namespace enterprise-$(client) --create-namespace
+                  --namespace enterprise-$client --create-namespace
                 helm upgrade --install gymapp cad-gymapp \
                   --values=gymapp-prod-enterprise-deployment.yaml \
-                  --set ingress.host="$(client).gymapp-htwg.com" \
-                  --namespace enterprise-$(client) --create-namespace
+                  --set ingress.host="$client.gymapp-htwg.com" \
+                  --namespace enterprise-$client --create-namespace
               done < enterprise-clients.txt
           fi
