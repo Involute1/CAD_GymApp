@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Exercise implements Serializable {
+    // TODO: Day?
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

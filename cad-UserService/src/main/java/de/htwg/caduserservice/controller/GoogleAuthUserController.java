@@ -1,20 +1,32 @@
 package de.htwg.caduserservice.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.auth.*;
 import com.google.firebase.auth.multitenancy.TenantAwareFirebaseAuth;
-import de.htwg.caduserservice.model.UserData;
+import de.htwg.caduserservice.model.*;
+import de.htwg.caduserservice.repository.IUserRepository;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
+@AllArgsConstructor
 public class GoogleAuthUserController {
     private static final Log LOGGER = LogFactory.getLog(GoogleAuthUserController.class);
+    private static final String DEFAULT_GYM_SERVICE_URL = "http://localhost:7081";
+
+    private IUserRepository userRepository;
+    private GoogleAuthTenantController googleAuthTenantController;
     //https://cloud.google.com/identity-platform/docs/multi-tenancy-managing-tenants#creating_a_user
 
     @GetMapping("/verify")
@@ -41,25 +53,53 @@ public class GoogleAuthUserController {
         }
     }
 
-    @PostMapping("/register/{tenantId}")
-    public UserData registerUserWithTenant(UserData userData, @PathVariable String tenantId) {
+    @PostMapping("/user")
+    public UserData registerUserWithTenant(RegisterUserData registerUserData) throws IOException, InterruptedException {
+        String tenantId;
+        if (registerUserData.role().equals(Roles.GymOwner)) {
+            tenantId = googleAuthTenantController.registerTenant(registerUserData.gymName()).tenantId();
+
+
+            String gymServiceUrl = System.getenv("GYM_SERVICE_URL");
+            if (gymServiceUrl == null) {
+                gymServiceUrl = DEFAULT_GYM_SERVICE_URL;
+            }
+
+            var objectMapper = new ObjectMapper();
+            String requestBody = objectMapper
+                    .writeValueAsString(new Gym(registerUserData.gymName(), "Description", registerUserData.billingModel()));
+
+            HttpClient httpClient = HttpClient.newBuilder().build();
+            HttpRequest gymsRequest = HttpRequest.newBuilder()
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .uri(URI.create(gymServiceUrl))
+                    .build();
+            httpClient.send(gymsRequest, HttpResponse.BodyHandlers.ofString());
+        } else {
+            tenantId = registerUserData.tenantId();
+        }
+
         if (StringUtils.isBlank(tenantId)) {
             LOGGER.error("tenantId is null or empty on registerUserWithTenant");
             return null;
         }
-        if (StringUtils.isBlank(userData.displayName()) || StringUtils.isBlank(userData.email()) || StringUtils.isBlank(userData.password())) {
-            LOGGER.error("userData has empty values on registerUserWithTenant");
+        if (StringUtils.isBlank(registerUserData.displayName()) || StringUtils.isBlank(registerUserData.email()) || StringUtils.isBlank(registerUserData.password())) {
+            LOGGER.error("registerUserData has empty values on registerUserWithTenant");
             return null;
         }
         TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
                 .getAuthForTenant(tenantId);
+
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
-                .setEmail(userData.email())
-                .setDisplayName(userData.displayName())
-                .setPassword(userData.password());
+                .setEmail(registerUserData.email())
+                .setDisplayName(registerUserData.displayName())
+                .setPassword(registerUserData.password());
         try {
             UserRecord createdUser = tenantAuth.createUser(request);
-            return new UserData(UUID.fromString(createdUser.getUid()), createdUser.getEmail(), "", createdUser.getDisplayName(), createdUser.getPhoneNumber(), createdUser.isEmailVerified(), createdUser.isDisabled(), createdUser.getPhotoUrl(), createdUser.getTenantId());
+            User newUser = new User(createdUser.getUid(), registerUserData.role());
+            User savedUser = userRepository.save(newUser);
+            return new UserData(savedUser.getRole(), createdUser.getUid(), createdUser.getEmail(), createdUser.getDisplayName(), createdUser.isEmailVerified(), createdUser.getTenantId());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -74,7 +114,10 @@ public class GoogleAuthUserController {
         try {
             List<UserData> userDataList = new ArrayList<>();
             ListUsersPage users = tenantAuth.listUsers(null);
-            users.iterateAll().forEach(user -> userDataList.add(new UserData(UUID.fromString(user.getUid()), user.getEmail(), "", user.getDisplayName(), user.getPhoneNumber(), user.isEmailVerified(), user.isDisabled(), user.getPhotoUrl(), user.getTenantId())));
+            users.iterateAll().forEach(user -> {
+                User savedUser = userRepository.findByUid(user.getUid());
+                userDataList.add(new UserData(savedUser.getRole(), user.getUid(), user.getEmail(), user.getDisplayName(), user.isEmailVerified(), user.getTenantId()));
+            });
             return userDataList;
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
@@ -97,7 +140,8 @@ public class GoogleAuthUserController {
                 .getAuthForTenant(tenantId);
         try {
             UserRecord user = tenantAuth.getUser(uid);
-            return new UserData(UUID.fromString(user.getUid()), user.getEmail(), "", user.getDisplayName(), user.getPhoneNumber(), user.isEmailVerified(), user.isDisabled(), user.getPhotoUrl(), user.getTenantId());
+            User savedUser = userRepository.findByUid(user.getUid());
+            return new UserData(savedUser.getRole(), user.getUid(), user.getEmail(), user.getDisplayName(), user.isEmailVerified(), user.getTenantId());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
             return null;
@@ -115,7 +159,7 @@ public class GoogleAuthUserController {
             LOGGER.error("tenantId is null or empty on updateUser");
             return null;
         }
-        if (StringUtils.isBlank(updatedUserData.displayName()) || StringUtils.isBlank(updatedUserData.email()) || StringUtils.isBlank(updatedUserData.password())) {
+        if (StringUtils.isBlank(updatedUserData.displayName())) {
             LOGGER.error("updatedUserData has empty values on updateUser");
             return null;
         }
@@ -123,16 +167,11 @@ public class GoogleAuthUserController {
                 .getAuthForTenant(tenantId);
 
         UserRecord.UpdateRequest request = new UserRecord.UpdateRequest(uid)
-                .setEmail(updatedUserData.email())
-                .setPhoneNumber(updatedUserData.phoneNumber())
-                .setEmailVerified(updatedUserData.isEmailVerified())
-                .setPassword(updatedUserData.password())
-                .setDisplayName(updatedUserData.displayName())
-                .setPhotoUrl(updatedUserData.photoUrl())
-                .setDisabled(updatedUserData.isDisabled());
+                .setDisplayName(updatedUserData.displayName());
         try {
             UserRecord userRecord = tenantAuth.updateUser(request);
-            return new UserData(UUID.fromString(userRecord.getUid()), userRecord.getEmail(), "", userRecord.getDisplayName(), userRecord.getPhoneNumber(), userRecord.isEmailVerified(), userRecord.isDisabled(), userRecord.getPhotoUrl(), userRecord.getTenantId());
+            User savedUser = userRepository.findByUid(userRecord.getUid());
+            return new UserData(savedUser.getRole(), userRecord.getUid(), userRecord.getEmail(), userRecord.getDisplayName(), userRecord.isEmailVerified(), userRecord.getTenantId());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
             return null;

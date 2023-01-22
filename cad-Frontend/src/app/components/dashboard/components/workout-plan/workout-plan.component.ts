@@ -11,9 +11,9 @@ import {
   Exercise,
   WorkoutPlan,
   WorkoutService,
-} from '../../shared/services/workout.service';
+} from '../../../../shared/services/workout.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-workout-plan',

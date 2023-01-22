@@ -1,33 +1,31 @@
 package de.htwg.caduserservice.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "USER")
+@Data
 public class User {
+
+    public User() {
+
+    }
+
+    public User(String uid, Roles role) {
+        this.role = role;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
-    private UUID id;
+    private Long id;
+
+    @Column(name = "UID", nullable = false)
+    private String uid;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ROLE", nullable = false)
     private Roles role;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Roles getRole() {
-        return role;
-    }
-
-    public void setRole(Roles role) {
-        this.role = role;
-    }
 }

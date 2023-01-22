@@ -19,7 +19,7 @@
           placeholder="Password"
           #userPassword
           required
-          (keyup.enter)="authService.SignIn(userName.value, userPassword.value)"
+          (keyup.enter)="authService.signIn(userName.value, userPassword.value)"
         />
       </div>
 
@@ -28,26 +28,10 @@
         <button
           class="btn btnPrimary"
           type="submit"
-          (keyup.enter)="authService.SignIn(userName.value, userPassword.value)"
-          (click)="authService.SignIn(userName.value, userPassword.value)"
+          (keyup.enter)="authService.signIn(userName.value, userPassword.value)"
+          (click)="authService.signIn(userName.value, userPassword.value)"
         >
           Log in
-        </button>
-      </div>
-
-      <div class="formGroup">
-        <span class="or"><span class="orInner">Or</span></span>
-      </div>
-
-      <!-- Calling GoogleAuth Api from AuthService -->
-      <div class="formGroup">
-        <button
-          type="button"
-          class="btn googleBtn"
-          (click)="authService.GoogleAuth()"
-        >
-          <i class="fab fa-google-plus-g"></i>
-          Log in with Google
         </button>
       </div>
 

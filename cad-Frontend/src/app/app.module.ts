@@ -10,19 +10,19 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
 
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { SignInComponent } from './components/sign-in/sign-in.component';
-import { SignUpComponent } from './components/sign-up/sign-up.component';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import { SignInComponent } from './components/auth/sign-in/sign-in.component';
+import { SignUpComponent } from './components/auth/sign-up/sign-up.component';
+import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
+import { VerifyEmailComponent } from './components/auth/verify-email/verify-email.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './shared/services/auth.service';
-import { HealthChecksComponent } from './components/health-checks/health-checks.component';
+import { HealthChecksComponent } from './components/dashboard/components/health-checks/health-checks.component';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { HomeComponent } from './components/home/home.component';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { CaptureWorkoutComponent } from './components/capture-workout/capture-workout.component';
+import { HomeComponent } from './components/dashboard/components/home/home.component';
+import { UserProfileComponent } from './components/dashboard/components/user-profile/user-profile.component';
+import { CaptureWorkoutComponent } from './components/dashboard/components/capture-workout/capture-workout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
@@ -32,8 +32,8 @@ import { RippleModule } from 'primeng/ripple';
 import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
-import { WorkoutsComponent } from './components/workouts/workouts.component';
-import { WorkoutPlanComponent } from './components/workout-plan/workout-plan.component';
+import { WorkoutsComponent } from './components/dashboard/components/workouts/workouts.component';
+import { WorkoutPlanComponent } from './components/dashboard/components/workout-plan/workout-plan.component';
 
 @NgModule({
   declarations: [

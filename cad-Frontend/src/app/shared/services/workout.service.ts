@@ -77,8 +77,8 @@ export class WorkoutService {
   }
 
   createWorkoutPlan(workoutPlan: WorkoutPlan): Observable<WorkoutPlan> {
-    return of({} as WorkoutPlan);
-    //return this.http.post<Workout>(`${this.workoutUrl}/workout`, workout);
+    return of(workoutPlan);
+    //return this.http.post<WorkoutPlan>(`${this.workoutUrl}/workout-plan`, workoutPlan);
   }
 
   getWorkouts(userId: string): Observable<Workout[]> {

@@ -15,6 +15,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class WorkoutPlan {
+    //TODO: What USer?
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Id

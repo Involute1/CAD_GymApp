@@ -1,7 +1,5 @@
 package de.htwg.caduserservice.model;
 
-import java.util.UUID;
-
-public record UserData(UUID uid, String email, String password, String displayName, String phoneNumber,
-                       boolean isEmailVerified, boolean isDisabled, String photoUrl, String tenantId) {
+public record UserData(Roles role, String uid, String email, String displayName,
+                       boolean isEmailVerified, String tenantId) {
 }

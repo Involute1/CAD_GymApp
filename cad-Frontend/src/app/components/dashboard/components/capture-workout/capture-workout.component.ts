@@ -11,7 +11,7 @@ import {
   Exercise,
   Workout,
   WorkoutService,
-} from '../../shared/services/workout.service';
+} from '../../../../shared/services/workout.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({

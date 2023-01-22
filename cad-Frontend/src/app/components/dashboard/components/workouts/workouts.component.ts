@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Workout, WorkoutService } from '../../shared/services/workout.service';
+import {
+  Workout,
+  WorkoutService,
+} from '../../../../shared/services/workout.service';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-workouts',
