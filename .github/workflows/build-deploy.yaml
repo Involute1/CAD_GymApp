@@ -80,6 +80,8 @@ jobs:
       - run-terraform
     uses: ./.github/workflows/docker-build-push.yaml
     with:
+      server: europe-west3-docker.pkg.dev
+      repo: cad-repo-${{ needs.set-deployment-type.outputs.deployment-type }}
       deployment-type: ${{ needs.set-deployment-type.outputs.deployment-type }}
     secrets:
       GCP_KEY: ${{ secrets.GCP_KEY }}
@@ -180,6 +182,7 @@ jobs:
                   --namespace enterprise-$(client) --create-namespace
                 helm upgrade --install gymapp cad-gymapp \
                   --values=gymapp-staging-enterprise-deployment.yaml \
+                  --set ingress.host="$(client).gymapp-htwg.com" \
                   --namespace enterprise-$(client) --create-namespace
               done < enterprise-clients.txt
           else
@@ -221,6 +224,7 @@ jobs:
                   --namespace enterprise-$(client) --create-namespace
                 helm upgrade --install gymapp cad-gymapp \
                   --values=gymapp-prod-enterprise-deployment.yaml \
+                  --set ingress.host="$(client).gymapp-htwg.com" \
                   --namespace enterprise-$(client) --create-namespace
               done < enterprise-clients.txt
           fi
