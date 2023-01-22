@@ -1,4 +1,4 @@
-# This workflow (template) will run the following jobs:
+# This reusable workflow will run the following jobs:
 # - Build the docker images
 # - When all builds were successful, push the new images
 
@@ -91,7 +91,7 @@ jobs:
       - build-workout-service
       - build-invoice-cronjob
     steps:
-      run: echo "docker build finished for all components"
+      - run: echo "docker build finished for all components"
 
   push-frontend:
     name: Push Frontend
