@@ -1,0 +1,17 @@
+ingress:
+  host: "premium.gymapp-htwg.com"
+
+frontend:
+  image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-prod/cad-gym-frontend:latest
+
+gymService:
+  image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-prod/cad-gym-gym-service:latest
+
+invoiceCronjob:
+  image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-prod/cad-gym-invoice-cronjob:latest
+
+userService:
+  image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-prod/cad-gym-user-service:latest
+
+workoutService:
+  image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-prod/cad-gym-workout-service:latest
