@@ -21,4 +21,10 @@ public class FirebaseGym implements Serializable {
     private String description;
     private BillingModel billingModel;
     private List<FirebaseInvoice> invoices;
+
+    public FirebaseGym(String name, String description, BillingModel billingModel) {
+        this.name = name;
+        this.description = description;
+        this.billingModel = billingModel;
+    }
 }

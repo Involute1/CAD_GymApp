@@ -1,3 +1,3 @@
-output "service_account_email" {
-  value = google_service_account.tf_account.email
+output "kubernetes_service_account" {
+  value = google_service_account.tf_account_kubernetes.email
 }

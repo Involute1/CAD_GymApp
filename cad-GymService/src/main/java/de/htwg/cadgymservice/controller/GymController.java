@@ -27,7 +27,7 @@ public class GymController {
 
     @PostMapping("/")
     public Gym insertGym(@RequestBody Gym gym) {
-        FirebaseGym firebaseGym = gymService.saveGym(new FirebaseGym());
+        FirebaseGym firebaseGym = gymService.saveGym(new FirebaseGym(gym.getName(), gym.getDescription(), gym.getBillingModel()));
         Blob blob = gymBucketService.saveLogo(firebaseGym.getFirebaseId(), gym.getLogo());
         return new Gym(firebaseGym.getFirebaseId(), gym.getName(), gym.getTenantId(), gym.getDescription(), firebaseGym.getBillingModel(), blob.getContent());
     }

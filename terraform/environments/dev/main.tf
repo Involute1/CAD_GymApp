@@ -2,7 +2,7 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "4.46.0"
+      version = "4.49.0"
     }
   }
 }
@@ -20,7 +20,7 @@ module "project-services" {
   project_id  = var.project_id
 
   activate_apis = [
-    "container.googleapis.com", //kubernetes
+    "container.googleapis.com",
     "artifactregistry.googleapis.com",
     "identitytoolkit.googleapis.com",
     "secretmanager.googleapis.com",
@@ -44,10 +44,8 @@ module "storage" {
 module "services" {
   source = "../../modules/services"
 
-  service_account_display_name = var.service_account_display_name
-  service_account_id           = var.service_account_id
-  project_id                   = var.project_id
-  environment                  = local.environment
+  project_id  = var.project_id
+  environment = local.environment
 }
 
 module "kubernetes" {
@@ -58,5 +56,13 @@ module "kubernetes" {
   eu_location           = var.eu_zone
   machine_type          = var.machine_type
   node_pool_name        = var.node_pool_name
-  service_account_email = module.services.service_account_email
+  service_account_email = module.services.kubernetes_service_account
+}
+
+module "monitoring" {
+  source     = "../../modules/monitoring"
+  depends_on = [module.services, module.project-services]
+
+  project_id  = var.project_id
+  environment = local.environment
 }

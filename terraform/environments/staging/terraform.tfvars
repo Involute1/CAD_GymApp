@@ -1,9 +1,7 @@
-project_id                   = "cad-gym-app"
-eu_zone                      = "europe-west3-c"
-eu_location                  = "europe-west3"
-service_account_id           = "staging123456789"
-service_account_display_name = "staging-terraform-service-account"
-machine_type                 = "c2d-standard-2"
-cluster_name                 = "cluster-staging"
-node_pool_name               = "pool-staging"
-enable_apis                  = true
+project_id     = "cad-gym-app"
+eu_zone        = "europe-west3-c"
+eu_location    = "europe-west3"
+machine_type   = "c2d-standard-2"
+cluster_name   = "cluster-staging"
+node_pool_name = "pool-staging"
+enable_apis    = true

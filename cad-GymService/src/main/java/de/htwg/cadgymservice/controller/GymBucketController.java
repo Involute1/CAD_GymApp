@@ -18,22 +18,22 @@ public class GymBucketController {
     }
 
     @PostMapping("/{firebaseId}")
-    public Blob insertGym(@PathVariable String firebaseId, @RequestBody byte[] data) {
+    public Blob insertGymLogo(@PathVariable String firebaseId, @RequestBody byte[] data) {
         return gymBucketService.saveLogo(firebaseId, data);
     }
 
     @GetMapping("/{firebaseId}")
-    public Blob getGymById(@PathVariable String firebaseId) {
+    public Blob getGymLogoById(@PathVariable String firebaseId) {
         return gymBucketService.getLogo(firebaseId);
     }
 
     @DeleteMapping("/{firebaseId}")
-    public boolean deleteGym(@PathVariable String firebaseId) {
+    public boolean deleteGymLogo(@PathVariable String firebaseId) {
         return gymBucketService.deleteLogo(firebaseId);
     }
 
     @PatchMapping("/{tenantId}")
-    public Blob updateGym(@PathVariable String tenantId, @RequestBody byte[] data) {
+    public Blob updateGymLogo(@PathVariable String tenantId, @RequestBody byte[] data) {
         return gymBucketService.updateLogo(tenantId, data);
     }
 }
