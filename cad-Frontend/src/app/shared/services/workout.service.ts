@@ -21,113 +21,46 @@ export class WorkoutService {
         {
           id: 0,
           name: 'benchpress',
-          sets: [
-            {
-              weight: 10,
-              repetition: 10,
-            },
-            {
-              weight: 10,
-              repetition: 10,
-            },
-            {
-              weight: 10,
-              repetition: 10,
-            },
-            {
-              weight: 10,
-              repetition: 10,
-            },
-          ],
-          tags: [
-            {
-              name: 'monday',
-            },
-          ],
+          sets: 4,
+          repetition: 10,
+          weight: 10,
+          tag: 'chest',
           day: 'monday',
         },
         {
           id: 1,
-          name: 'Pullups',
-          sets: [
-            {
-              weight: 80,
-              repetition: 10,
-            },
-            {
-              weight: 80,
-              repetition: 10,
-            },
-            {
-              weight: 80,
-              repetition: 10,
-            },
-            {
-              weight: 80,
-              repetition: 10,
-            },
-          ],
-          tags: [
-            {
-              name: 'monday',
-            },
-          ],
+          name: 'benchpress',
+          sets: 4,
+          repetition: 10,
+          weight: 10,
+          tag: 'chest',
           day: 'monday',
         },
         {
           id: 2,
-          name: 'Pullups',
-          sets: [
-            {
-              weight: 80,
-              repetition: 10,
-            },
-            {
-              weight: 80,
-              repetition: 10,
-            },
-            {
-              weight: 80,
-              repetition: 10,
-            },
-            {
-              weight: 80,
-              repetition: 10,
-            },
-          ],
-          tags: [
-            {
-              name: 'monday',
-            },
-          ],
+          name: 'benchpress',
+          sets: 4,
+          repetition: 10,
+          weight: 10,
+          tag: 'chest',
           day: 'monday',
         },
         {
           id: 3,
-          name: 'Pullups',
-          sets: [
-            {
-              weight: 80,
-              repetition: 10,
-            },
-            {
-              weight: 80,
-              repetition: 10,
-            },
-            {
-              weight: 80,
-              repetition: 10,
-            },
-            {
-              weight: 80,
-              repetition: 10,
-            },
-          ],
-          tags: [
-            {
-              name: 'tuesday',
-            },
-          ],
+          name: 'benchpress',
+          sets: 4,
+          repetition: 10,
+          weight: 10,
+          tag: 'chest',
+          day: 'tueday',
+        },
+        {
+          id: 4,
+          name: 'benchpress',
+          sets: 4,
+          repetition: 10,
+          weight: 10,
+          tag: 'chest',
           day: 'tuesday',
         },
       ],
@@ -143,241 +76,24 @@ export class WorkoutService {
     //return this.http.post<Workout>(`${this.workoutUrl}/workout`, workout);
   }
 
+  createWorkoutPlan(workoutPlan: WorkoutPlan): Observable<WorkoutPlan> {
+    return of({} as WorkoutPlan);
+    //return this.http.post<Workout>(`${this.workoutUrl}/workout`, workout);
+  }
+
   getWorkouts(userId: string): Observable<Workout[]> {
     return of([
       {
         workoutDate: new Date(),
-
         exercises: [
           {
             id: 0,
             name: 'benchpress',
-            sets: [
-              {
-                weight: 10,
-                repetition: 10,
-              },
-              {
-                weight: 10,
-                repetition: 10,
-              },
-              {
-                weight: 10,
-                repetition: 10,
-              },
-              {
-                weight: 10,
-                repetition: 10,
-              },
-            ],
-            tags: [
-              {
-                name: 'monday',
-              },
-            ],
+            sets: 4,
+            repetition: 10,
+            weight: 10,
+            tag: 'chest',
             day: 'monday',
-          },
-          {
-            id: 1,
-            name: 'Pullups',
-            sets: [
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-            ],
-            tags: [
-              {
-                name: 'monday',
-              },
-            ],
-            day: 'monday',
-          },
-          {
-            id: 2,
-            name: 'Pullups',
-            sets: [
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-            ],
-            tags: [
-              {
-                name: 'monday',
-              },
-            ],
-            day: 'monday',
-          },
-          {
-            id: 3,
-            name: 'Pullups',
-            sets: [
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-            ],
-            tags: [
-              {
-                name: 'tuesday',
-              },
-            ],
-            day: 'tuesday',
-          },
-        ],
-      },
-      {
-        workoutDate: new Date(),
-
-        exercises: [
-          {
-            id: 0,
-            name: 'benchpress',
-            sets: [
-              {
-                weight: 10,
-                repetition: 10,
-              },
-              {
-                weight: 10,
-                repetition: 10,
-              },
-              {
-                weight: 10,
-                repetition: 10,
-              },
-              {
-                weight: 10,
-                repetition: 10,
-              },
-            ],
-            tags: [
-              {
-                name: 'monday',
-              },
-            ],
-            day: 'monday',
-          },
-          {
-            id: 1,
-            name: 'Pullups',
-            sets: [
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-            ],
-            tags: [
-              {
-                name: 'monday',
-              },
-            ],
-            day: 'monday',
-          },
-          {
-            id: 2,
-            name: 'Pullups',
-            sets: [
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-            ],
-            tags: [
-              {
-                name: 'monday',
-              },
-            ],
-            day: 'monday',
-          },
-          {
-            id: 3,
-            name: 'Pullups',
-            sets: [
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-              {
-                weight: 80,
-                repetition: 10,
-              },
-            ],
-            tags: [
-              {
-                name: 'tuesday',
-              },
-            ],
-            day: 'tuesday',
           },
         ],
       },
@@ -434,16 +150,9 @@ export interface WorkoutPlan {
 export interface Exercise {
   id?: number;
   name: string;
-  sets: Set[];
-  tags: Tag[];
-  day?: string;
-}
-
-export interface Set {
+  sets: number;
   weight: number;
   repetition: number;
-}
-
-export interface Tag {
-  name: string;
+  tag: string;
+  day?: string;
 }

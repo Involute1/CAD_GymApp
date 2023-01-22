@@ -2,7 +2,7 @@
 <form [formGroup]="formGroup">
   <mat-form-field>
     <mat-label>Date</mat-label>
-    <input matInput formControlName="date" [matDatepicker]="picker" />
+    <input matInput formControlName="date" [matDatepicker]="picker"/>
     <mat-hint>MM/DD/YYYY</mat-hint>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
@@ -17,6 +17,7 @@
           <th>Sets</th>
           <th>Repetitions</th>
           <th>Weight</th>
+          <th>Tag</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-controls let-ri="rowIndex">
@@ -26,17 +27,17 @@
           </td>
           <td>
             <mat-form-field class="example-full-width">
-              <input matInput formControlName="name" />
+              <input matInput formControlName="name"/>
             </mat-form-field>
           </td>
           <td>
             <mat-form-field class="example-full-width">
-              <input matInput formControlName="sets" />
+              <input matInput formControlName="sets"/>
             </mat-form-field>
           </td>
           <td>
             <mat-form-field class="example-full-width">
-              <input matInput formControlName="repetition" />
+              <input matInput formControlName="repetition"/>
             </mat-form-field>
           </td>
           <td>
@@ -46,6 +47,11 @@
                   {{ food.value }}
                 </mat-option>
               </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <input matInput formControlName="tag"/>
             </mat-form-field>
           </td>
         </tr>

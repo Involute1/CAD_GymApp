@@ -32,12 +32,14 @@ export class CaptureWorkoutComponent implements OnInit {
       sets: 3,
       repetition: 10,
       weight: 50,
+      tag: 'asd',
     },
     {
       name: 'Pullup',
       sets: 3,
       repetition: 5,
       weight: 80,
+      tag: 'bcd',
     },
   ];
 
@@ -80,23 +82,10 @@ export class CaptureWorkoutComponent implements OnInit {
    * delete an existing row
    */
   onDelete() {
-    if (this.selectedExercises.length < 1) {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Info',
-        detail: 'Please select a record to delete!',
-      });
-      return;
-    }
     for (let i = this.selectedExercises.length - 1; i >= 0; i--) {
       this.exercises.controls.splice(this.selectedExercises[i] - 1, 1);
     }
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Selected records deleted!',
-    });
-
+    this.exercises.updateValueAndValidity(this.exercises.value);
     this.selectedExercises = [];
   }
 
@@ -129,6 +118,7 @@ export class CaptureWorkoutComponent implements OnInit {
         Validators.required,
         Validators.pattern('^[0-9]*$'),
       ]),
+      tag: new FormControl('', Validators.required),
     });
   }
 
@@ -144,8 +134,10 @@ export class CaptureWorkoutComponent implements OnInit {
     this.exercises.controls.forEach((exercise) => {
       let exerciseEntry: Exercise = {
         name: exercise.get('name')?.value,
-        sets: [],
-        tags: [],
+        sets: exercise.get('set')?.value,
+        repetition: exercise.get('repetition')?.value,
+        weight: exercise.get('weight')?.value,
+        tag: exercise.get('tag')?.value,
       };
       exercises.push(exerciseEntry);
     });

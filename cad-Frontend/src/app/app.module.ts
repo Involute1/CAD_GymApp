@@ -33,6 +33,7 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
 import { WorkoutsComponent } from './components/workouts/workouts.component';
+import { WorkoutPlanComponent } from './components/workout-plan/workout-plan.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { WorkoutsComponent } from './components/workouts/workouts.component';
     UserProfileComponent,
     CaptureWorkoutComponent,
     WorkoutsComponent,
+    WorkoutPlanComponent,
   ],
   imports: [
     BrowserModule,

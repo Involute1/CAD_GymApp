@@ -7,15 +7,11 @@
     >
       {{ dailyExcercies.day }}
       <div *ngFor="let exercise of dailyExcercies.exercises">
-        {{ exercise.name }}
-        Sets:
-        <div *ngFor="let set of exercise.sets">
-          {{ set.repetition + " repetitions with " + set.weight + " kg; " }}
+        <div>
+          {{ exercise.name + ":" + exercise.sets + " Sets of " + exercise.repetition + " repetitions with " + exercise.weight + " kg; " }}
         </div>
-        Tags:
-        <div *ngFor="let tag of exercise.tags">
-          {{ " " + tag.name }}
-        </div>
+        <div>{{"Tag: " + exercise.tag}}</div>
+
       </div>
     </div>
   </div>
