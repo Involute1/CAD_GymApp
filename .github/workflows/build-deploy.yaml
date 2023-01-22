@@ -130,6 +130,7 @@ jobs:
           
           cd helm || exit -1
           if [[ $DEPLOYMENT_TYPE == 'dev' ]]; then
+            echo "Deploying to dev"
             helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml
@@ -139,6 +140,7 @@ jobs:
             sleep 10  # required for ingress to fully start up
             helm upgrade --install gymapp cad-gymapp
           elif [[ $DEPLOYMENT_TYPE == 'staging' ]]; then
+            echo "Deploying to staging"
             # Free Deployment
             helm upgrade --install postgresql-user postgresql-ha \                                                                                               
               --repo https://charts.bitnami.com/bitnami \
@@ -179,6 +181,7 @@ jobs:
                   --namespace enterprise-$(client) --create-namespace
               done < enterprise-clients.txt
           else
+            echo "Deploying to prod"
             # Free Deployment
             helm upgrade --install postgresql-user postgresql-ha \                                                                                               
               --repo https://charts.bitnami.com/bitnami \
