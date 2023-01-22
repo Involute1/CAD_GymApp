@@ -86,6 +86,9 @@ imagePullPolicy: Always
 gymServiceUrl: "http://gym-service-service:7081"
 userServiceUrl: "http://user-service-service:7082"
 
+ingress:
+  host: ""
+
 frontend:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-frontend:latest
   port: 80
