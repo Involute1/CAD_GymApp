@@ -1,10 +1,7 @@
-project_id                 = "cad-gym-app"
-eu_zone                    = "europe-west3-c"
-eu_location                = "europe-west3"
-machine_type               = "c2d-standard-2"
-cluster_name               = "cluster-dev"
-node_pool_name             = "pool-staging"
-enable_apis                = true
-k8n_ingress_namespace_name = "ingress-nginx"
-k8n_ingress_service_name   = "ingress-nginx-controller"
-monitor_type               = "k8s_service"
+project_id     = "cad-gym-app"
+eu_zone        = "europe-west3-c"
+eu_location    = "europe-west3"
+machine_type   = "c2d-standard-2"
+cluster_name   = "cluster-staging"
+node_pool_name = "pool-staging"
+enable_apis    = true

@@ -41,12 +41,12 @@ module "project-services" {
 #  eu_location = var.eu_location
 #}
 
-#module "services" {
-#  source = "../../modules/services"
-#
-#  project_id  = var.project_id
-#  environment = local.environment
-#}
+module "services" {
+  source = "../../modules/services"
+
+  project_id  = var.project_id
+  environment = local.environment
+}
 
 #module "kubernetes" {
 #  source     = "../../modules/kubernetes"
@@ -59,15 +59,11 @@ module "project-services" {
 #  service_account_email = module.services.kubernetes_service_account
 #}
 
-module "monitoring" {
-  source = "../../modules/monitoring"
-  #  depends_on = [module.services, module.project-services, module.kubernetes]
 
-  project_id     = var.project_id
-  environment    = local.environment
-  cluster_name   = var.cluster_name
-  location       = var.eu_zone
-  namespace_name = var.k8n_ingress_namespace_name
-  service_name   = var.k8n_ingress_service_name
-  monitor_type   = var.monitor_type
+module "monitoring" {
+  source     = "../../modules/monitoring"
+  depends_on = [module.services, module.project-services]
+
+  project_id  = var.project_id
+  environment = local.environment
 }

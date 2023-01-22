@@ -1,4 +1,5 @@
 resource "google_monitoring_uptime_check_config" "gym_service_uptime_check" {
+  for_each     = toset(local.basic_urls)
   display_name = "Gym Service Uptime Check"
   timeout      = "60s"
   period       = "60s"
@@ -16,17 +17,15 @@ resource "google_monitoring_uptime_check_config" "gym_service_uptime_check" {
   monitored_resource {
     labels = {
       "project_id" : var.project_id,
-      "location" : var.location,
-      "cluster_name" : var.cluster_name,
-      "namespace_name" : var.namespace_name,
-      "service_name" : var.service_name
+      "host" : each.key
     }
-    type = var.monitor_type
+    type = local.uptime_url_type
   }
 
 }
 
 resource "google_monitoring_uptime_check_config" "reporting_service_uptime_check" {
+  for_each     = toset(local.basic_urls)
   display_name = "Reporting Service Uptime Check"
   timeout      = "60s"
   period       = "60s"
@@ -44,16 +43,14 @@ resource "google_monitoring_uptime_check_config" "reporting_service_uptime_check
   monitored_resource {
     labels = {
       "project_id" : var.project_id,
-      "location" : var.location,
-      "cluster_name" : var.cluster_name,
-      "namespace_name" : var.namespace_name,
-      "service_name" : var.service_name
+      "host" : each.key
     }
-    type = var.monitor_type
+    type = local.uptime_url_type
   }
 }
 
 resource "google_monitoring_uptime_check_config" "user_service_uptime_check" {
+  for_each     = toset(local.basic_urls)
   display_name = "User Service Uptime Check"
   timeout      = "60s"
   period       = "60s"
@@ -71,16 +68,14 @@ resource "google_monitoring_uptime_check_config" "user_service_uptime_check" {
   monitored_resource {
     labels = {
       "project_id" : var.project_id,
-      "location" : var.location,
-      "cluster_name" : var.cluster_name,
-      "namespace_name" : var.namespace_name,
-      "service_name" : var.service_name
+      "host" : each.key
     }
-    type = var.monitor_type
+    type = local.uptime_url_type
   }
 }
 
 resource "google_monitoring_uptime_check_config" "workout_service_uptime_check" {
+  for_each     = toset(local.basic_urls)
   display_name = "Workout Service Uptime Check"
   timeout      = "60s"
   period       = "60s"
@@ -98,16 +93,14 @@ resource "google_monitoring_uptime_check_config" "workout_service_uptime_check" 
   monitored_resource {
     labels = {
       "project_id" : var.project_id,
-      "location" : var.location,
-      "cluster_name" : var.cluster_name,
-      "namespace_name" : var.namespace_name,
-      "service_name" : var.service_name
+      "host" : each.key
     }
-    type = var.monitor_type
+    type = local.uptime_url_type
   }
 }
 
 resource "google_monitoring_uptime_check_config" "frontend_uptime_check" {
+  for_each     = toset(local.basic_urls)
   display_name = "Fronted Uptime Check"
   timeout      = "60s"
   period       = "60s"
@@ -125,18 +118,12 @@ resource "google_monitoring_uptime_check_config" "frontend_uptime_check" {
   monitored_resource {
     labels = {
       "project_id" : var.project_id,
-      "location" : var.location,
-      "cluster_name" : var.cluster_name,
-      "namespace_name" : var.namespace_name,
-      "service_name" : var.service_name
+      "host" : each.key
     }
-    type = var.monitor_type
+    type = local.uptime_url_type
   }
 }
 
-//TODO connect notification channel to uptime
-
-#https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/monitoring_slo
 resource "google_monitoring_notification_channel" "ln_email" {
   display_name = "Luis Email"
   type         = "email"
@@ -168,4 +155,34 @@ resource "google_monitoring_notification_channel" "flo_email" {
   }
   project      = var.project_id
   force_delete = true
+}
+
+resource "google_monitoring_alert_policy" "alert_policy" {
+  display_name          = "Uptime check Policy"
+  notification_channels = [
+    google_monitoring_notification_channel.ln_email.name, google_monitoring_notification_channel.dav_email.name,
+    google_monitoring_notification_channel.flo_email.name
+  ]
+  combiner = "OR"
+  conditions {
+    display_name = "Uptime Check URL - Check passed"
+    condition_threshold {
+      filter          = "resource.type = \"uptime_url\" AND metric.type = \"monitoring.googleapis.com/uptime_check/check_passed\""
+      duration        = "300s"
+      comparison      = "COMPARISON_LT"
+      threshold_value = 1
+      aggregations {
+        alignment_period     = "300s"
+        per_series_aligner   = "ALIGN_COUNT_TRUE"
+        cross_series_reducer = "REDUCE_NONE"
+      }
+      trigger {
+        count = 1
+      }
+    }
+  }
+
+  alert_strategy {
+    auto_close = "604800s"
+  }
 }
