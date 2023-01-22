@@ -34,10 +34,9 @@ public class ReportingService {
         Gson gson = new Gson();
         Gym[] gyms = getAllGyms(gson);
         List<User> users = getAllUser(gyms, gson);
-        //TODO get all workouts of yerstay
         Map<User, Workout> userWorkoutMap = getAllUsersWithWorkoutFromYesterday(users, gson);
         //TODO send emails
-
+        
     }
 
     private Gym[] getAllGyms(Gson gson) throws IOException, InterruptedException {

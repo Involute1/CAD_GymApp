@@ -7,28 +7,18 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity
-@Table(name = "EXERCISE")
+
 @NoArgsConstructor
 @Getter
 @Setter
 public class Exercise implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "NAME")
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Set.class, mappedBy = "id", cascade = CascadeType.ALL)
     private List<Set> sets;
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Tag.class, mappedBy = "id")
     private List<Tag> tags;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, targetEntity = Workout.class)
-    @JoinColumn(name = "WORKOUT_ID", nullable = false)
     private Workout workout;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true, targetEntity = WorkoutPlan.class)
-    @JoinColumn(name = "WORKOUT_PLAN_FKEY")
     private WorkoutPlan workoutPlan;
 
     public Exercise(String name, List<Set> sets, List<Tag> tags) {

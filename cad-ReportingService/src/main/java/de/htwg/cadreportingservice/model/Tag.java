@@ -6,14 +6,10 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-@Entity
-@Table(name = "TAG")
 @NoArgsConstructor
 @Getter
 @Setter
 public class Tag implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
 
