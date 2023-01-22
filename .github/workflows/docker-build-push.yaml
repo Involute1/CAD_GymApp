@@ -1,5 +1,3 @@
-name: Docker Build and Push
-
 # This workflow (template) will run the following jobs:
 # - Build the docker images
 # - When all builds were successful, push the new images
