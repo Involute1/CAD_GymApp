@@ -83,8 +83,9 @@
 
 replicas: 2
 imagePullPolicy: Always
-gymServiceUrl: "http://gym-service-service:7081"
-userServiceUrl: "http://user-service-service:7082"
+gymServiceUrl: "http://gym-service-service:7081/gym"
+userServiceUrl: "http://user-service-service:7082/user"
+workoutServiceUrl: "http://workout-service-service:7083/workout"
 
 ingress:
   host: ""

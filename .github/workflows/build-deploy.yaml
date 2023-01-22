@@ -149,7 +149,7 @@ jobs:
               --values=postgresql-workout-values.yaml \
               --namespace free --create-namespace
             helm upgrade --install gymapp cad-gymapp \
-              --values=gymapp-free-deployment.yaml \
+              --values=gymapp-staging-free-deployment.yaml \
               --namespace free --create-namespace
             # Premium Deployment
             helm upgrade --install postgresql-user postgresql-ha \                                                                                               
@@ -159,11 +159,9 @@ jobs:
             helm upgrade --install postgresql-workout postgresql-ha \                                                                                                  
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml \
-              --set ingress.host="gymapp-htwg-staging.com" \
               --namespace premium --create-namespace
             helm upgrade --install gymapp cad-gymapp \
-              --values=gymapp-premium-deployment.yaml \
-              --set ingress.host="premium.gymapp-htwg-staging.com" \
+              --values=gymapp-staging-premium-deployment.yaml \
               --namespace premium --create-namespace
             # Enterprise Deployment:
               # TODO
@@ -178,7 +176,7 @@ jobs:
               --values=postgresql-workout-values.yaml \
               --namespace free --create-namespace
             helm upgrade --install gymapp cad-gymapp \
-              --values=gymapp-free-deployment.yaml \
+              --values=gymapp-prod-free-deployment.yaml \
               --namespace free --create-namespace
             # Premium Deployment
             helm upgrade --install postgresql-user postgresql-ha \                                                                                               
@@ -188,11 +186,9 @@ jobs:
             helm upgrade --install postgresql-workout postgresql-ha \                                                                                                  
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml \
-              --set ingress.host="gymapp-htwg.com" \
               --namespace premium --create-namespace
             helm upgrade --install gymapp cad-gymapp \
-              --values=gymapp-premium-deployment.yaml \
-              --set ingress.host="premium.gymapp-htwg.com" \
+              --values=gymapp-prod-premium-deployment.yaml \
               --namespace premium --create-namespace
             # Enterprise Deployment:
               # TODO
