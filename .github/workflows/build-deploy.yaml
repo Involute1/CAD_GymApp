@@ -164,7 +164,20 @@ jobs:
               --values=gymapp-staging-premium-deployment.yaml \
               --namespace premium --create-namespace
             # Enterprise Deployment:
-              # TODO
+              while read client; do
+                echo "Deploying enterprise client: $client"
+                helm upgrade --install postgresql-user postgresql-ha \                                                                                               
+                  --repo https://charts.bitnami.com/bitnami \
+                  --values=postgresql-user-values.yaml \
+                  --namespace enterprise-$(client) --create-namespace
+                helm upgrade --install postgresql-workout postgresql-ha \                                                                                                  
+                  --repo https://charts.bitnami.com/bitnami \
+                  --values=postgresql-workout-values.yaml \
+                  --namespace enterprise-$(client) --create-namespace
+                helm upgrade --install gymapp cad-gymapp \
+                  --values=gymapp-staging-enterprise-deployment.yaml \
+                  --namespace enterprise-$(client) --create-namespace
+              done < enterprise-clients.txt
           else
             # Free Deployment
             helm upgrade --install postgresql-user postgresql-ha \                                                                                               
@@ -191,7 +204,18 @@ jobs:
               --values=gymapp-prod-premium-deployment.yaml \
               --namespace premium --create-namespace
             # Enterprise Deployment:
-              # TODO
+              while read client; do
+                echo "Deploying enterprise client: $client"
+                helm upgrade --install postgresql-user postgresql-ha \                                                                                               
+                  --repo https://charts.bitnami.com/bitnami \
+                  --values=postgresql-user-values.yaml \
+                  --namespace enterprise-$(client) --create-namespace
+                helm upgrade --install postgresql-workout postgresql-ha \                                                                                                  
+                  --repo https://charts.bitnami.com/bitnami \
+                  --values=postgresql-workout-values.yaml \
+                  --namespace enterprise-$(client) --create-namespace
+                helm upgrade --install gymapp cad-gymapp \
+                  --values=gymapp-prod-enterprise-deployment.yaml \
+                  --namespace enterprise-$(client) --create-namespace
+              done < enterprise-clients.txt
           fi
-          
-
