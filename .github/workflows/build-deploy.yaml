@@ -88,9 +88,11 @@ jobs:
   delete-repo-artifact:
     name: Delete repo artifact with Terraform files
     needs: build-and-push-docker
-    uses: geekyeggo/delete-artifact@v2
-    with:
-      name: repo-with-tf-files
+    runs-on: ubuntu-latest
+    steps:
+    - uses: geekyeggo/delete-artifact@v2
+      with:
+        name: repo-with-tf-files
 
   deploy-application:
     name: Deploy to Google Kubernetes Engine
