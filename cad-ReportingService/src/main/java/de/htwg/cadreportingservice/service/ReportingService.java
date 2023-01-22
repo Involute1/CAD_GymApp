@@ -7,6 +7,8 @@ import de.htwg.cadreportingservice.model.Workout;
 import de.htwg.cadreportingservice.model.request.WorkoutForUsersRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +29,13 @@ public class ReportingService {
     private static final String DEFAULT_GYM_SERVICE_URL = "http://localhost:7081";
     private static final String DEFAULT_USER_SERVICE_URL = "http://localhost:7082";
     private static final String DEFAULT_WORKOUT_SERVICE_URL = "http://localhost:7083";
+    private JavaMailSender mailSender;
 
-    @Scheduled(cron = "* 5 * * ?")
+    public ReportingService(@Autowired JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
+    @Scheduled(cron = "* 5 * * * ?")
     public void sendWorkoutsToUsers() throws IOException, InterruptedException {
         LOGGER.info("Starting cronjob");
         Gson gson = new Gson();
@@ -36,7 +43,7 @@ public class ReportingService {
         List<User> users = getAllUser(gyms, gson);
         Map<User, Workout> userWorkoutMap = getAllUsersWithWorkoutFromYesterday(users, gson);
         //TODO send emails
-        
+        //https://www.baeldung.com/spring-email
     }
 
     private Gym[] getAllGyms(Gson gson) throws IOException, InterruptedException {

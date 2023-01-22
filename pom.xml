@@ -16,5 +16,6 @@
         <module>cad-WorkoutService</module>
         <module>cad-ReportingService</module>
         <module>cad-InvoiceCronjob</module>
+        <module>cad-GatewayService</module>
     </modules>
 </project>
