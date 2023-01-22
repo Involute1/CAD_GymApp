@@ -4,6 +4,12 @@
 on:
   workflow_call:
     inputs:
+      server:
+        required: true
+        type: string
+      repo:
+        required: true
+        type: string
       tag:
         required: true
         type: string
@@ -11,9 +17,9 @@ on:
         required: true
         type: string
     secrets:
-      DOCKER_USER:
+      GCP_KEY:
         required: true
-      DOCKER_PASSWORD:
+      GCP_PROJECT_ID:
         required: true
 
 jobs:
@@ -32,11 +38,18 @@ jobs:
         with:
           name: ${{ inputs.tag }}
       -
-        name: Log in to Dockerhub
-        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+        name: Setup gcloud cli
+        uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+        with:
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          project_id: ${{ secrets.GKE_PROJECT }}
+      -
+        name: Configure Docker to use gcloud
+        run: |
+          gcloud --quiet auth configure-docker europe-west3-docker.pkg.dev
       -
         name: Load downloaded docker image
         run: docker load --input /tmp/${{ inputs.tag }}.tar
       -
         name: Push docker image
-        run: docker push ${{ secrets.DOCKER_USER }}/${{ inputs.tag }}:${{ inputs.version }}
+        run: docker push ${{ inputs.server }}/${{ secrets.GCP_PROJECT_ID }}/${{ inputs.repo }}/${{ inputs.tag }}:${{ inputs.version }}

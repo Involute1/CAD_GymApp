@@ -1,0 +1,166 @@
+name: Docker Build and Push
+
+# This workflow (template) will run the following jobs:
+# - Build the docker images
+# - When all builds were successful, push the new images
+
+on:
+  workflow_call:
+    inputs:
+      server:
+        required: true
+        type: string
+      repo:
+        required: true
+        type: string
+      deployment-type:
+        required: true
+        type: string
+    secrets:
+      GCP_KEY:
+        required: true
+      GCP_PROJECT_ID:
+        required: true
+
+jobs:
+  build-frontend:
+    name: Build Frontend
+    uses: ./.github/workflows/docker-build.yaml
+    with:
+      context: ./cad-Frontend
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-frontend
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+  build-gym-service:
+    name: Build GymService
+    uses: ./.github/workflows/docker-build.yaml
+    with:
+      context: ./cad-GymService
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-gym-service
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+  build-user-service:
+    name: Build UserService
+    uses: ./.github/workflows/docker-build.yaml
+    with:
+      context: ./cad-UserService
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-user-service
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+  build-workout-service:
+    name: Build WorkoutService
+    uses: ./.github/workflows/docker-build.yaml
+    with:
+      context: ./cad-WorkoutService
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-workout-service
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+  build-invoice-cronjob:
+    name: Build InvoiceCronjob
+    uses: ./.github/workflows/docker-build.yaml
+    with:
+      context: ./cad-InvoiceCronjob
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-invoice-cronjob
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+  wait-for-builds:
+    name: Wait for all docker build to complete
+    runs-on: ubuntu-latest
+    needs:
+      - build-frontend
+      - build-gym-service
+      - build-user-service
+      - build-workout-service
+      - build-invoice-cronjob
+    steps:
+      run: echo "docker build finished for all components"
+
+  push-frontend:
+    name: Push Frontend
+    needs:
+      - wait-for-builds
+    uses: ./.github/workflows/docker-push.yaml
+    with:
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-frontend
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_KEY: ${{ secrets.GCP_KEY }}
+
+  push-gym-service:
+    name: Push GymService
+    needs:
+      - wait-for-builds
+    uses: ./.github/workflows/docker-push.yaml
+    with:
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-gym-service
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_KEY: ${{ secrets.GCP_KEY }}
+
+  push-user-service:
+    name: Push UserService
+    needs:
+      - wait-for-builds
+    uses: ./.github/workflows/docker-push.yaml
+    with:
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-user-service
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_KEY: ${{ secrets.GCP_KEY }}
+
+  push-workout-service:
+    name: Push WorkoutService
+    needs:
+      - wait-for-builds
+    uses: ./.github/workflows/docker-push.yaml
+    with:
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-workout-service
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_KEY: ${{ secrets.GCP_KEY }}
+
+  push-invoice-cronjob:
+    name: Push InvoiceCronjob
+    needs:
+      - wait-for-builds
+    uses: ./.github/workflows/docker-push.yaml
+    with:
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-invoice-cronjob
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_KEY: ${{ secrets.GCP_KEY }}
