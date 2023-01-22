@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import {
   WorkoutPlanView,
   WorkoutService,
-} from '../../shared/services/workout.service';
-import { AuthService } from '../../shared/services/auth.service';
+} from '../../../../shared/services/workout.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 import { Observable } from 'rxjs';
 
 @Component({

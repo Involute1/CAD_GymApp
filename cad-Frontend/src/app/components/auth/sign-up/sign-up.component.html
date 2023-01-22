@@ -1,0 +1,115 @@
+<div class="displayTable">
+  <div class="displayTableCell">
+    <div class="authBlock">
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <h3>Sign Up</h3>
+        <mat-radio-group formControlName="role" aria-label="Select an option">
+          <mat-radio-button [value]="roles.USER">User</mat-radio-button>
+          <mat-radio-button [value]="roles.TRAINER">Trainer</mat-radio-button>
+          <mat-radio-button [value]="roles.GYMOWNER"
+            >Gym Owner
+          </mat-radio-button>
+        </mat-radio-group>
+
+        <div class="formGroup">
+          <input
+            type="email"
+            class="formControl"
+            placeholder="Email Address"
+            formControlName="email"
+          />
+        </div>
+
+        <div class="formGroup">
+          <input
+            type="password"
+            class="formControl"
+            placeholder="Password"
+            formControlName="password"
+          />
+        </div>
+
+        <div class="formGroup">
+          <input
+            type="text"
+            class="formControl"
+            placeholder="First Name"
+            formControlName="firstName"
+          />
+        </div>
+
+        <div class="formGroup">
+          <input
+            type="text"
+            class="formControl"
+            placeholder="Surname"
+            formControlName="surname"
+          />
+        </div>
+
+        <div [ngSwitch]="role.value">
+          <div *ngSwitchCase="roles.USER">
+            <mat-form-field class="example-full-width">
+              <mat-label>Gym</mat-label>
+              <mat-select>
+                <mat-option
+                  *ngFor="let gym of gyms$ | async"
+                  [value]="gym.tenantId"
+                >
+                  {{ gym.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div *ngSwitchCase="roles.TRAINER">
+            <mat-form-field class="example-full-width">
+              <mat-label>Gym</mat-label>
+              <mat-select>
+                <mat-option
+                  *ngFor="let gym of gyms$ | async"
+                  [value]="gym.tenantId"
+                >
+                  {{ gym.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div *ngSwitchCase="roles.GYMOWNER">
+            <h3>Gym Data</h3>
+            <div class="formGroup">
+              <input
+                type="text"
+                class="formControl"
+                placeholder="Gym name"
+                formControlName="gymName"
+              />
+            </div>
+            <div class="formGroup">
+              <mat-form-field class="example-full-width">
+                <mat-label>Billing Model</mat-label>
+                <mat-select>
+                  <mat-option
+                    *ngFor="let billingModel of billingModels"
+                    [value]="billingModel.value"
+                  >
+                    {{ billingModel.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="formGroup">
+          <button type="submit" class="btn btnPrimary">Sign Up</button>
+        </div>
+      </form>
+    </div>
+    <div class="redirectToLogin">
+      <span
+        >Already have an account?
+        <span class="redirect" routerLink="/sign-in">Log In</span></span
+      >
+    </div>
+  </div>
+</div>

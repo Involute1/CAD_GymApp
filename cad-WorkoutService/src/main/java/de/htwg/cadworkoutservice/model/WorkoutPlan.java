@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 public class WorkoutPlan {
+    //TODO: What USer?
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Id

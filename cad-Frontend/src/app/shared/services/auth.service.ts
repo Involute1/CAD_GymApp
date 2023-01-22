@@ -1,11 +1,10 @@
 import { Injectable, NgZone } from '@angular/core';
-import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from '@angular/fire/compat/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import { UserService } from './user.service';
+import { take } from 'rxjs';
+import { GymService } from './gym.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,13 +16,21 @@ export class AuthService {
     public afs: AngularFirestore, // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
-    public ngZone: NgZone
+    public ngZone: NgZone,
+    private userService: UserService,
+    private gymService: GymService
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe((user) => {
       if (user) {
         this.currentUserData = user;
+        this.userService
+          .getUser(this.currentUserData.uid)
+          .pipe(take(1))
+          .subscribe((user) => {
+            this.currentUserData = user;
+          });
         localStorage.setItem('user', JSON.stringify(this.currentUserData));
         JSON.parse(localStorage.getItem('user')!);
       } else {
@@ -41,11 +48,11 @@ export class AuthService {
   }
 
   // Sign in with email/password
-  SignIn(email: string, password: string) {
+  signIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
-        this.SetUserData(result.user);
+        console.log(result.user);
         this.afAuth.authState.subscribe((user) => {
           if (user) {
             this.router.navigate(['dashboard/home']);
@@ -58,14 +65,25 @@ export class AuthService {
   }
 
   // Sign up with email/password
-  SignUp(email: string, password: string) {
+  signUp(user: SignUpUser) {
+    this.userService
+      .createUser(user)
+      .pipe(take(1))
+      .subscribe({
+        next: () => this.router.navigate(['verify-email-address']),
+        error: (error) => window.alert(error.message),
+      });
+  }
+
+  // Sign up with email/password
+  signUpGym(user: SignUpUser) {
     return this.afAuth
-      .createUserWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(user.email, user.password)
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
-        this.SendVerificationMail();
-        this.SetUserData(result.user);
+        this.sendVerificationMail();
+        this.updateUserData(result.user, user.name, user.role);
       })
       .catch((error) => {
         window.alert(error.message);
@@ -73,7 +91,7 @@ export class AuthService {
   }
 
   // Send email verfificaiton when new user sign up
-  SendVerificationMail() {
+  sendVerificationMail() {
     return this.afAuth.currentUser
       .then((u: any) => u.sendEmailVerification())
       .then(() => {
@@ -82,7 +100,7 @@ export class AuthService {
   }
 
   // Reset Forggot password
-  ForgotPassword(passwordResetEmail: string) {
+  forgotPassword(passwordResetEmail: string) {
     return this.afAuth
       .sendPasswordResetEmail(passwordResetEmail)
       .then(() => {
@@ -99,48 +117,21 @@ export class AuthService {
     return user !== null && user.emailVerified !== false;
   }
 
-  // Sign in with Google
-  GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
-      this.router.navigate(['dashboard']);
-    });
-  }
-
-  // Auth logic to run auth providers
-  AuthLogin(provider: any) {
-    return this.afAuth
-      .signInWithPopup(provider)
-      .then((result) => {
-        this.router.navigate(['dashboard']);
-
-        this.SetUserData(result.user);
+  updateUserData(user: any, name: string, roles: Roles) {
+    this.userService
+      .createUser({
+        uid: user.uid,
+        email: user.email,
+        displayName: name,
+        emailVerified: user.emailVerified,
+        roles,
       })
-      .catch((error) => {
-        window.alert(error);
-      });
-  }
-
-  /* Setting up user data when sign in with username/password,
-  sign up with username/password and sign in with social auth
-  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  SetUserData(user: any) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
-      `users/${user.uid}`
-    );
-    const userData: User = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      emailVerified: user.emailVerified,
-    };
-    return userRef.set(userData, {
-      merge: true,
-    });
+      .pipe(take(1))
+      .subscribe();
   }
 
   // Sign out
-  SignOut() {
+  signOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
       this.router.navigate(['sign-in']);
@@ -152,6 +143,24 @@ export interface User {
   uid: string;
   email: string;
   displayName: string;
-  photoURL: string;
   emailVerified: boolean;
+  roles?: Roles;
+}
+
+export interface SignUpUser {
+  email: string;
+  password: string;
+  role: Roles;
+  firstName: string;
+  surname: string;
+  tenantId: string;
+  gymName?: string;
+  billingModel?: string;
+}
+
+export enum Roles {
+  USER,
+  TRAINER,
+  GYMOWNER,
+  ADMIN,
 }
