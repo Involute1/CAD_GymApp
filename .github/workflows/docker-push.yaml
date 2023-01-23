@@ -41,8 +41,8 @@ jobs:
         name: Setup gcloud cli
         uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
         with:
-          service_account_key: ${{ secrets.GKE_SA_KEY }}
-          project_id: ${{ secrets.GKE_PROJECT }}
+          service_account_key: ${{ secrets.GCP_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
       -
         name: Configure Docker to use gcloud
         run: |
