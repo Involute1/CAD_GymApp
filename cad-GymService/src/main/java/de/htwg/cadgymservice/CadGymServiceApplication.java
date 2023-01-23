@@ -7,6 +7,9 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
+//@ComponentScan("de.htwg.cadgymservice.repository")
+//@EntityScan("de.htwg.cadgymservice.model")
+//@EnableReactiveFirestoreRepositories(basePackages = {"de.htwg.cadgymservice.repository"})
 public class CadGymServiceApplication {
 
     public static void main(String[] args) {

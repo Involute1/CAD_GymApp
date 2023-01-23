@@ -1,4 +1,4 @@
-package de.htwg.cadgatewayservice;
+package de.htwg.cadgymservice.util;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -12,9 +12,9 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI config() {
         return new OpenAPI().info(new Info()
-                .title("Gateway")
+                .title("Gym")
                 .version("1.0.0")
-                .description("Gateway Service")
+                .description("Gym Service")
         );
     }
 }

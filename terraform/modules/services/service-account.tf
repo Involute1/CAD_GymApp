@@ -67,7 +67,7 @@ resource "local_sensitive_file" "tf_gym_account_key" {
 
 resource "local_sensitive_file" "tf_user_account_key" {
   filename = "${path.root}/../../../cad-UserService/src/main/resources/tf_service_account_key.json"
-  content  = base64decode(google_service_account_key.tf_gym_account_key.private_key)
+  content  = base64decode(google_service_account_key.tf_user_account_key.private_key)
 }
 
 //     "roles/identitytoolkit.admin", "roles/logging.admin", "roles/storage.admin", "roles/datastore.owner",

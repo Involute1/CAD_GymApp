@@ -8,6 +8,7 @@ public class HealthController {
 
     @GetMapping("/healthcheck")
     public boolean healthcheck() {
+        System.out.println("HELLO");
         return true;
     }
 }

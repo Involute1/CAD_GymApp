@@ -32,14 +32,14 @@ module "project-services" {
   disable_services_on_destroy = false
 }
 
-#module "storage" {
-#  source     = "../../modules/storage"
-#  depends_on = [module.project-services]
-#
-#  environment = local.environment
-#  project_id  = var.project_id
-#  eu_location = var.eu_location
-#}
+module "storage" {
+  source     = "../../modules/storage"
+  depends_on = [module.project-services]
+
+  environment = local.environment
+  project_id  = var.project_id
+  eu_location = var.eu_location
+}
 
 module "services" {
   source = "../../modules/services"
@@ -60,10 +60,10 @@ module "services" {
 #}
 
 
-module "monitoring" {
-  source     = "../../modules/monitoring"
-  depends_on = [module.services, module.project-services]
-
-  project_id  = var.project_id
-  environment = local.environment
-}
+#module "monitoring" {
+#  source     = "../../modules/monitoring"
+#  depends_on = [module.services, module.project-services]
+#
+#  project_id  = var.project_id
+#  environment = local.environment
+#}

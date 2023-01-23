@@ -1,6 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="start-services" type="CompoundRunConfigurationType">
+    <toRun name="CadGatewayServiceApplication" type="SpringBootApplicationConfigurationType" />
     <toRun name="CadGymServiceApplication" type="SpringBootApplicationConfigurationType" />
+    <toRun name="CadReportingServiceApplication" type="SpringBootApplicationConfigurationType" />
     <toRun name="CadUserServiceApplication" type="SpringBootApplicationConfigurationType" />
     <toRun name="CadWorkoutServiceApplication" type="SpringBootApplicationConfigurationType" />
     <method v="2" />

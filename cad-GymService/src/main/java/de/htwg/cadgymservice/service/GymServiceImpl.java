@@ -12,6 +12,7 @@ import java.util.List;
 @Service
 public class GymServiceImpl implements IGymService {
     private static final Log LOGGER = LogFactory.getLog(GymServiceImpl.class);
+
     private final IGymRepository gymRepository;
 
     public GymServiceImpl(@Autowired IGymRepository gymRepository) {
