@@ -1,9 +1,9 @@
 package de.htwg.caduserservice.repository;
 
-import de.htwg.caduserservice.model.GymAppUserData;
+import de.htwg.caduserservice.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IUserRepository extends JpaRepository<GymAppUserData, Long> {
+public interface IUserRepository extends JpaRepository<User, Long> {
 
-    GymAppUserData findByUid(String uid);
+    User findByUid(String uid);
 }

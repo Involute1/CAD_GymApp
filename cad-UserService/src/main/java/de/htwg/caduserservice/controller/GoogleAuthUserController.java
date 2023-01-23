@@ -100,8 +100,8 @@ public class GoogleAuthUserController {
         try {
             UserRecord createdUser = tenantAuth.createUser(request);
             LOGGER.info(createdUser.getUid());
-            GymAppUserData newUser = new GymAppUserData(createdUser.getUid(), registerUserData.role());
-            GymAppUserData savedUser = userRepository.save(newUser);
+            User newUser = new User(createdUser.getUid(), registerUserData.role());
+            User savedUser = userRepository.save(newUser);
             return new UserData(savedUser.getRole(), createdUser.getUid(), createdUser.getEmail(), createdUser.getDisplayName(), createdUser.isEmailVerified(), createdUser.getTenantId());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
@@ -118,7 +118,7 @@ public class GoogleAuthUserController {
             List<UserData> userDataList = new ArrayList<>();
             ListUsersPage users = tenantAuth.listUsers(null);
             users.iterateAll().forEach(user -> {
-                GymAppUserData savedUser = userRepository.findByUid(user.getUid());
+                User savedUser = userRepository.findByUid(user.getUid());
                 userDataList.add(new UserData(savedUser.getRole(), user.getUid(), user.getEmail(), user.getDisplayName(), user.isEmailVerified(), user.getTenantId()));
             });
             return userDataList;
@@ -143,7 +143,7 @@ public class GoogleAuthUserController {
                 .getAuthForTenant(tenantId);
         try {
             UserRecord user = tenantAuth.getUser(uid);
-            GymAppUserData savedUser = userRepository.findByUid(user.getUid());
+            User savedUser = userRepository.findByUid(user.getUid());
             return new UserData(savedUser.getRole(), user.getUid(), user.getEmail(), user.getDisplayName(), user.isEmailVerified(), user.getTenantId());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
@@ -173,7 +173,7 @@ public class GoogleAuthUserController {
                 .setDisplayName(updatedUserData.displayName());
         try {
             UserRecord userRecord = tenantAuth.updateUser(request);
-            GymAppUserData savedUser = userRepository.findByUid(userRecord.getUid());
+            User savedUser = userRepository.findByUid(userRecord.getUid());
             return new UserData(savedUser.getRole(), userRecord.getUid(), userRecord.getEmail(), userRecord.getDisplayName(), userRecord.isEmailVerified(), userRecord.getTenantId());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
