@@ -139,51 +139,66 @@ jobs:
           cd helm || exit -1
           if [[ $DEPLOYMENT_TYPE == 'dev' ]]; then
             echo "Deploying to dev"
+            echo "Deploying user-db"
             helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml
+            echo "Deploying workout-db"
             helm upgrade --install postgresql-workout postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml
             sleep 10  # required for ingress to fully start up
+            echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp
           elif [[ $DEPLOYMENT_TYPE == 'staging' ]]; then
             echo "Deploying to staging"
             # Free Deployment
+            echo "Deploying free"
+            echo "Deploying user-db"
             helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml \
               --namespace free --create-namespace
+            echo "Deploying workout-db"
             helm upgrade --install postgresql-workout postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml \
               --namespace free --create-namespace
+            sleep 10  # required for ingress to fully start up
+            echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-staging-free-deployment.yaml \
               --namespace free --create-namespace
             # Premium Deployment
+            echo "Deploying premium"
+            echo "Deploying user-db"
             helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml \
               --namespace premium --create-namespace
-            helm upgrade --install postgresql-workout postgresql-ha \                                                                                                  
+            echo "Deploying workout-db"
+            helm upgrade --install postgresql-workout postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml \
               --namespace premium --create-namespace
+            echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-staging-premium-deployment.yaml \
               --namespace premium --create-namespace
             # Enterprise Deployment:
               while read client; do
                 echo "Deploying enterprise client: $client"
+                echo "Deploying user-db"
                 helm upgrade --install postgresql-user postgresql-ha \
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-user-values.yaml \
                   --namespace enterprise-$client --create-namespace
-                helm upgrade --install postgresql-workout postgresql-ha \                                                                                                  
+                echo "Deploying workout-db"
+                helm upgrade --install postgresql-workout postgresql-ha \
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-workout-values.yaml \
                   --namespace enterprise-$client --create-namespace
+                echo "Deploying gymapp"
                 helm upgrade --install gymapp cad-gymapp \
                   --values=gymapp-staging-enterprise-deployment.yaml \
                   --set ingress.host="$client.gymapp-htwg.com" \
@@ -192,40 +207,52 @@ jobs:
           else
             echo "Deploying to prod"
             # Free Deployment
+            echo "Deploying free"
+            echo "Deploying user-db"
             helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml \
               --namespace free --create-namespace
-            helm upgrade --install postgresql-workout postgresql-ha \                                                                                                  
+            echo "Deploying workout-db"
+            helm upgrade --install postgresql-workout postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml \
               --namespace free --create-namespace
+            sleep 10  # required for ingress to fully start up
+            echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-prod-free-deployment.yaml \
               --namespace free --create-namespace
             # Premium Deployment
+            echo "Deploying premium"
+            echo "Deploying user-db"
             helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml \
               --namespace premium --create-namespace
-            helm upgrade --install postgresql-workout postgresql-ha \                                                                                                  
+            echo "Deploying workout-db"
+            helm upgrade --install postgresql-workout postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml \
               --namespace premium --create-namespace
+            echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-prod-premium-deployment.yaml \
               --namespace premium --create-namespace
             # Enterprise Deployment:
               while read client; do
                 echo "Deploying enterprise client: $client"
+                echo "Deploying user-db"
                 helm upgrade --install postgresql-user postgresql-ha \
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-user-values.yaml \
                   --namespace enterprise-$client --create-namespace
-                helm upgrade --install postgresql-workout postgresql-ha \                                                                                                  
+                echo "Deploying workout-db"
+                helm upgrade --install postgresql-workout postgresql-ha \
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-workout-values.yaml \
                   --namespace enterprise-$client --create-namespace
+                echo "Deploying gymapp"
                 helm upgrade --install gymapp cad-gymapp \
                   --values=gymapp-prod-enterprise-deployment.yaml \
                   --set ingress.host="$client.gymapp-htwg.com" \
