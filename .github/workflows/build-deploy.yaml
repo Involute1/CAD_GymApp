@@ -150,11 +150,11 @@ jobs:
           elif [[ $DEPLOYMENT_TYPE == 'staging' ]]; then
             echo "Deploying to staging"
             # Free Deployment
-            helm upgrade --install postgresql-user postgresql-ha \                                                                                               
+            helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml \
               --namespace free --create-namespace
-            helm upgrade --install postgresql-workout postgresql-ha \                                                                                                  
+            helm upgrade --install postgresql-workout postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml \
               --namespace free --create-namespace
@@ -162,7 +162,7 @@ jobs:
               --values=gymapp-staging-free-deployment.yaml \
               --namespace free --create-namespace
             # Premium Deployment
-            helm upgrade --install postgresql-user postgresql-ha \                                                                                               
+            helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml \
               --namespace premium --create-namespace
@@ -176,7 +176,7 @@ jobs:
             # Enterprise Deployment:
               while read client; do
                 echo "Deploying enterprise client: $client"
-                helm upgrade --install postgresql-user postgresql-ha \                                                                                               
+                helm upgrade --install postgresql-user postgresql-ha \
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-user-values.yaml \
                   --namespace enterprise-$client --create-namespace
@@ -192,7 +192,7 @@ jobs:
           else
             echo "Deploying to prod"
             # Free Deployment
-            helm upgrade --install postgresql-user postgresql-ha \                                                                                               
+            helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml \
               --namespace free --create-namespace
@@ -204,7 +204,7 @@ jobs:
               --values=gymapp-prod-free-deployment.yaml \
               --namespace free --create-namespace
             # Premium Deployment
-            helm upgrade --install postgresql-user postgresql-ha \                                                                                               
+            helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml \
               --namespace premium --create-namespace
@@ -218,7 +218,7 @@ jobs:
             # Enterprise Deployment:
               while read client; do
                 echo "Deploying enterprise client: $client"
-                helm upgrade --install postgresql-user postgresql-ha \                                                                                               
+                helm upgrade --install postgresql-user postgresql-ha \
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-user-values.yaml \
                   --namespace enterprise-$client --create-namespace
