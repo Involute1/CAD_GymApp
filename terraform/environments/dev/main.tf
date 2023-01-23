@@ -10,6 +10,7 @@ terraform {
 provider "google" {
   project = var.project_id
   region  = var.eu_location
+  credentials = var.gcp_credentials
 }
 
 module "project-services" {
