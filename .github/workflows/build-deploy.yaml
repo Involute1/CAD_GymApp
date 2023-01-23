@@ -60,7 +60,7 @@ jobs:
       -
         name: Terraform init and apply
         run: |
-          echo ${{ secrets.GCP_KEY }} > /tmp/gke_credentials.json
+          echo ${{ secrets.GCP_KEY_2 }} > /tmp/gke_credentials.json
           export GOOGLE_APPLICATION_CREDENTIALS=/tmp/gke_credentials.json
           DEPLOYMENT_TYPE=${{ needs.set-deployment-type.outputs.deployment-type }}
           echo $DEPLOYMENT_TYPE  # debug
