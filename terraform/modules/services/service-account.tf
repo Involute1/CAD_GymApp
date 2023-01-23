@@ -43,7 +43,7 @@ resource "google_service_account" "tf_account_user_service" {
 
 resource "google_project_iam_binding" "tf_user_service_account_iam_binding_roles" {
   for_each = toset([
-    "roles/identitytoolkit.admin", "roles/logging.admin"
+    "roles/identitytoolkit.admin", "roles/logging.admin", "roles/firebase.admin"
   ])
   members = ["serviceAccount:${google_service_account.tf_account_user_service.email}"]
   project = var.project_id

@@ -1,10 +1,13 @@
 import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument,
+} from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
-import { take } from 'rxjs';
-import { GymService } from './gym.service';
+import { map, take } from 'rxjs';
+import firebase from 'firebase/compat';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +20,7 @@ export class AuthService {
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
     public ngZone: NgZone,
-    private userService: UserService,
-    private gymService: GymService
+    private userService: UserService
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
@@ -49,6 +51,7 @@ export class AuthService {
 
   // Sign in with email/password
   signIn(email: string, password: string) {
+    this.sendVerificationMail();
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
@@ -70,30 +73,30 @@ export class AuthService {
       .createUser(user)
       .pipe(take(1))
       .subscribe({
-        next: () => this.router.navigate(['verify-email-address']),
+        next: (createdUser) => {
+          const userRef: AngularFirestoreDocument<firebase.User> = this.afs.doc(
+            `users/${createdUser.uid}`
+          );
+          userRef
+            .get()
+            .pipe(map((value) => value.data()))
+            .subscribe((user) =>
+              user
+                ?.sendEmailVerification()
+                .then(() => this.router.navigate(['verify-email-address']))
+            );
+        },
         error: (error) => window.alert(error.message),
-      });
-  }
-
-  // Sign up with email/password
-  signUpGym(user: SignUpUser) {
-    return this.afAuth
-      .createUserWithEmailAndPassword(user.email, user.password)
-      .then((result) => {
-        /* Call the SendVerificaitonMail() function when new user sign
-        up and returns promise */
-        this.sendVerificationMail();
-        this.updateUserData(result.user, user.name, user.role);
-      })
-      .catch((error) => {
-        window.alert(error.message);
       });
   }
 
   // Send email verfificaiton when new user sign up
   sendVerificationMail() {
     return this.afAuth.currentUser
-      .then((u: any) => u.sendEmailVerification())
+      .then((u: any) => {
+        console.log(u);
+        u.sendEmailVerification();
+      })
       .then(() => {
         this.router.navigate(['verify-email-address']);
       });
@@ -117,19 +120,6 @@ export class AuthService {
     return user !== null && user.emailVerified !== false;
   }
 
-  updateUserData(user: any, name: string, roles: Roles) {
-    this.userService
-      .createUser({
-        uid: user.uid,
-        email: user.email,
-        displayName: name,
-        emailVerified: user.emailVerified,
-        roles,
-      })
-      .pipe(take(1))
-      .subscribe();
-  }
-
   // Sign out
   signOut() {
     return this.afAuth.signOut().then(() => {
@@ -151,9 +141,8 @@ export interface SignUpUser {
   email: string;
   password: string;
   role: Roles;
-  firstName: string;
-  surname: string;
-  tenantId: string;
+  displayName: string;
+  tenantId?: string;
   gymName?: string;
   billingModel?: string;
 }

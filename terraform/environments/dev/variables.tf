@@ -29,3 +29,8 @@ variable "node_pool_name" {
 variable "enable_apis" {
   type = bool
 }
+
+#variable "gcp_credentials" {
+#  type = string
+#  sensitive = true
+#}
