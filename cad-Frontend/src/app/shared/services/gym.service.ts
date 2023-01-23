@@ -18,7 +18,7 @@ export class GymService {
   getGyms(): Observable<Gym[]> {
     return of([
       {
-        tenantId: '0',
+        tenantId: 'HappyFit-6amgt',
         name: 'HappyFit',
       },
       {

@@ -5,15 +5,16 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "GYMAPPUSERDATA")
 @Data
-public class User {
+public class GymAppUserData {
 
-    public User() {
+    public GymAppUserData() {
 
     }
 
-    public User(String uid, Roles role) {
+    public GymAppUserData(String uid, Roles role) {
+        this.uid = uid;
         this.role = role;
     }
 

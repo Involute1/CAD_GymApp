@@ -54,7 +54,8 @@ public class GoogleAuthUserController {
     }
 
     @PostMapping("/user")
-    public UserData registerUserWithTenant(RegisterUserData registerUserData) throws IOException, InterruptedException {
+    public UserData registerUserWithTenant(@RequestBody RegisterUserData registerUserData) throws IOException, InterruptedException {
+        LOGGER.info(registerUserData);
         String tenantId;
         if (registerUserData.role().equals(Roles.GymOwner)) {
             tenantId = googleAuthTenantController.registerTenant(registerUserData.gymName()).tenantId();
@@ -95,10 +96,12 @@ public class GoogleAuthUserController {
                 .setEmail(registerUserData.email())
                 .setDisplayName(registerUserData.displayName())
                 .setPassword(registerUserData.password());
+
         try {
             UserRecord createdUser = tenantAuth.createUser(request);
-            User newUser = new User(createdUser.getUid(), registerUserData.role());
-            User savedUser = userRepository.save(newUser);
+            LOGGER.info(createdUser.getUid());
+            GymAppUserData newUser = new GymAppUserData(createdUser.getUid(), registerUserData.role());
+            GymAppUserData savedUser = userRepository.save(newUser);
             return new UserData(savedUser.getRole(), createdUser.getUid(), createdUser.getEmail(), createdUser.getDisplayName(), createdUser.isEmailVerified(), createdUser.getTenantId());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
@@ -115,7 +118,7 @@ public class GoogleAuthUserController {
             List<UserData> userDataList = new ArrayList<>();
             ListUsersPage users = tenantAuth.listUsers(null);
             users.iterateAll().forEach(user -> {
-                User savedUser = userRepository.findByUid(user.getUid());
+                GymAppUserData savedUser = userRepository.findByUid(user.getUid());
                 userDataList.add(new UserData(savedUser.getRole(), user.getUid(), user.getEmail(), user.getDisplayName(), user.isEmailVerified(), user.getTenantId()));
             });
             return userDataList;
@@ -140,7 +143,7 @@ public class GoogleAuthUserController {
                 .getAuthForTenant(tenantId);
         try {
             UserRecord user = tenantAuth.getUser(uid);
-            User savedUser = userRepository.findByUid(user.getUid());
+            GymAppUserData savedUser = userRepository.findByUid(user.getUid());
             return new UserData(savedUser.getRole(), user.getUid(), user.getEmail(), user.getDisplayName(), user.isEmailVerified(), user.getTenantId());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
@@ -170,7 +173,7 @@ public class GoogleAuthUserController {
                 .setDisplayName(updatedUserData.displayName());
         try {
             UserRecord userRecord = tenantAuth.updateUser(request);
-            User savedUser = userRepository.findByUid(userRecord.getUid());
+            GymAppUserData savedUser = userRepository.findByUid(userRecord.getUid());
             return new UserData(savedUser.getRole(), userRecord.getUid(), userRecord.getEmail(), userRecord.getDisplayName(), userRecord.isEmailVerified(), userRecord.getTenantId());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());
