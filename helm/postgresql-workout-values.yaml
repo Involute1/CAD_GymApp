@@ -10,3 +10,6 @@ postgresql:
   password: "test123"
   database: "cad"
   repmgrPassword: "qwertzuiop"
+
+pgpool:
+  adminPassword: "asdfghjkl"
