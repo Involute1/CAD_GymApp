@@ -201,7 +201,7 @@ jobs:
                 echo "Deploying gymapp"
                 helm upgrade --install gymapp cad-gymapp \
                   --values=gymapp-staging-enterprise-deployment.yaml \
-                  --set ingress.host="$client.gymapp-htwg.com" \
+                  --set domain="$client.staging.drescherflo.de" \
                   --namespace enterprise-$client --create-namespace
               done < enterprise-clients.txt
           else
@@ -255,7 +255,7 @@ jobs:
                 echo "Deploying gymapp"
                 helm upgrade --install gymapp cad-gymapp \
                   --values=gymapp-prod-enterprise-deployment.yaml \
-                  --set ingress.host="$client.gymapp-htwg.com" \
+                  --set domain="$client.drescherflo.de" \
                   --namespace enterprise-$client --create-namespace
               done < enterprise-clients.txt
           fi
