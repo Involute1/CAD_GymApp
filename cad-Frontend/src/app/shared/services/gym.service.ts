@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GymService {
   gymUrl =
-    `${window.location.protocol}//${window.location.hostname}:80` + '/gym';
+    `${window.location.protocol}//${window.location.hostname}${environment.gymPort}` +
+    '/gym';
 
   constructor(private http: HttpClient) {}
 
