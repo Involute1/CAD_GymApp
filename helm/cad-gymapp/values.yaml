@@ -81,14 +81,18 @@
 #
 #affinity: {}
 
+domain: "dev.drescherflo.de"
+
 replicas: 2
 imagePullPolicy: Always
 gymServiceUrl: "http://gym-service-service:7081/gym"
 userServiceUrl: "http://user-service-service:7082/user"
 workoutServiceUrl: "http://workout-service-service:7083/workout"
 
+managedSslCert:
+  name: "managed-cert-dev"
+
 ingress:
-  host: ""
   globalIpName: "ingress-ip-dev"
 
 frontend:
