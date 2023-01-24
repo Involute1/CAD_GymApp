@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SignUpTenant, SignUpUser, User } from './auth.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   userUrl =
-    `${window.location.protocol}//${window.location.hostname}:80` + '/user';
+    `${window.location.protocol}//${window.location.hostname}${environment.userPort}` +
+    '/user';
 
   constructor(private http: HttpClient) {}
 
