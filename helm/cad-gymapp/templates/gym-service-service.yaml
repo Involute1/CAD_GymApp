@@ -3,7 +3,6 @@ kind: Service
 metadata:
   name: gym-service-service
 spec:
-  type: NodePort
   selector:
     app: gym-service
   ports:

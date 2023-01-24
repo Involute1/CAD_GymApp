@@ -118,3 +118,7 @@ workoutService:
   springDatasourceUrl: "jdbc:postgresql://postgresql-workout-postgresql-ha-pgpool:5432/cad"
   springDatasourceUsername: postgres
   springDatasourcePassword: test123
+
+reportingService:
+  image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-reporting-service:latest
+  port: 7084
