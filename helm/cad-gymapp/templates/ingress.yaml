@@ -2,41 +2,36 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress
-  annotations:
-    kubernetes.io/ingress.global-static-ip-name: {{ .Values.ingress.globalIpName }}
-    networking.gke.io/managed-certificates: "{{ .Values.managedSslCert.name }}-{{ .Release.Namespace }}"
-    kubernetes.io/ingress.class: "gce"
-
 
 spec:
-  #ingressClassName: nginx
+  ingressClassName: nginx
   rules:
     - host: {{ .Values.domain }}
       http:
         paths:
-          - path: /*
-            pathType: ImplementationSpecific
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: frontend-service
                 port:
                   number: {{ .Values.frontend.port }}
-          - path: /gym/*
-            pathType: ImplementationSpecific
+          - path: /gym
+            pathType: Prefix
             backend:
               service:
                 name: gym-service-service
                 port:
                   number: {{ .Values.gymService.port }}
-          - path: /user/*
-            pathType: ImplementationSpecific
+          - path: /user
+            pathType: Prefix
             backend:
               service:
                 name: user-service-service
                 port:
                   number: {{ .Values.userService.port }}
-          - path: /workout/*
-            pathType: ImplementationSpecific
+          - path: /workout
+            pathType: Prefix
             backend:
               service:
                 name: workout-service-service

@@ -26,9 +26,7 @@ module "project-services" {
     "secretmanager.googleapis.com",
     "apikeys.googleapis.com",
     "firestore.googleapis.com",
-    "cloudresourcemanager.googleapis.com",
-    "domains.googleapis.com",
-    "dns.googleapis.com"
+    "cloudresourcemanager.googleapis.com"
   ]
 
   disable_services_on_destroy = false
@@ -48,6 +46,7 @@ module "services" {
 
   project_id  = var.project_id
   environment = local.environment
+  eu_location = var.eu_location
 }
 
 module "kubernetes" {

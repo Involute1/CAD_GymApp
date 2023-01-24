@@ -89,11 +89,6 @@ gymServiceUrl: "http://gym-service-service:7081/gym"
 userServiceUrl: "http://user-service-service:7082/user"
 workoutServiceUrl: "http://workout-service-service:7083/workout"
 
-managedSslCert:
-  name: "managed-cert-dev"
-
-ingress:
-  globalIpName: "ingress-ip-dev"
 
 frontend:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-frontend:latest

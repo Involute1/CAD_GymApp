@@ -46,6 +46,7 @@ module "services" {
 
   project_id  = var.project_id
   environment = local.environment
+  eu_location = var.eu_location
 }
 
 module "kubernetes" {
