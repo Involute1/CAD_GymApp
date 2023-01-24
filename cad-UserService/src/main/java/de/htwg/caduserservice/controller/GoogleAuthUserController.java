@@ -5,6 +5,7 @@ import com.google.firebase.auth.multitenancy.TenantAwareFirebaseAuth;
 import de.htwg.caduserservice.model.User;
 import de.htwg.caduserservice.model.UserData;
 import de.htwg.caduserservice.model.requests.RegisterUserData;
+import de.htwg.caduserservice.model.requests.VerifyTokenData;
 import de.htwg.caduserservice.repository.IUserRepository;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -25,21 +26,21 @@ public class GoogleAuthUserController {
     private GoogleAuthTenantController googleAuthTenantController;
     //https://cloud.google.com/identity-platform/docs/multi-tenancy-managing-tenants#creating_a_user
 
-    @GetMapping("/verify")
-    public boolean verifyToken(String idToken, String tenantId) {
-        if (StringUtils.isBlank(idToken)) {
+    @PostMapping("/verify")
+    public boolean verifyToken(@RequestBody VerifyTokenData verifyTokenData) {
+        if (StringUtils.isBlank(verifyTokenData.idToken())) {
             LOGGER.error("idToken is null or empty on verifyToken");
             return false;
         }
-        if (StringUtils.isBlank(tenantId)) {
+        if (StringUtils.isBlank(verifyTokenData.tenantId())) {
             LOGGER.error("tenantId is null or empty on verifyToken");
             return false;
         }
         TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
-                .getAuthForTenant(tenantId);
+                .getAuthForTenant(verifyTokenData.tenantId());
         try {
             // idToken comes from the client app
-            FirebaseToken token = tenantAuth.verifyIdToken(idToken);
+            FirebaseToken token = tenantAuth.verifyIdToken(verifyTokenData.idToken());
             // TenantId on the FirebaseToken should be set to TENANT-ID.
             // Otherwise, "tenant-id-mismatch" error thrown.
             return true;
