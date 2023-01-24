@@ -43,15 +43,15 @@ spec:
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - containerPort: 7082
-          livenessProbe:
-            httpGet:
-              path: /user/healthcheck
-              port: 7082
-            initialDelaySeconds: 10
-            timeoutSeconds: 5
-          readinessProbe:
-            httpGet:
-              path: /user/healthcheck
-              port: 7082
-            initialDelaySeconds: 10
-            timeoutSeconds: 5
+#          livenessProbe:
+#            httpGet:
+#              path: /user/healthcheck
+#              port: 7082
+#            initialDelaySeconds: 10
+#            timeoutSeconds: 5
+#          readinessProbe:
+#            httpGet:
+#              path: /user/healthcheck
+#              port: 7082
+#            initialDelaySeconds: 10
+#            timeoutSeconds: 5
