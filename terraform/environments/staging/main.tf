@@ -26,7 +26,9 @@ module "project-services" {
     "secretmanager.googleapis.com",
     "apikeys.googleapis.com",
     "firestore.googleapis.com",
-    "cloudresourcemanager.googleapis.com"
+    "cloudresourcemanager.googleapis.com",
+    "domains.googleapis.com",
+    "dns.googleapis.com"
   ]
 
   disable_services_on_destroy = false

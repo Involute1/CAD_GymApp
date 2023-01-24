@@ -3,9 +3,10 @@ kind: Service
 metadata:
   name: gym-service-service
 spec:
+  type: NodePort
   selector:
     app: gym-service
   ports:
     - protocol: TCP
       port: {{ .Values.gymService.port }}
-      targetPort: 7081
+      targetPort: {{ .Values.gymService.port }}
