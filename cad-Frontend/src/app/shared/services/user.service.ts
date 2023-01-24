@@ -8,7 +8,7 @@ import { SignUpUser, User } from './auth.service';
 })
 export class UserService {
   userUrl =
-    `${window.location.protocol}//${window.location.hostname}:7082` + '/user';
+    `${window.location.protocol}//${window.location.hostname}:80` + '/user';
 
   constructor(private http: HttpClient) {}
 

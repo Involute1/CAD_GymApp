@@ -43,3 +43,15 @@ spec:
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - containerPort: 7083
+          livenessProbe:
+            httpGet:
+              path: /workout/healthcheck
+              port: 7083
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /workout/healthcheck
+              port: 7083
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
