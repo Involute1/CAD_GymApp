@@ -3,6 +3,19 @@
     <div class="authBlock">
       <h3>Sign In</h3>
       <div class="formGroup">
+        <mat-form-field class="example-full-width">
+          <mat-label>Gym</mat-label>
+          <mat-select #tenantId>
+            <mat-option
+              *ngFor="let tenant of tenants$ | async"
+              [value]="tenant.tenantId"
+            >
+              {{ tenant.displayName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="formGroup">
         <input
           type="text"
           class="formControl"
@@ -19,7 +32,13 @@
           placeholder="Password"
           #userPassword
           required
-          (keyup.enter)="authService.signIn(userName.value, userPassword.value)"
+          (keyup.enter)="
+            authService.signIn(
+              userName.value,
+              userPassword.value,
+              tenantId.value
+            )
+          "
         />
       </div>
 
@@ -28,8 +47,20 @@
         <button
           class="btn btnPrimary"
           type="submit"
-          (keyup.enter)="authService.signIn(userName.value, userPassword.value)"
-          (click)="authService.signIn(userName.value, userPassword.value)"
+          (keyup.enter)="
+            authService.signIn(
+              userName.value,
+              userPassword.value,
+              tenantId.value
+            )
+          "
+          (click)="
+            authService.signIn(
+              userName.value,
+              userPassword.value,
+              tenantId.value
+            )
+          "
         >
           Log in
         </button>

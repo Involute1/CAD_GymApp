@@ -5,13 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
-public class FirebaseInvoice {
+public class FirestoreInvoice {
     @DocumentId
-    private String firebaseId;
+    private String firestoreId;
     private LocalDateTime BillingDate;
     private double Amount;
     private LocalDateTime DueDate;

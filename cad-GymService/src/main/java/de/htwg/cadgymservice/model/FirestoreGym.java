@@ -13,16 +13,16 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class FirebaseGym implements Serializable {
+public class FirestoreGym implements Serializable {
     @DocumentId
-    private String firebaseId;
+    private String id;
     private String name;
     private String tenantId;
     private String description;
     private BillingModel billingModel;
-    private List<FirebaseInvoice> invoices;
+    private List<FirestoreInvoice> invoices;
 
-    public FirebaseGym(String name, String description, BillingModel billingModel) {
+    public FirestoreGym(String name, String description, BillingModel billingModel) {
         this.name = name;
         this.description = description;
         this.billingModel = billingModel;

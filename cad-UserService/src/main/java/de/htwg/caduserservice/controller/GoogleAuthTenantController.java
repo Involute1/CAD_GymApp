@@ -5,11 +5,15 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.multitenancy.ListTenantsPage;
 import com.google.firebase.auth.multitenancy.Tenant;
 import com.google.firebase.auth.multitenancy.TenantManager;
+import de.htwg.caduserservice.model.Gym;
 import de.htwg.caduserservice.model.TenantData;
+import de.htwg.caduserservice.model.requests.RegisterTenantData;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +22,7 @@ import java.util.List;
 @RequestMapping("/tenant")
 public class GoogleAuthTenantController {
     private static final Log LOGGER = LogFactory.getLog(GoogleAuthTenantController.class);
+    private static final String DEFAULT_GYM_SERVICE_URL = "http://localhost:7081/gym/";
 
     @DeleteMapping("/{tenantId}")
     public boolean deleteTenant(@PathVariable String tenantId) {
@@ -86,19 +91,32 @@ public class GoogleAuthTenantController {
         }
     }
 
-    @PostMapping("/register")
-    public TenantData registerTenant(String tenantName) {
-        if (StringUtils.isBlank(tenantName)) {
+    @PostMapping("/")
+    public TenantData registerTenant(@RequestBody RegisterTenantData registerTenantData) {
+        if (StringUtils.isBlank(registerTenantData.displayName())) {
             LOGGER.error("tenantName was empty or null on registerTenant");
             return null;
         }
         TenantManager tenantManager = FirebaseAuth.getInstance().getTenantManager();
         Tenant.CreateRequest request = new Tenant.CreateRequest()
-                .setDisplayName(tenantName)
+                .setDisplayName(registerTenantData.displayName())
                 .setEmailLinkSignInEnabled(false)
                 .setPasswordSignInAllowed(true);
         try {
             Tenant createdTenant = tenantManager.createTenant(request);
+
+            String gymServiceUrl = System.getenv("GYM_SERVICE_URL");
+            if (gymServiceUrl == null) {
+                gymServiceUrl = DEFAULT_GYM_SERVICE_URL;
+            }
+            Gym gym = WebClient.create(gymServiceUrl)
+                    .post()
+                    .bodyValue(new Gym(registerTenantData.displayName(), "Description", createdTenant.getTenantId(), registerTenantData.billingModel()))
+                    .accept(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .bodyToMono(Gym.class)
+                    .block();
+            LOGGER.info(gym);
             return new TenantData(createdTenant.getTenantId(), createdTenant.getDisplayName());
         } catch (FirebaseAuthException e) {
             LOGGER.error(e.getMessage());

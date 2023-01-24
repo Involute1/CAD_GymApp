@@ -28,7 +28,7 @@ resource "google_service_account" "tf_account_gym_service" {
 
 resource "google_project_iam_binding" "tf_gym_service_account_iam_binding_roles" {
   for_each = toset([
-    "roles/storage.admin", "roles/datastore.owner", "roles/storage.objectAdmin"
+    "roles/storage.admin", "roles/datastore.owner", "roles/storage.objectAdmin", "roles/serviceusage.serviceUsageAdmin"
   ])
   members = ["serviceAccount:${google_service_account.tf_account_gym_service.email}"]
   project = var.project_id

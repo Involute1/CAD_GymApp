@@ -44,10 +44,10 @@
               <mat-label>Gym</mat-label>
               <mat-select formControlName="tenantId">
                 <mat-option
-                  *ngFor="let gym of gyms$ | async"
-                  [value]="gym.tenantId"
+                  *ngFor="let tenant of tenants$ | async"
+                  [value]="tenant.tenantId"
                 >
-                  {{ gym.name }}
+                  {{ tenant.displayName }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -57,10 +57,10 @@
               <mat-label>Gym</mat-label>
               <mat-select>
                 <mat-option
-                  *ngFor="let gym of gyms$ | async"
-                  [value]="gym.tenantId"
+                  *ngFor="let tenant of tenants$ | async"
+                  [value]="tenant.tenantId"
                 >
-                  {{ gym.name }}
+                  {{ tenant.displayName }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -78,12 +78,12 @@
             <div class="formGroup">
               <mat-form-field class="example-full-width">
                 <mat-label>Billing Model</mat-label>
-                <mat-select>
+                <mat-select formControlName="billingModel">
                   <mat-option
                     *ngFor="let billingModel of billingModels"
                     [value]="billingModel.value"
                   >
-                    {{ billingModel.value }}
+                    {{ billingModel.label }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>

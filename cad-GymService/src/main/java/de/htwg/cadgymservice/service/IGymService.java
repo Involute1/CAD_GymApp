@@ -1,17 +1,17 @@
 package de.htwg.cadgymservice.service;
 
-import de.htwg.cadgymservice.model.FirebaseGym;
+import de.htwg.cadgymservice.model.FirestoreGym;
 
 import java.util.List;
 
 public interface IGymService {
-    FirebaseGym saveGym(FirebaseGym gym);
+    FirestoreGym saveGym(FirestoreGym gym);
 
-    FirebaseGym getGym(String firebaseId);
+    FirestoreGym getGym(String firebaseId);
 
-    FirebaseGym updateGym(FirebaseGym updatedGym);
+    FirestoreGym updateGym(FirestoreGym updatedGym);
 
     boolean deleteGym(String firebaseId);
 
-    List<FirebaseGym> getGyms();
+    List<FirestoreGym> getGyms();
 }
