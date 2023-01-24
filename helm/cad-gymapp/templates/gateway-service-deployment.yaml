@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-service-deployment
+  labels:
+    app: gateway-service
+spec:
+  selector:
+    matchLabels:
+      app: gateway-service
+  replicas: {{ .Values.replicas }}
+  template:
+    metadata:
+      labels:
+        app: gateway-service
+    spec:
+      containers:
+        - name: gateway-service
+          image: {{ .Values.gatewayService.image }}
+          env:
+            - name: GYM_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: gateway-service-configmap
+                  key: gym_service_url
+            - name: USER_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: gateway-service-configmap
+                  key: user_service_url
+            - name: WORKOUT_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: gateway-service-configmap
+                  key: workout_service_url
+            - name: REPORTING_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: gateway-service-configmap
+                  key: reporting_service_url
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.gatewayService.port }}
+#          livenessProbe:
+#            httpGet:
+#              path: /user/healthcheck
+#              port: 7082
+#            initialDelaySeconds: 10
+#            timeoutSeconds: 5
+#          readinessProbe:
+#            httpGet:
+#              path: /user/healthcheck
+#              port: 7082
+#            initialDelaySeconds: 10
+#            timeoutSeconds: 5

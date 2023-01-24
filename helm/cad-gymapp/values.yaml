@@ -88,6 +88,7 @@ imagePullPolicy: Always
 gymServiceUrl: "http://gym-service-service:7081/gym"
 userServiceUrl: "http://user-service-service:7082/user"
 workoutServiceUrl: "http://workout-service-service:7083/workout"
+reportingServiceUrl: "http://reporting-service-service:7084/reporting"
 
 
 frontend:
@@ -122,3 +123,7 @@ workoutService:
 reportingService:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-reporting-service:latest
   port: 7084
+
+gatewayService:
+  image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-gateway-service:latest
+  port: 8080
