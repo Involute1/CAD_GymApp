@@ -1,6 +1,6 @@
 package de.htwg.cadgymservice.service;
 
-import de.htwg.cadgymservice.model.FirebaseGym;
+import de.htwg.cadgymservice.model.FirestoreGym;
 import de.htwg.cadgymservice.repository.IGymRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,17 +20,17 @@ public class GymServiceImpl implements IGymService {
     }
 
     @Override
-    public FirebaseGym saveGym(FirebaseGym gym) {
+    public FirestoreGym saveGym(FirestoreGym gym) {
         return gymRepository.save(gym).block();
     }
 
     @Override
-    public FirebaseGym getGym(String firebaseId) {
+    public FirestoreGym getGym(String firebaseId) {
         return gymRepository.findById(firebaseId).block();
     }
 
     @Override
-    public FirebaseGym updateGym(FirebaseGym updatedGym) {
+    public FirestoreGym updateGym(FirestoreGym updatedGym) {
         gymRepository.deleteById(updatedGym.getTenantId()).block();
         return saveGym(updatedGym);
     }
@@ -42,7 +42,7 @@ public class GymServiceImpl implements IGymService {
     }
 
     @Override
-    public List<FirebaseGym> getGyms() {
+    public List<FirestoreGym> getGyms() {
         return gymRepository.findAll().collectList().block();
     }
 }

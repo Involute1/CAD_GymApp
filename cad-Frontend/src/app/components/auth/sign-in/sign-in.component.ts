@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Router } from '@angular/router';
+import { Tenant, UserService } from '../../../shared/services/user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sign-in',
@@ -8,7 +10,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit {
-  constructor(public authService: AuthService, private router: Router) {}
+  tenants$: Observable<Tenant[]>;
+
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    private userService: UserService
+  ) {
+    this.tenants$ = this.userService.getTenants();
+  }
 
   ngOnInit() {
     if (this.authService.isLoggedIn) {

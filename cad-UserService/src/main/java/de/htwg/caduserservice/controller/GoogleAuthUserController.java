@@ -1,9 +1,10 @@
 package de.htwg.caduserservice.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.auth.*;
 import com.google.firebase.auth.multitenancy.TenantAwareFirebaseAuth;
-import de.htwg.caduserservice.model.*;
+import de.htwg.caduserservice.model.User;
+import de.htwg.caduserservice.model.UserData;
+import de.htwg.caduserservice.model.requests.RegisterUserData;
 import de.htwg.caduserservice.repository.IUserRepository;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -12,10 +13,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 public class GoogleAuthUserController {
     private static final Log LOGGER = LogFactory.getLog(GoogleAuthUserController.class);
-    private static final String DEFAULT_GYM_SERVICE_URL = "http://localhost:7081";
 
     private IUserRepository userRepository;
     private GoogleAuthTenantController googleAuthTenantController;
@@ -55,33 +51,7 @@ public class GoogleAuthUserController {
 
     @PostMapping("/user")
     public UserData registerUserWithTenant(@RequestBody RegisterUserData registerUserData) throws IOException, InterruptedException {
-        LOGGER.info(registerUserData);
-        String tenantId;
-        if (registerUserData.role().equals(Roles.GymOwner)) {
-            tenantId = googleAuthTenantController.registerTenant(registerUserData.gymName()).tenantId();
-
-
-            String gymServiceUrl = System.getenv("GYM_SERVICE_URL");
-            if (gymServiceUrl == null) {
-                gymServiceUrl = DEFAULT_GYM_SERVICE_URL;
-            }
-
-            var objectMapper = new ObjectMapper();
-            String requestBody = objectMapper
-                    .writeValueAsString(new Gym(registerUserData.gymName(), "Description", registerUserData.billingModel()));
-
-            HttpClient httpClient = HttpClient.newBuilder().build();
-            HttpRequest gymsRequest = HttpRequest.newBuilder()
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                    .uri(URI.create(gymServiceUrl))
-                    .build();
-            httpClient.send(gymsRequest, HttpResponse.BodyHandlers.ofString());
-        } else {
-            tenantId = registerUserData.tenantId();
-        }
-
-        if (StringUtils.isBlank(tenantId)) {
+        if (StringUtils.isBlank(registerUserData.tenantId())) {
             LOGGER.error("tenantId is null or empty on registerUserWithTenant");
             return null;
         }
@@ -90,11 +60,12 @@ public class GoogleAuthUserController {
             return null;
         }
         TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
-                .getAuthForTenant(tenantId);
+                .getAuthForTenant(registerUserData.tenantId());
 
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(registerUserData.email())
                 .setDisplayName(registerUserData.displayName())
+                .setEmailVerified(true)
                 .setPassword(registerUserData.password());
 
         try {

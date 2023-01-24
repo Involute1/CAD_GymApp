@@ -1,26 +1,27 @@
 import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from '@angular/fire/compat/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
-import { map, take } from 'rxjs';
-import firebase from 'firebase/compat';
+import { switchMap, take } from 'rxjs';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private currentUserData: any; // Save logged in user data
+  private currentUserData: any;
 
   constructor(
-    public afs: AngularFirestore, // Inject Firestore service
-    public afAuth: AngularFireAuth, // Inject Firebase auth service
+    public afs: AngularFirestore,
+    public afAuth: AngularFireAuth,
     public router: Router,
     public ngZone: NgZone,
-    private userService: UserService
+    private userService: UserService,
+    private snackBar: MatSnackBar
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
@@ -50,8 +51,8 @@ export class AuthService {
   }
 
   // Sign in with email/password
-  signIn(email: string, password: string) {
-    this.sendVerificationMail();
+  signIn(email: string, password: string, tenantId: string) {
+    firebase.auth().tenantId = tenantId;
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
@@ -68,26 +69,37 @@ export class AuthService {
   }
 
   // Sign up with email/password
+  signUpNewTenant(user: SignUpUser, tenant: SignUpTenant) {
+    this.userService
+      .createTenant(tenant)
+      .pipe(
+        switchMap((tenant) => {
+          user.tenantId = tenant.tenantId;
+          return this.userService.createUser(user);
+        }),
+        take(1)
+      )
+      .subscribe({
+        next: () => this.createdNewUser(),
+        error: (error) => window.alert(error.message),
+      });
+  }
+
   signUp(user: SignUpUser) {
     this.userService
       .createUser(user)
       .pipe(take(1))
       .subscribe({
-        next: (createdUser) => {
-          const userRef: AngularFirestoreDocument<firebase.User> = this.afs.doc(
-            `users/${createdUser.uid}`
-          );
-          userRef
-            .get()
-            .pipe(map((value) => value.data()))
-            .subscribe((user) =>
-              user
-                ?.sendEmailVerification()
-                .then(() => this.router.navigate(['verify-email-address']))
-            );
-        },
+        next: () => this.createdNewUser(),
         error: (error) => window.alert(error.message),
       });
+  }
+
+  createdNewUser() {
+    this.snackBar.open('Created new Account! Please Sign In!', 'Dismiss', {
+      duration: 3000,
+    });
+    this.router.navigate(['sign-in']);
   }
 
   // Send email verfificaiton when new user sign up
@@ -145,6 +157,11 @@ export interface SignUpUser {
   tenantId?: string;
   gymName?: string;
   billingModel?: string;
+}
+
+export interface SignUpTenant {
+  displayName: string;
+  billingModel: string;
 }
 
 export enum Roles {

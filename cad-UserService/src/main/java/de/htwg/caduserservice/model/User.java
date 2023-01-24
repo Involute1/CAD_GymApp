@@ -25,6 +25,7 @@ public class User {
     }
 
     public User(String uid, Roles role) {
+        this.uid = uid;
         this.role = role;
     }
 }

@@ -6,9 +6,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Gym, GymService } from '../../../shared/services/gym.service';
 import { Observable } from 'rxjs';
 import { SelectItem } from 'primeng/api';
+import { Tenant, UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -17,7 +17,7 @@ import { SelectItem } from 'primeng/api';
 })
 export class SignUpComponent implements OnInit {
   roles = Roles;
-  gyms$: Observable<Gym[]>;
+  tenants$: Observable<Tenant[]>;
 
   billingModels: SelectItem[] = [];
 
@@ -34,27 +34,37 @@ export class SignUpComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
-    private gymService: GymService
+    private userService: UserService
   ) {
-    this.gyms$ = this.gymService.getGyms();
+    this.tenants$ = this.userService.getTenants();
   }
 
   ngOnInit() {
     this.billingModels = [
       {
-        value: 'Free',
+        label: 'Free',
+        value: 'FREE',
       },
       {
-        value: 'Standard',
+        label: 'Standard',
+        value: 'STANDARD',
       },
       {
-        value: 'Enterprise',
+        label: 'Enterprise',
+        value: 'ENTERPRISE',
       },
     ];
   }
 
   onSubmit() {
-    this.authService.signUp(this.formGroup.value);
+    if (this.formGroup.get('role')?.value === Roles.GYMOWNER) {
+      this.authService.signUpNewTenant(
+        this.formGroup.value,
+        this.formGroup.value
+      );
+    } else {
+      this.authService.signUp(this.formGroup.value);
+    }
   }
 
   get role() {
