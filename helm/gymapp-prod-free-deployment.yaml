@@ -1,11 +1,5 @@
 domain: "drescherflo.de"
 
-managedSslCert:
-  name: "managed-cert-prod"
-
-ingress:
-  globalIpName: "ingress-ip-prod"
-
 frontend:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-prod/cad-gym-frontend:latest
   
