@@ -14,7 +14,7 @@ on:
       - master
       - dev
       - staging
-      - 'releases/**'
+#      - 'releases/**'
 
 jobs:
   set-deployment-type:
@@ -132,9 +132,11 @@ jobs:
         name: Deploy application
         run: |
           DEPLOYMENT_TYPE=${{ needs.set-deployment-type.outputs.deployment-type }}
-          
+          INGRESS_IP=$(gcloud compute addresses describe ingress-ip-$DEPLOYMENT_TYPE --format='get(address)')
+          echo "Ingress IP: $INGRESS_IP"
           helm upgrade --install ingress-nginx ingress-nginx \
             --repo https://kubernetes.github.io/ingress-nginx \
+            --set controller.service.loadBalancerIP="$INGRESS_IP" \
             --namespace ingress-nginx --create-namespace
           
           cd helm || exit -1
