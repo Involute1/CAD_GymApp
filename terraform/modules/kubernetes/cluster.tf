@@ -5,18 +5,19 @@ resource "google_container_cluster" "primary" {
   # We can't create a cluster with no node pool defined, but we want to only use
   # separately managed node pools. So we create the smallest possible default
   # node pool and immediately delete it.
-  //remove_default_node_pool = true
-  //initial_node_count       = 1
-  ip_allocation_policy {
-  }  # fix for bad request
-  enable_autopilot         = true
+  remove_default_node_pool = true
+  initial_node_count       = 1
+  #enable_autopilot         = true
 }
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
   name       = var.node_pool_name
   location   = var.eu_location
   cluster    = google_container_cluster.primary.name
-  node_count = 1
+  autoscaling {
+    max_node_count = 10
+    min_node_count = 1
+  }
 
   node_config {
     preemptible  = true
