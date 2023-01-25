@@ -20,7 +20,7 @@
         No Workouts have been captured so far. Please go to
         <b>Capture Workout</b> to capture your first step to glory.
       </ng-container>
-      <div *ngFor="let workout of workouts">
+      <div *ngFor="let workout of workouts" class="border-bottom">
         <div>{{ workout.workoutDate | date }}</div>
         <div *ngFor="let exercise of workout.exercises; let i = index">
           <div>Exercise {{ i + 1 }} - {{ exercise.name }}:</div>

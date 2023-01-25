@@ -1,19 +1,24 @@
-<form [formGroup]="formGroup">
-  <mat-form-field class="width-20">
-    <mat-select
-      #select
-      formControlName="role"
-      (selectionChange)="getUserByTyp()"
-    >
-      <mat-option [value]="'Trainer'">Trainer</mat-option>
-      <mat-option [value]="'User'">User</mat-option>
-    </mat-select>
-  </mat-form-field>
+<div class="inner-adjust">
+  <div class="pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Users</h1>
+  </div>
+  <form [formGroup]="formGroup">
+    <mat-form-field class="width-20">
+      <mat-select
+        #select
+        formControlName="role"
+        (selectionChange)="getUserByTyp()"
+      >
+        <mat-option [value]="'Trainer'">Trainer</mat-option>
+        <mat-option [value]="'User'">User</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <div *ngIf="filteredUser$ | async; let users">
-    You have {{ users.length }} different {{ select.value }}s in your Gym.
-  </div>
-  <div *ngFor="let user of filteredUser$ | async">
-    <div>{{ user.displayName }} - {{ user.email }}</div>
-  </div>
-</form>
+    <div *ngIf="filteredUser$ | async; let users">
+      You have {{ users.length }} different {{ select.value }}s in your Gym.
+    </div>
+    <div *ngFor="let user of filteredUser$ | async">
+      <div>{{ user.displayName }} - {{ user.email }}</div>
+    </div>
+  </form>
+</div>

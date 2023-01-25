@@ -25,13 +25,13 @@ public class GymServiceImpl implements IGymService {
     }
 
     @Override
-    public FirestoreGym getGym(String firebaseId) {
-        return gymRepository.findById(firebaseId).block();
+    public FirestoreGym getGymByTenantId(String tenantId) {
+        return gymRepository.findByTenantId(tenantId).block();
     }
 
     @Override
     public FirestoreGym updateGym(FirestoreGym updatedGym) {
-        gymRepository.deleteById(updatedGym.getTenantId()).block();
+        gymRepository.deleteById(updatedGym.getId()).block();
         return saveGym(updatedGym);
     }
 

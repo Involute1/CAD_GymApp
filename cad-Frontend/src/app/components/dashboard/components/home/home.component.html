@@ -9,7 +9,7 @@
   </ng-container>
   <ng-container *ngIf="workoutPlan$ | async; let workoutPlan">
     <div>
-      <div *ngFor="let exercise of workoutPlan.exercises">
+      <div *ngFor="let exercise of workoutPlan.exercises" class="border-bottom">
         <div>
           {{
             exercise.name +
