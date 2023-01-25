@@ -6,13 +6,14 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MessageService, SelectItem } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import {
   Exercise,
   Workout,
   WorkoutService,
 } from '../../../../shared/services/workout.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-capture-workout',
@@ -23,43 +24,18 @@ export class CaptureWorkoutComponent implements OnInit {
   protected data: any;
   formGroup: FormGroup = this.initFormGroup();
 
-  weights: SelectItem[] = [];
   selectedExercises: any = [];
-
-  values = [
-    {
-      name: 'Benchpress',
-      sets: 3,
-      repetition: 10,
-      weight: 50,
-      tag: 'asd',
-    },
-    {
-      name: 'Pullup',
-      sets: 3,
-      repetition: 5,
-      weight: 80,
-      tag: 'bcd',
-    },
-  ];
 
   constructor(
     private formBuilder: FormBuilder,
     private messageService: MessageService,
     private workoutService: WorkoutService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.weights = [
-      { label: '5', value: 5 },
-      { label: '10', value: 10 },
-      { label: '20', value: 20 },
-      { label: '50', value: 50 },
-      { label: '80', value: 80 },
-    ];
-
-    this.populateData();
+    this.onAdd();
   }
 
   onAdd() {
@@ -122,19 +98,12 @@ export class CaptureWorkoutComponent implements OnInit {
     });
   }
 
-  private populateData() {
-    this.values.forEach((data, index) => {
-      this.onAdd();
-      this.exercises.controls[index].setValue(data);
-    });
-  }
-
   private mapToWorkout(): Workout {
     let exercises: Exercise[] = [];
     this.exercises.controls.forEach((exercise) => {
       let exerciseEntry: Exercise = {
         name: exercise.get('name')?.value,
-        sets: exercise.get('set')?.value,
+        sets: exercise.get('sets')?.value,
         repetition: exercise.get('repetition')?.value,
         weight: exercise.get('weight')?.value,
         tag: exercise.get('tag')?.value,
@@ -144,6 +113,7 @@ export class CaptureWorkoutComponent implements OnInit {
     return {
       exercises,
       workoutDate: this.formGroup.get('date')?.value,
+      userId: this.authService.userData.uid,
     };
   }
 

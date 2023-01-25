@@ -59,11 +59,26 @@ export class SignUpComponent implements OnInit {
   onSubmit() {
     if (this.formGroup.get('role')?.value === Roles.GYMOWNER) {
       this.authService.signUpNewTenant(
-        this.formGroup.value,
-        this.formGroup.value
+        {
+          email: this.formGroup.get('email')?.value,
+          password: this.formGroup.get('password')?.value,
+          displayName: this.formGroup.get('displayName')?.value,
+          role: this.formGroup.get('role')?.value,
+          tenantId: this.formGroup.get('tenantId')?.value,
+        },
+        {
+          displayName: this.formGroup.get('gymName')?.value,
+          billingModel: this.formGroup.get('billingModel')?.value,
+        }
       );
     } else {
-      this.authService.signUp(this.formGroup.value);
+      this.authService.signUp({
+        email: this.formGroup.get('email')?.value,
+        password: this.formGroup.get('password')?.value,
+        displayName: this.formGroup.get('displayName')?.value,
+        role: this.formGroup.get('role')?.value,
+        tenantId: this.formGroup.get('tenantId')?.value,
+      });
     }
   }
 

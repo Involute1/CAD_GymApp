@@ -23,16 +23,20 @@ export class AuthService {
     private userService: UserService,
     private snackBar: MatSnackBar
   ) {
+    this.currentUserData = JSON.parse(localStorage.getItem('user')!);
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe((user) => {
       if (user) {
         this.currentUserData = user;
         this.userService
-          .getUser(this.currentUserData.uid)
+          .getUser(this.currentUserData.uid, this.currentUserData.tenantId)
           .pipe(take(1))
           .subscribe((user) => {
             this.currentUserData = user;
+            localStorage.setItem('user', JSON.stringify(this.currentUserData));
+            JSON.parse(localStorage.getItem('user')!);
+            this.router.navigate(['dashboard']);
           });
         localStorage.setItem('user', JSON.stringify(this.currentUserData));
         JSON.parse(localStorage.getItem('user')!);
@@ -55,14 +59,6 @@ export class AuthService {
     firebase.auth().tenantId = tenantId;
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        console.log(result.user);
-        this.afAuth.authState.subscribe((user) => {
-          if (user) {
-            this.router.navigate(['dashboard/home']);
-          }
-        });
-      })
       .catch((error) => {
         window.alert(error.message);
       });
@@ -102,18 +98,6 @@ export class AuthService {
     this.router.navigate(['sign-in']);
   }
 
-  // Send email verfificaiton when new user sign up
-  sendVerificationMail() {
-    return this.afAuth.currentUser
-      .then((u: any) => {
-        console.log(u);
-        u.sendEmailVerification();
-      })
-      .then(() => {
-        this.router.navigate(['verify-email-address']);
-      });
-  }
-
   // Reset Forggot password
   forgotPassword(passwordResetEmail: string) {
     return this.afAuth
@@ -126,7 +110,7 @@ export class AuthService {
       });
   }
 
-  // Returns true when user is looged in and email is verified
+  // Returns true when user is logged in and email is verified
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
     return user !== null && user.emailVerified !== false;
@@ -139,14 +123,18 @@ export class AuthService {
       this.router.navigate(['sign-in']);
     });
   }
+
+  hasRole(roles: string[]) {
+    return roles.some((role) => this.userData.role === role);
+  }
 }
 
 export interface User {
   uid: string;
   email: string;
   displayName: string;
-  emailVerified: boolean;
-  roles?: Roles;
+  isEmailVerified: boolean;
+  role?: Roles;
 }
 
 export interface SignUpUser {
@@ -165,8 +153,8 @@ export interface SignUpTenant {
 }
 
 export enum Roles {
-  USER,
-  TRAINER,
-  GYMOWNER,
-  ADMIN,
+  USER = 'User',
+  TRAINER = 'Trainer',
+  GYMOWNER = 'GymOwner',
+  ADMIN = 'Admin',
 }

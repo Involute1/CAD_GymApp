@@ -12,7 +12,7 @@ import java.util.Map;
 public interface IWorkoutService {
     Workout saveWorkout(Workout workout);
 
-    Workout getWorkoutById(long id);
+    List<Workout> getAllWorkoutByUserId(String userId);
 
     int updateWorkout(long id, LocalDate workoutDate, Exercise exercises);
 

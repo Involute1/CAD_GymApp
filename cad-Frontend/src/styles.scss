@@ -307,8 +307,8 @@ a:not([href]):not([tabindex]):hover {
 
 /* * Navbar */
 .navbar-brand {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 .navbar .form-control {
@@ -409,11 +409,6 @@ input.ng-invalid.ng-touched {
   cursor: not-allowed;
 }
 
-/* Nav */
-body .navbar {
-  padding: 6px 0 !important;
-}
-
 body .navbar-brand {
   background: none;
 }
@@ -473,7 +468,7 @@ label {
 }
 
 .navbar-dark .navbar-brand {
-  margin-left: 6px;
+  margin-left: 20px;
 }
 
 .custom-text strong {
@@ -673,4 +668,9 @@ body {
 
 .example-full-width {
   width: 100%;
+}
+
+.p-hidden-accessible {
+  padding-left: 35px;
+  padding-bottom: 20px;
 }

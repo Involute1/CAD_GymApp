@@ -3,9 +3,10 @@ package de.htwg.cadworkoutservice.controller;
 import de.htwg.cadworkoutservice.model.User;
 import de.htwg.cadworkoutservice.model.Workout;
 import de.htwg.cadworkoutservice.model.request.WorkoutForUsersRequest;
-import de.htwg.cadworkoutservice.service.WorkoutServiceImpl;
+import de.htwg.cadworkoutservice.service.impl.WorkoutServiceImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,11 +29,11 @@ public class WorkoutController {
         return workoutService.saveWorkout(workout);
     }
 
-    @GetMapping("/{workoutId}")
-    public Workout getWorkoutById(@PathVariable long workoutId) {
+    @GetMapping("/{userId}")
+    public List<Workout> getWorkoutsByUserId(@PathVariable String userId) {
         //TODO var checking
         //TODO logging
-        return workoutService.getWorkoutById(workoutId);
+        return Hibernate.unproxy(workoutService.getAllWorkoutByUserId(userId), List.class);
     }
 
     @PostMapping("/users/date")
@@ -40,7 +41,7 @@ public class WorkoutController {
         return workoutService.getUserWithWorkoutOnDate(workoutForUsersRequest);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public List<Workout> getAllWorkouts() {
         //TODO var checking
         //TODO logging
@@ -54,7 +55,7 @@ public class WorkoutController {
         workoutService.deleteById(workoutId);
     }
 
-    @PatchMapping("/workoutId")
+    @PatchMapping("/{workoutId}")
     public void updateById(@PathVariable long workoutId) {
         //TODO var checking
         //TODO logging

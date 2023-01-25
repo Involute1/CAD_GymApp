@@ -55,7 +55,7 @@
           <div *ngSwitchCase="roles.TRAINER">
             <mat-form-field class="example-full-width">
               <mat-label>Gym</mat-label>
-              <mat-select>
+              <mat-select formControlName="tenantId">
                 <mat-option
                   *ngFor="let tenant of tenants$ | async"
                   [value]="tenant.tenantId"

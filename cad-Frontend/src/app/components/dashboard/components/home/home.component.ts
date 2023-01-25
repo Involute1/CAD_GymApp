@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {
-  WorkoutPlanView,
+  WorkoutPlan,
   WorkoutService,
 } from '../../../../shared/services/workout.service';
 import { AuthService } from '../../../../shared/services/auth.service';
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  workoutPlan$: Observable<WorkoutPlanView>;
+  workoutPlan$: Observable<WorkoutPlan>;
 
   constructor(
     private workoutService: WorkoutService,

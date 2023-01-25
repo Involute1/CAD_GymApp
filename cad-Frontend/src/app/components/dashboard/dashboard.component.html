@@ -2,9 +2,10 @@
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-sm-3 col-md-2 mr-0">
     <img
+      style="height: 55px"
       class="brand-logo"
-      src="assets/logo-positronx-white.svg"
-      alt="positronX.io Logo"
+      src="assets/gymapp.png"
+      alt="gymapp Logo"
     />
   </a>
 </nav>
@@ -15,7 +16,7 @@
     <nav class="col-md-2 d-md-block bg-light sidebar">
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isUserOrTrainer">
             <a class="nav-link" routerLink="./home">
               <i class="fa fa-home"></i>Home Page
             </a>
@@ -25,19 +26,24 @@
               <i class="fas fa-user"></i>User Profile
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isUserOrTrainer">
             <a class="nav-link" routerLink="./capture-workout">
               <i class="fas fa-pen"></i>Capture Workout
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isUserOrTrainer">
             <a class="nav-link" routerLink="./workouts">
               <i class="fas fa-dumbbell"></i>Workouts
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isUserOrTrainer">
             <a class="nav-link" routerLink="./workout-plan">
-              <i class="fas fa-calendar"></i>Create Workout Plan
+              <i class="fas fa-calendar"></i>Configure Workout Plan
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="isGymOwner">
+            <a class="nav-link" routerLink="./users">
+              <i class="fas fa-users"></i>Users
             </a>
           </li>
           <!-- Calling SignOut() Api from AuthService -->
