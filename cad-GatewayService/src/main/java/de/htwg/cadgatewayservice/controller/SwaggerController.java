@@ -39,6 +39,11 @@ public class SwaggerController {
                     .filter(s -> !KUBE_SERVICES.contains(s))
                     .forEach(serviceName -> swaggerUrls.add(
                             new AbstractSwaggerUiConfigProperties.SwaggerUrl(serviceName, url + "/" + serviceName + "/v3/api-docs", serviceName)));
+//            swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Gateway Service", url + "/v3/api-docs", "Gateway Service"));
+//            swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Gym Service", gymServiceUrl + "/v3/api-docs", "Gym Service"));
+//            swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("User Service", userServiceUrl + "/v3/api-docs", "User Service"));
+//            swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Workout Service", workoutServiceUrl + "/v3/api-docs", "Workout Service"));
+//            swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Reporting Service", reportingServiceUrl + "/v3/api-docs", "Reporting Service"));
         } else {
             swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Gateway Service", url + "/v3/api-docs", "Gateway Service"));
             swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Gym Service", url.replace("8080", "7081") + "/gym/v3/api-docs", "Gym Service"));
