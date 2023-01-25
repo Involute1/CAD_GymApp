@@ -1,5 +1,9 @@
+data "local_file" "urls" {
+  filename = "${path.module}/urls.txt"
+}
+
 resource "google_monitoring_uptime_check_config" "gym_service_uptime_check" {
-  for_each     = toset(local.basic_urls)
+  for_each     = toset(split(",", data.local_file.urls.content))
   display_name = "Gym Service Uptime Check"
   timeout      = "60s"
   period       = "60s"
@@ -25,7 +29,7 @@ resource "google_monitoring_uptime_check_config" "gym_service_uptime_check" {
 }
 
 resource "google_monitoring_uptime_check_config" "reporting_service_uptime_check" {
-  for_each     = toset(local.basic_urls)
+  for_each     = toset(split(",", data.local_file.urls.content))
   display_name = "Reporting Service Uptime Check"
   timeout      = "60s"
   period       = "60s"
@@ -50,7 +54,7 @@ resource "google_monitoring_uptime_check_config" "reporting_service_uptime_check
 }
 
 resource "google_monitoring_uptime_check_config" "user_service_uptime_check" {
-  for_each     = toset(local.basic_urls)
+  for_each     = toset(split(",", data.local_file.urls.content))
   display_name = "User Service Uptime Check"
   timeout      = "60s"
   period       = "60s"
@@ -75,7 +79,7 @@ resource "google_monitoring_uptime_check_config" "user_service_uptime_check" {
 }
 
 resource "google_monitoring_uptime_check_config" "workout_service_uptime_check" {
-  for_each     = toset(local.basic_urls)
+  for_each     = toset(split(",", data.local_file.urls.content))
   display_name = "Workout Service Uptime Check"
   timeout      = "60s"
   period       = "60s"
@@ -100,7 +104,7 @@ resource "google_monitoring_uptime_check_config" "workout_service_uptime_check" 
 }
 
 resource "google_monitoring_uptime_check_config" "frontend_uptime_check" {
-  for_each     = toset(local.basic_urls)
+  for_each     = toset(split(",", data.local_file.urls.content))
   display_name = "Fronted Uptime Check"
   timeout      = "60s"
   period       = "60s"
