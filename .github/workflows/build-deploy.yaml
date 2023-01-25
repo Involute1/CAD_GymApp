@@ -166,8 +166,7 @@ jobs:
               --values=postgresql-workout-values.yaml
             echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
-            --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }} \
-            --set letsencrypt.issuer="$CERT_ISSUER"
+            --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
           elif [[ $DEPLOYMENT_TYPE == 'staging' ]]; then
             echo "Deploying to staging"
             # Free Deployment
@@ -185,6 +184,7 @@ jobs:
             echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-staging-free-deployment.yaml \
+              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
               --namespace free --create-namespace
             # Premium Deployment
             echo "Deploying premium"
@@ -201,6 +201,7 @@ jobs:
             echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-staging-premium-deployment.yaml \
+              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
               --namespace premium --create-namespace
             # Enterprise Deployment:
               while read client; do
@@ -219,6 +220,7 @@ jobs:
                 helm upgrade --install gymapp cad-gymapp \
                   --values=gymapp-staging-enterprise-deployment.yaml \
                   --set domain="$client.staging.drescherflo.de" \
+                  --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
                   --namespace enterprise-$client --create-namespace
               done < enterprise-clients.txt
           else
@@ -238,7 +240,8 @@ jobs:
             echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-prod-free-deployment.yaml \
-              --namespace free --create-namespace
+              --namespace free --create-namespace \
+              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
             # Premium Deployment
             echo "Deploying premium"
             echo "Deploying user-db"
@@ -254,6 +257,7 @@ jobs:
             echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-prod-premium-deployment.yaml \
+              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
               --namespace premium --create-namespace
             # Enterprise Deployment:
               while read client; do
@@ -272,6 +276,7 @@ jobs:
                 helm upgrade --install gymapp cad-gymapp \
                   --values=gymapp-prod-enterprise-deployment.yaml \
                   --set domain="$client.drescherflo.de" \
+                  --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
                   --namespace enterprise-$client --create-namespace
               done < enterprise-clients.txt
           fi

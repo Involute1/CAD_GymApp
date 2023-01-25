@@ -1,4 +1,6 @@
 domain: "premium.drescherflo.de"
+letsencrypt:
+  issuer: "prod"
 
 frontend:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-prod/cad-gym-frontend:latest
