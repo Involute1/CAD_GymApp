@@ -212,7 +212,11 @@ jobs:
               --values=postgresql-workout-values.yaml
             echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
-            --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
+              --set userService.springDatasourceUsername="${{ secrets.USER_SERVICE_DB_USER }}" \
+              --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
+              --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
+              --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
           elif [[ $DEPLOYMENT_TYPE == 'staging' ]]; then
             echo "Deploying to staging"
             # Free Deployment
@@ -221,16 +225,28 @@ jobs:
             helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml \
+              --set postgresql.password="${{ secrets.USER_SERVICE_DB_PW }}" \
+              --set postgresql.database="${{ secrets.USER_SERVICE_DB }}" \
+              --set postgresql.repmgrPassword="${{ secrets.USER_SERVICE_DB_RPMGR_PW }}" \
+              --set pgpool.adminPassword="${{ secrets.USER_SERVICE_DB_PGPOOL_PW }}" \
               --namespace free --create-namespace
             echo "Deploying workout-db"
             helm upgrade --install postgresql-workout postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml \
+              --set postgresql.password="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+              --set postgresql.database="${{ secrets.WORKOUT_SERVICE_DB }}" \
+              --set postgresql.repmgrPassword="${{ secrets.WORKOUT_SERVICE_DB_RPMGR_PW }}" \
+              --set pgpool.adminPassword="${{ secrets.WORKOUT_SERVICE_DB_PGPOOL_PW }}" \
               --namespace free --create-namespace
             echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-staging-free-deployment.yaml \
-              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
+              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }} \
+              --set userService.springDatasourceUsername="${{ secrets.USER_SERVICE_DB_USER }}" \
+              --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
+              --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
+              --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
               --namespace free --create-namespace
             # Premium Deployment
             echo "Deploying premium"
@@ -238,16 +254,28 @@ jobs:
             helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml \
+              --set postgresql.password="${{ secrets.USER_SERVICE_DB_PW }}" \
+              --set postgresql.database="${{ secrets.USER_SERVICE_DB }}" \
+              --set postgresql.repmgrPassword="${{ secrets.USER_SERVICE_DB_RPMGR_PW }}" \
+              --set pgpool.adminPassword="${{ secrets.USER_SERVICE_DB_PGPOOL_PW }}" \
               --namespace premium --create-namespace
             echo "Deploying workout-db"
             helm upgrade --install postgresql-workout postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml \
+              --set postgresql.password="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+              --set postgresql.database="${{ secrets.WORKOUT_SERVICE_DB }}" \
+              --set postgresql.repmgrPassword="${{ secrets.WORKOUT_SERVICE_DB_RPMGR_PW }}" \
+              --set pgpool.adminPassword="${{ secrets.WORKOUT_SERVICE_DB_PGPOOL_PW }}" \
               --namespace premium --create-namespace
             echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-staging-premium-deployment.yaml \
-              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
+              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }} \
+              --set userService.springDatasourceUsername="${{ secrets.USER_SERVICE_DB_USER }}" \
+              --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
+              --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
+              --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
               --namespace premium --create-namespace
             # Enterprise Deployment:
               while read client; do
@@ -256,17 +284,29 @@ jobs:
                 helm upgrade --install postgresql-user postgresql-ha \
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-user-values.yaml \
+                  --set postgresql.password="${{ secrets.USER_SERVICE_DB_PW }}" \
+                  --set postgresql.database="${{ secrets.USER_SERVICE_DB }}" \
+                  --set postgresql.repmgrPassword="${{ secrets.USER_SERVICE_DB_RPMGR_PW }}" \
+                  --set pgpool.adminPassword="${{ secrets.USER_SERVICE_DB_PGPOOL_PW }}" \
                   --namespace enterprise-$client --create-namespace
                 echo "Deploying workout-db"
                 helm upgrade --install postgresql-workout postgresql-ha \
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-workout-values.yaml \
+                  --set postgresql.password="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+                  --set postgresql.database="${{ secrets.WORKOUT_SERVICE_DB }}" \
+                  --set postgresql.repmgrPassword="${{ secrets.WORKOUT_SERVICE_DB_RPMGR_PW }}" \
+                  --set pgpool.adminPassword="${{ secrets.WORKOUT_SERVICE_DB_PGPOOL_PW }}" \
                   --namespace enterprise-$client --create-namespace
                 echo "Deploying gymapp"
                 helm upgrade --install gymapp cad-gymapp \
                   --values=gymapp-staging-enterprise-deployment.yaml \
                   --set domain="$client.staging.drescherflo.de" \
-                  --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
+                  --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }} \
+                  --set userService.springDatasourceUsername="${{ secrets.USER_SERVICE_DB_USER }}" \
+                  --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
+                  --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
+                  --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
                   --namespace enterprise-$client --create-namespace
               done < enterprise-clients.txt
           else
@@ -277,33 +317,57 @@ jobs:
             helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml \
+              --set postgresql.password="${{ secrets.USER_SERVICE_DB_PW }}" \
+              --set postgresql.database="${{ secrets.USER_SERVICE_DB }}" \
+              --set postgresql.repmgrPassword="${{ secrets.USER_SERVICE_DB_RPMGR_PW }}" \
+              --set pgpool.adminPassword="${{ secrets.USER_SERVICE_DB_PGPOOL_PW }}" \
               --namespace free --create-namespace
             echo "Deploying workout-db"
             helm upgrade --install postgresql-workout postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml \
+              --set postgresql.password="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+              --set postgresql.database="${{ secrets.WORKOUT_SERVICE_DB }}" \
+              --set postgresql.repmgrPassword="${{ secrets.WORKOUT_SERVICE_DB_RPMGR_PW }}" \
+              --set pgpool.adminPassword="${{ secrets.WORKOUT_SERVICE_DB_PGPOOL_PW }}" \
               --namespace free --create-namespace
             echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-prod-free-deployment.yaml \
-              --namespace free --create-namespace \
-              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
+              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }} \
+              --set userService.springDatasourceUsername="${{ secrets.USER_SERVICE_DB_USER }}" \
+              --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
+              --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
+              --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+              --namespace free --create-namespace
             # Premium Deployment
             echo "Deploying premium"
             echo "Deploying user-db"
             helm upgrade --install postgresql-user postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-user-values.yaml \
+              --set postgresql.password="${{ secrets.USER_SERVICE_DB_PW }}" \
+              --set postgresql.database="${{ secrets.USER_SERVICE_DB }}" \
+              --set postgresql.repmgrPassword="${{ secrets.USER_SERVICE_DB_RPMGR_PW }}" \
+              --set pgpool.adminPassword="${{ secrets.USER_SERVICE_DB_PGPOOL_PW }}" \
               --namespace premium --create-namespace
             echo "Deploying workout-db"
             helm upgrade --install postgresql-workout postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml \
+              --set postgresql.password="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+              --set postgresql.database="${{ secrets.WORKOUT_SERVICE_DB }}" \
+              --set postgresql.repmgrPassword="${{ secrets.WORKOUT_SERVICE_DB_RPMGR_PW }}" \
+              --set pgpool.adminPassword="${{ secrets.WORKOUT_SERVICE_DB_PGPOOL_PW }}" \
               --namespace premium --create-namespace
             echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-prod-premium-deployment.yaml \
-              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
+              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }} \
+              --set userService.springDatasourceUsername="${{ secrets.USER_SERVICE_DB_USER }}" \
+              --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
+              --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
+              --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
               --namespace premium --create-namespace
             # Enterprise Deployment:
               while read client; do
@@ -312,17 +376,29 @@ jobs:
                 helm upgrade --install postgresql-user postgresql-ha \
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-user-values.yaml \
+                  --set postgresql.password="${{ secrets.USER_SERVICE_DB_PW }}" \
+                  --set postgresql.database="${{ secrets.USER_SERVICE_DB }}" \
+                  --set postgresql.repmgrPassword="${{ secrets.USER_SERVICE_DB_RPMGR_PW }}" \
+                  --set pgpool.adminPassword="${{ secrets.USER_SERVICE_DB_PGPOOL_PW }}" \
                   --namespace enterprise-$client --create-namespace
                 echo "Deploying workout-db"
                 helm upgrade --install postgresql-workout postgresql-ha \
                   --repo https://charts.bitnami.com/bitnami \
                   --values=postgresql-workout-values.yaml \
+                  --set postgresql.password="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+                  --set postgresql.database="${{ secrets.WORKOUT_SERVICE_DB }}" \
+                  --set postgresql.repmgrPassword="${{ secrets.WORKOUT_SERVICE_DB_RPMGR_PW }}" \
+                  --set pgpool.adminPassword="${{ secrets.WORKOUT_SERVICE_DB_PGPOOL_PW }}" \
                   --namespace enterprise-$client --create-namespace
                 echo "Deploying gymapp"
                 helm upgrade --install gymapp cad-gymapp \
                   --values=gymapp-prod-enterprise-deployment.yaml \
                   --set domain="$client.drescherflo.de" \
-                  --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
+                  --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }} \
+                  --set userService.springDatasourceUsername="${{ secrets.USER_SERVICE_DB_USER }}" \
+                  --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
+                  --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
+                  --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
                   --namespace enterprise-$client --create-namespace
               done < enterprise-clients.txt
           fi
