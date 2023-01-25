@@ -1,12 +1,12 @@
 resource "random_string" "random_string_for_service_accounts" {
-  length  = 15
+  length  = 10
   special = false
   upper   = false
   lower   = true
 }
 
 resource "google_service_account" "tf_account_kubernetes" {
-  account_id   = "tfk8s${random_string.random_string_for_service_accounts.result}"
+  account_id   = "tfk8s${var.environment}${random_string.random_string_for_service_accounts.result}"
   display_name = "tf_k8s_${var.environment}"
   project      = var.project_id
 }
@@ -21,7 +21,7 @@ resource "google_project_iam_binding" "tf_k8n_service_account_iam_binding_roles"
 }
 
 resource "google_service_account" "tf_account_gym_service" {
-  account_id   = "tfgym${random_string.random_string_for_service_accounts.result}"
+  account_id   = "tfgym${var.environment}${random_string.random_string_for_service_accounts.result}"
   display_name = "tf_gym_service_${var.environment}"
   project      = var.project_id
 }
@@ -36,7 +36,7 @@ resource "google_project_iam_binding" "tf_gym_service_account_iam_binding_roles"
 }
 
 resource "google_service_account" "tf_account_user_service" {
-  account_id   = "tfuser${random_string.random_string_for_service_accounts.result}"
+  account_id   = "tfuser${var.environment}${random_string.random_string_for_service_accounts.result}"
   display_name = "tf_user_service_${var.environment}"
   project      = var.project_id
 }
