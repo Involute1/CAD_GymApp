@@ -84,7 +84,7 @@ jobs:
             URL="drescherflo.de"
           fi
           
-          IP=gcloud compute addresses describe ingress-ip-$DEPLOYMENT_TYPE --region="europe-west3" --format="get(address)"
+          IP=$(gcloud compute addresses describe ingress-ip-$DEPLOYMENT_TYPE --region="europe-west3" --format="get(address)")
           echo "IP: $IP"
           curl -X PUT --location "https://www.lima-city.de/usercp/domains/${{ secrets.DNS_DOMAIN_ID }}/records/$DNS_RECORD_ID" \
               -H "Content-Type: application/json" \
