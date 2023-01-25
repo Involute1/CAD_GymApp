@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reporting-service-deployment
+  labels:
+    app: reporting-service
+spec:
+  selector:
+    matchLabels:
+      app: reporting-service
+  replicas: {{ .Values.replicas }}
+  template:
+    metadata:
+      labels:
+        app: reporting-service
+    spec:
+      containers:
+        - name: reporting-service
+          image: {{ .Values.reportingService.image }}
+          env:
+            - name: GYM_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: reporting-service-configmap
+                  key: gym_service_url
+            - name: USER_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: reporting-service-configmap
+                  key: user_service_url
+            - name: WORKOUT_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: reporting-service-configmap
+                  key: workout_service_url
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.reportingService.port }}
+#          livenessProbe:
+#            httpGet:
+#              path: /user/healthcheck
+#              port: 7082
+#            initialDelaySeconds: 10
+#            timeoutSeconds: 5
+#          readinessProbe:
+#            httpGet:
+#              path: /user/healthcheck
+#              port: 7082
+#            initialDelaySeconds: 10
+#            timeoutSeconds: 5
