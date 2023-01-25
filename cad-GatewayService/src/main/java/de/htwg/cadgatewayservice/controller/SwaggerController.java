@@ -1,7 +1,6 @@
 package de.htwg.cadgatewayservice.controller;
 
 import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,12 +15,12 @@ import java.util.Map;
 @RestController
 public class SwaggerController {
 
-    private static final List<String> KUBE_SERVICES = List.of("kubernetes", "kube-dns", "prometheus-kube-prometheus-kubelet");
-    private final DiscoveryClient discoveryClient;
-
-    public SwaggerController(DiscoveryClient discoveryClient) {
-        this.discoveryClient = discoveryClient;
-    }
+//    private static final List<String> KUBE_SERVICES = List.of("kubernetes", "kube-dns", "prometheus-kube-prometheus-kubelet");
+//    private final DiscoveryClient discoveryClient;
+//
+//    public SwaggerController(DiscoveryClient discoveryClient) {
+//        this.discoveryClient = discoveryClient;
+//    }
 
     @GetMapping("/v3/api-docs/swagger-config")
     public Map<String, Object> swaggerConfig(ServerHttpRequest serverHttpRequest) throws URISyntaxException {
@@ -34,11 +33,11 @@ public class SwaggerController {
         Map<String, Object> swaggerConfig = new LinkedHashMap<>();
         List<AbstractSwaggerUiConfigProperties.SwaggerUrl> swaggerUrls = new LinkedList<>();
         if (reportingServiceUrl != null) {
-            System.out.println("Services = " + discoveryClient.getServices());
-            discoveryClient.getServices().stream()
-                    .filter(s -> !KUBE_SERVICES.contains(s))
-                    .forEach(serviceName -> swaggerUrls.add(
-                            new AbstractSwaggerUiConfigProperties.SwaggerUrl(serviceName, url + "/" + serviceName + "/v3/api-docs", serviceName)));
+//            System.out.println("Services = " + discoveryClient.getServices());
+//            discoveryClient.getServices().stream()
+//                    .filter(s -> !KUBE_SERVICES.contains(s))
+//                    .forEach(serviceName -> swaggerUrls.add(
+//                            new AbstractSwaggerUiConfigProperties.SwaggerUrl(serviceName, url + "/" + serviceName + "/v3/api-docs", serviceName)));
 //            swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Gateway Service", url + "/v3/api-docs", "Gateway Service"));
 //            swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Gym Service", gymServiceUrl + "/v3/api-docs", "Gym Service"));
 //            swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("User Service", userServiceUrl + "/v3/api-docs", "User Service"));
