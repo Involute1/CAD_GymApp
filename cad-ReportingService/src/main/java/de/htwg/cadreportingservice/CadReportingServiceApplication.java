@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -14,12 +15,13 @@ import java.util.Properties;
 
 @EnableScheduling
 @SpringBootApplication
+@PropertySource("classpath:application.properties")
 public class CadReportingServiceApplication {
 
-    @Value("spring.mail.username")
+    @Value("${spring.mail.username}")
     private String email;
 
-    @Value("spring.mail.password")
+    @Value("${spring.mail.password}")
     private String password;
 
     public static void main(String[] args) {

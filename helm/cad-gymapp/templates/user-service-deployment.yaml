@@ -38,8 +38,13 @@ spec:
                 secretKeyRef:
                   name: user-service-secret
                   key: spring_datasource_password
-          command: ["./wait-for-it.sh"]
-          args: ["$(SQL_DB_URL)", "--", "java", "-jar", "/UserService.jar"]
+            - name: GYM_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: user-service-configmap
+                  key: gym_service_url
+          command: [ "./wait-for-it.sh" ]
+          args: [ "$(SQL_DB_URL)", "--", "java", "-jar", "/UserService.jar" ]
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - containerPort: 7082

@@ -30,9 +30,9 @@ import java.util.List;
 public class ReportingService {
 
     private static final Log LOGGER = LogFactory.getLog(ReportingService.class);
-    private static final String DEFAULT_GYM_SERVICE_URL = "http://localhost:7081/gym/";
-    private static final String DEFAULT_USER_SERVICE_URL = "http://localhost:7082/user/";
-    private static final String DEFAULT_WORKOUT_SERVICE_URL = "http://localhost:7083/workout/";
+    private static final String DEFAULT_GYM_SERVICE_URL = "http://localhost:7081/gym";
+    private static final String DEFAULT_USER_SERVICE_URL = "http://localhost:7082/user";
+    private static final String DEFAULT_WORKOUT_SERVICE_URL = "http://localhost:7083/workout";
     private JavaMailSender mailSender;
 
     @Scheduled(cron = "* 5 * * * ?")
@@ -92,7 +92,7 @@ public class ReportingService {
         HttpRequest gymsRequest = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json")
                 .GET()
-                .uri(URI.create(gymServiceUrl))
+                .uri(URI.create(gymServiceUrl + "/"))
                 .build();
         HttpResponse<String> gymResponse = httpClient.send(gymsRequest, HttpResponse.BodyHandlers.ofString());
 
@@ -108,7 +108,7 @@ public class ReportingService {
         }
         LOGGER.debug("User Service URL: " + userServiceUrl);
         LOGGER.info("Requesting user");
-        return WebClient.create(userServiceUrl + uid + "/" + tenantId)
+        return WebClient.create(userServiceUrl + "/" + uid + "/" + tenantId)
                 .get()
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
@@ -165,7 +165,7 @@ public class ReportingService {
         };
 
         return List.of(new WorkoutForUserResponse(LocalDate.now(), List.of(new Exercise(1L, "asd", 1, 2, 3, "asd")), users.get(0).getUid(), users.get(0).getEmail()));
-        /*return WebClient.create(workoutServiceUrl + "users/date")
+        /*return WebClient.create(workoutServiceUrl + "/users/date")
                 .post()
                 .bodyValue(new WorkoutForUsersRequest(LocalDateTime.now().minusDays(1L).toEpochSecond(ZoneOffset.UTC), users))
                 .accept(MediaType.APPLICATION_JSON)

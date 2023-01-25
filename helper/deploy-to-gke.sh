@@ -11,12 +11,14 @@ docker build -t europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-use
 docker build -t europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-workout-service:latest cad-WorkoutService/
 docker build -t europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-frontend:latest cad-Frontend/
 docker build -t europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-invoice-cronjob:latest cad-InvoiceCronjob/
+docker build -t europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-reporting-service:latest cad-ReportingService/
 
 docker push europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-gym-service:latest
 docker push europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-user-service:latest
 docker push europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-workout-service:latest
 docker push europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-frontend:latest
 docker push europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-invoice-cronjob:latest
+docker push europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-reporting-service:latest
 
 cd helm
 
