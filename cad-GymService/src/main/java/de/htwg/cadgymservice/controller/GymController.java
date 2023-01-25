@@ -12,6 +12,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @RestController
@@ -19,6 +21,7 @@ public class GymController {
     private static final Log LOGGER = LogFactory.getLog(GymController.class);
     private final GymServiceImpl gymService;
     private final GymBucketServiceImpl gymBucketService;
+    private static final ZoneOffset ZONE_OFFSET = ZoneOffset.UTC;
 
     public GymController(@Autowired GymServiceImpl gymService, @Autowired GymBucketServiceImpl gymBucketService) {
         this.gymService = gymService;
@@ -32,32 +35,32 @@ public class GymController {
         return new Gym(savedFirestoreGym.getId(), savedFirestoreGym.getName(), savedFirestoreGym.getTenantId(), savedFirestoreGym.getDescription(), savedFirestoreGym.getBillingModel(), new byte[0]);
     }
 
-    @GetMapping("/{firebaseId}")
-    public Gym getGymById(@PathVariable String firebaseId) {
-        FirestoreGym firestoreGym = gymService.getGym(firebaseId);
-        Blob blob = gymBucketService.getLogo(firebaseId);
+    @GetMapping("/{firestoreId}")
+    public Gym getGymById(@PathVariable String firestoreId) {
+        FirestoreGym firestoreGym = gymService.getGymByTenantId(firestoreId);
+        Blob blob = gymBucketService.getLogo(firestoreId);
         return new Gym(firestoreGym.getId(), firestoreGym.getName(), firestoreGym.getTenantId(), firestoreGym.getDescription(), firestoreGym.getBillingModel(), blob.getContent());
     }
 
-    @DeleteMapping("/{firebaseId}")
-    public boolean deleteGym(@PathVariable String firebaseId) {
-        gymService.deleteGym(firebaseId);
-        gymBucketService.deleteLogo(firebaseId);
+    @DeleteMapping("/{firestoreId}")
+    public boolean deleteGym(@PathVariable String firestoreId) {
+        gymService.deleteGym(firestoreId);
+        gymBucketService.deleteLogo(firestoreId);
         return true;
     }
 
-    @PatchMapping("/{firebaseId}")
-    public Gym updateGym(@PathVariable String firebaseId, @RequestBody Gym updatedGym) {
-        FirestoreGym firestoreGymToUpdate = gymService.getGym(updatedGym.getFirebaseId());
+    @PatchMapping("/{firestoreId}")
+    public Gym updateGym(@PathVariable String firestoreId, @RequestBody Gym updatedGym) {
+        FirestoreGym firestoreGymToUpdate = gymService.getGymByTenantId(updatedGym.getFirebaseId());
         FirestoreGym firestoreGym = gymService.updateGym(new FirestoreGym(updatedGym.getFirebaseId(), updatedGym.getName(), updatedGym.getTenantId(), updatedGym.getDescription(), updatedGym.getBillingModel(), firestoreGymToUpdate.getInvoices()));
-        Blob blob = gymBucketService.updateLogo(firebaseId, updatedGym.getLogo());
+        Blob blob = gymBucketService.updateLogo(firestoreId, updatedGym.getLogo());
         return new Gym(firestoreGym.getId(), firestoreGym.getName(), firestoreGym.getTenantId(), firestoreGym.getDescription(), updatedGym.getBillingModel(), blob.getContent());
     }
 
-    @GetMapping("/{firebaseId}/invoice")
-    public List<Invoice> getGymInvoices(@PathVariable String firebaseId) {
-        FirestoreGym firestoreGym = gymService.getGym(firebaseId);
-        return firestoreGym.getInvoices().stream().map(fbInvoice -> new Invoice(fbInvoice.getFirestoreId(), fbInvoice.getBillingDate(), fbInvoice.getAmount(), fbInvoice.getDueDate(), firestoreGym.getId())).toList();
+    @GetMapping("/{tenantId}/invoice")
+    public List<Invoice> getGymInvoices(@PathVariable String tenantId) {
+        FirestoreGym firestoreGym = gymService.getGymByTenantId(tenantId);
+        return firestoreGym.getInvoices().stream().map(fbInvoice -> new Invoice(fbInvoice.getFirestoreId(), LocalDateTime.ofEpochSecond(fbInvoice.getBillingDate(), 0, ZONE_OFFSET), fbInvoice.getAmount(), LocalDateTime.ofEpochSecond(fbInvoice.getDueDate(), 0, ZONE_OFFSET), firestoreGym.getId())).toList();
     }
 
     @GetMapping("/")
@@ -69,9 +72,9 @@ public class GymController {
     @PostMapping("/invoices")
     public boolean insertInvoices(@RequestBody List<Invoice> newInvoices) {
         newInvoices.forEach(invoice -> {
-            FirestoreGym gym = gymService.getGym(invoice.getGymId());
+            FirestoreGym gym = gymService.getGymByTenantId(invoice.getGymId());
             List<FirestoreInvoice> invoices = gym.getInvoices();
-            invoices.add(new FirestoreInvoice(null, invoice.getBillingDate(), invoice.getAmount(), invoice.getDueDate()));
+            invoices.add(new FirestoreInvoice(null, invoice.getBillingDate().toEpochSecond(ZONE_OFFSET), invoice.getAmount(), invoice.getDueDate().toEpochSecond(ZONE_OFFSET)));
             gym.setInvoices(invoices);
             gymService.updateGym(gym);
         });

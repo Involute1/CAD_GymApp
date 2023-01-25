@@ -15,6 +15,7 @@ import { WorkoutsComponent } from './components/dashboard/components/workouts/wo
 import { WorkoutPlanComponent } from './components/dashboard/components/workout-plan/workout-plan.component';
 import { RoleGuard } from './shared/guard/role.guard';
 import { UsersComponent } from './components/dashboard/components/users/users.component';
+import { BillsComponent } from './components/dashboard/components/bills/bills.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
@@ -57,6 +58,12 @@ const routes: Routes = [
       {
         path: 'users',
         component: UsersComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['GymOwner'] },
+      },
+      {
+        path: 'bills',
+        component: BillsComponent,
         canActivate: [RoleGuard],
         data: { roles: ['GymOwner'] },
       },

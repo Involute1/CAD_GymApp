@@ -35,6 +35,8 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { UsersComponent } from './components/dashboard/components/users/users.component';
+import { BillsComponent } from './components/dashboard/components/bills/bills.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import { UsersComponent } from './components/dashboard/components/users/users.co
     WorkoutsComponent,
     WorkoutPlanComponent,
     UsersComponent,
+    BillsComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,6 +75,7 @@ import { UsersComponent } from './components/dashboard/components/users/users.co
     RippleModule,
     MessageModule,
     MessagesModule,
+    CommonModule,
   ],
   providers: [AuthService, MessageService],
   bootstrap: [AppComponent],

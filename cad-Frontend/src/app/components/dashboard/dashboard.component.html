@@ -46,6 +46,11 @@
               <i class="fas fa-users"></i>Users
             </a>
           </li>
+          <li class="nav-item" *ngIf="isGymOwner">
+            <a class="nav-link" routerLink="./bills">
+              <i class="fas fa-file-invoice-dollar"></i>Bills
+            </a>
+          </li>
           <!-- Calling SignOut() Api from AuthService -->
           <li class="nav-item">
             <a class="nav-link" (click)="authService.signOut()">
