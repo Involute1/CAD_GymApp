@@ -87,6 +87,13 @@ letsencrypt:
   issuer: "staging"
 
 replicas: 2
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+  # targetMemoryUtilizationPercentage: 80
+
 imagePullPolicy: Always
 gymServiceUrl: "http://gym-service-service:7081/gym"
 userServiceUrl: "http://user-service-service:7082/user"
