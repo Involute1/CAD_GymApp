@@ -232,7 +232,10 @@ jobs:
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml
             echo "Deploying gymapp"
-            helm upgrade --install gymapp cad-gymapp
+            helm upgrade --install gymapp cad-gymapp \
+              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }} \
+              --set reportingService.gmailSmtpUsername=${{ secrets.GMAIL_SMTP_USERNAME }} \
+              --set reportingService.gmailSmtpPassword=${{ secrets.GMAIL_SMTP_PASSWORD }}
           elif [[ $DEPLOYMENT_TYPE == 'staging' ]]; then
             echo "Deploying to staging"
             # Free Deployment
@@ -263,6 +266,8 @@ jobs:
               --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
               --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
               --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+              --set reportingService.gmailSmtpUsername=${{ secrets.GMAIL_SMTP_USERNAME }} \
+              --set reportingService.gmailSmtpPassword=${{ secrets.GMAIL_SMTP_PASSWORD }} \
               --namespace free --create-namespace
             # Premium Deployment
             echo "Deploying premium"
@@ -292,6 +297,8 @@ jobs:
               --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
               --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
               --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+              --set reportingService.gmailSmtpUsername=${{ secrets.GMAIL_SMTP_USERNAME }} \
+              --set reportingService.gmailSmtpPassword=${{ secrets.GMAIL_SMTP_PASSWORD }} \
               --namespace premium --create-namespace
             # Enterprise Deployment:
               while read client; do
@@ -323,6 +330,8 @@ jobs:
                   --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
                   --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
                   --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+                  --set reportingService.gmailSmtpUsername=${{ secrets.GMAIL_SMTP_USERNAME }} \
+                  --set reportingService.gmailSmtpPassword=${{ secrets.GMAIL_SMTP_PASSWORD }} \
                   --namespace enterprise-$client --create-namespace
               done < enterprise-clients.txt
           else
@@ -355,6 +364,8 @@ jobs:
               --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
               --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
               --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+              --set reportingService.gmailSmtpUsername=${{ secrets.GMAIL_SMTP_USERNAME }} \
+              --set reportingService.gmailSmtpPassword=${{ secrets.GMAIL_SMTP_PASSWORD }} \
               --namespace free --create-namespace
             # Premium Deployment
             echo "Deploying premium"
@@ -384,6 +395,8 @@ jobs:
               --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
               --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
               --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+              --set reportingService.gmailSmtpUsername=${{ secrets.GMAIL_SMTP_USERNAME }} \
+              --set reportingService.gmailSmtpPassword=${{ secrets.GMAIL_SMTP_PASSWORD }} \
               --namespace premium --create-namespace
             # Enterprise Deployment:
               while read client; do
@@ -415,6 +428,8 @@ jobs:
                   --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
                   --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
                   --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
+                  --set reportingService.gmailSmtpUsername=${{ secrets.GMAIL_SMTP_USERNAME }} \
+                  --set reportingService.gmailSmtpPassword=${{ secrets.GMAIL_SMTP_PASSWORD }} \
                   --namespace enterprise-$client --create-namespace
               done < enterprise-clients.txt
           fi
