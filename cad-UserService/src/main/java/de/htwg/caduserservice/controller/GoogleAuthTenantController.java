@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/tenant")
 public class GoogleAuthTenantController {
     private static final Log LOGGER = LogFactory.getLog(GoogleAuthTenantController.class);
-    private static final String DEFAULT_GYM_SERVICE_URL = "http://localhost:7081/gym/";
+    private static final String DEFAULT_GYM_SERVICE_URL = "http://localhost:7081/gym";
 
     @DeleteMapping("/{tenantId}")
     public boolean deleteTenant(@PathVariable String tenantId) {
@@ -109,7 +109,8 @@ public class GoogleAuthTenantController {
             if (gymServiceUrl == null) {
                 gymServiceUrl = DEFAULT_GYM_SERVICE_URL;
             }
-            Gym gym = WebClient.create(gymServiceUrl)
+            LOGGER.info(gymServiceUrl + "/");
+            Gym gym = WebClient.create(gymServiceUrl + "/")
                     .post()
                     .bodyValue(new Gym(registerTenantData.displayName(), "Description", createdTenant.getTenantId(), registerTenantData.billingModel()))
                     .accept(MediaType.APPLICATION_JSON)
