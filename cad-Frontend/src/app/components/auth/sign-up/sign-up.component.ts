@@ -9,6 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { SelectItem } from 'primeng/api';
 import { Tenant, UserService } from '../../../shared/services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,6 +19,7 @@ import { Tenant, UserService } from '../../../shared/services/user.service';
 export class SignUpComponent implements OnInit {
   roles = Roles;
   tenants$: Observable<Tenant[]>;
+  showBillingModel = true;
 
   billingModels: SelectItem[] = [];
 
@@ -34,7 +36,8 @@ export class SignUpComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private snackbar: MatSnackBar
   ) {
     this.tenants$ = this.userService.getTenants();
   }
@@ -54,6 +57,17 @@ export class SignUpComponent implements OnInit {
         value: 'ENTERPRISE',
       },
     ];
+    let splitHostname = window.location.hostname.split('.');
+    let level = splitHostname.at(0);
+    if (
+      splitHostname.length > 2 &&
+      level !== 'premium' &&
+      level !== 'staging' &&
+      level !== 'dev'
+    ) {
+      this.showBillingModel = false;
+      this.formGroup.get('billingModel')?.setValue('ENTERPRISE');
+    }
   }
 
   onSubmit() {
@@ -79,6 +93,48 @@ export class SignUpComponent implements OnInit {
         role: this.formGroup.get('role')?.value,
         tenantId: this.formGroup.get('tenantId')?.value,
       });
+    }
+  }
+
+  onBillingModelChange() {
+    let splitHostname = window.location.hostname.split('.');
+    let level = splitHostname.at(0);
+    if (this.formGroup.get('billingModel')?.value === 'FREE') {
+      if (
+        splitHostname.length > 2 &&
+        !(level === 'staging' || level === 'dev')
+      ) {
+        let url = '';
+        splitHostname.forEach((hostPart, index) => {
+          if (index !== 0) {
+            url += hostPart + '.';
+          }
+        });
+        url = url.slice(0, -1);
+        window.location.href =
+          'http://' +
+          url +
+          ':' +
+          window.location.port +
+          window.location.pathname;
+      }
+    } else if (this.formGroup.get('billingModel')?.value === 'STANDARD') {
+      if (
+        splitHostname.length === 2 ||
+        level === 'staging' ||
+        level === 'dev'
+      ) {
+        window.location.href =
+          'http://premium.' +
+          window.location.hostname +
+          ':' +
+          window.location.port +
+          window.location.pathname;
+      }
+    } else if (this.formGroup.get('billingModel')?.value === 'ENTERPRISE') {
+      this.snackbar.open(
+        'Please contact us at david.wolpers@htwg-konstanz.de to set up your own personal deployment!'
+      );
     }
   }
 

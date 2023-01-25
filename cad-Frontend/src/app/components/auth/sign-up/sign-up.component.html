@@ -33,7 +33,7 @@
           <input
             type="text"
             class="formControl"
-            placeholder="Name"
+            placeholder="Username"
             formControlName="displayName"
           />
         </div>
@@ -75,10 +75,13 @@
                 formControlName="gymName"
               />
             </div>
-            <div class="formGroup">
+            <div *ngIf="showBillingModel" class="formGroup">
               <mat-form-field class="example-full-width">
                 <mat-label>Billing Model</mat-label>
-                <mat-select formControlName="billingModel">
+                <mat-select
+                  (selectionChange)="onBillingModelChange()"
+                  formControlName="billingModel"
+                >
                   <mat-option
                     *ngFor="let billingModel of billingModels"
                     [value]="billingModel.value"
