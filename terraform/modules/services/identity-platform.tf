@@ -25,10 +25,9 @@ resource "google_identity_platform_project_default_config" "default" {
 
 }
 
-//TODO ./enable_multi_tenancy.sh for mac, maybe find other solution here
 resource "null_resource" "enable_multi_tenancy_script" {
   provisioner "local-exec" {
-    command     = "enable_multi_tenancy.sh ${var.project_id}"
+    command     = local.is_not_Windows ? "./enable_multi_tenancy.sh ${var.project_id}" : "enable_multi_tenancy.sh ${var.project_id}"
     working_dir = "../../scripts"
   }
 }
