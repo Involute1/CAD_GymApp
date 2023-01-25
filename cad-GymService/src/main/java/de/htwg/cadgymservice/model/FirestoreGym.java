@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -20,7 +21,7 @@ public class FirestoreGym implements Serializable {
     private String tenantId;
     private String description;
     private BillingModel billingModel;
-    private List<FirestoreInvoice> invoices;
+    private List<FirestoreInvoice> invoices = new ArrayList<>();
 
     public FirestoreGym(String name, String description, BillingModel billingModel) {
         this.name = name;

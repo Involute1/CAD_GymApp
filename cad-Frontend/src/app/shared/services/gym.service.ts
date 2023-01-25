@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -18,21 +18,23 @@ export class GymService {
   }
 
   getGyms(): Observable<Gym[]> {
-    return of([
-      {
-        tenantId: 'HappyFit-6amgt',
-        name: 'HappyFit',
-      },
-      {
-        tenantId: '1',
-        name: 'Fitty',
-      },
-    ]);
-    //return this.http.get<Gym[]>(this.gymUrl + '/gym');
+    return this.http.get<Gym[]>(this.gymUrl + '/gym');
+  }
+
+  getBills(tenantId: string): Observable<Invoice[]> {
+    return this.http.get<Invoice[]>(`${this.gymUrl}/${tenantId}/invoice`);
   }
 }
 
 export interface Gym {
   tenantId: string;
   name: string;
+}
+
+export interface Invoice {
+  firestoreId: string;
+  billingDate: Date;
+  amount: number;
+  dueDate: Date;
+  gymId: string;
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public interface IGymService {
     FirestoreGym saveGym(FirestoreGym gym);
 
-    FirestoreGym getGym(String firebaseId);
+    FirestoreGym getGymByTenantId(String tenantId);
 
     FirestoreGym updateGym(FirestoreGym updatedGym);
 
