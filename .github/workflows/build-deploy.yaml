@@ -60,8 +60,18 @@ jobs:
       -
         name: Generate monitoring config
         run: |
-          BASE_URL="drescherflo.de"
-          URLS="\"$BASE_URL\", \"premium.BASE_URL\""
+          DEPLOYMENT_TYPE=${{ needs.set-deployment-type.outputs.deployment-type }}
+          if [[ $DEPLOYMENT_TYPE == "dev" ]]; then
+            BASE_URL="dev.drescherflo.de"
+            URLS="\"$BASE_URL\""
+          else
+            if [[ $DEPLOYMENT_TYPE == "staging" ]]; then
+              BASE_URL="staging.drescherflo.de"
+            else
+              BASE_URL="drescherflo.de"
+            fi
+            URLS="\"$BASE_URL\", \"premium.$BASE_URL\""
+          fi
 
           while read client; do
               URLS+=", \"$client.$BASE_URL\""
