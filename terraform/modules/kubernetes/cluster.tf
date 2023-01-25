@@ -15,7 +15,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   location   = var.eu_location
   cluster    = google_container_cluster.primary.name
   autoscaling {
-    max_node_count = 10
+    max_node_count = 4
     min_node_count = 1
   }
 
