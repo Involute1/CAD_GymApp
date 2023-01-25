@@ -4,8 +4,14 @@
   </div>
 
   <ng-container *ngIf="!(workoutPlan$ | async)">
-    No Workout Plan has been created yet. Please go to
-    <b>Configure Workout Plan</b> to create one.
+    <div>
+      Welcome to HappyFit! Check out our home page at
+      <a href="https://happy-fit-studios.de/">Happy Fit</a>!
+    </div>
+    <img
+      src="https://happy-fit-studios.de/fixfoxdateien/2023_Kursplan_page-0001.jpg"
+      alt="Kursplan"
+    />
   </ng-container>
   <ng-container *ngIf="workoutPlan$ | async; let workoutPlan">
     <div>
