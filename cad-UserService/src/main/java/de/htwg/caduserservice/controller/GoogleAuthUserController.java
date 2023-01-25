@@ -2,6 +2,7 @@ package de.htwg.caduserservice.controller;
 
 import com.google.firebase.auth.*;
 import com.google.firebase.auth.multitenancy.TenantAwareFirebaseAuth;
+import de.htwg.caduserservice.model.Gym;
 import de.htwg.caduserservice.model.User;
 import de.htwg.caduserservice.model.UserData;
 import de.htwg.caduserservice.model.requests.RegisterUserData;
@@ -11,9 +12,13 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +26,15 @@ import java.util.List;
 @AllArgsConstructor
 public class GoogleAuthUserController {
     private static final Log LOGGER = LogFactory.getLog(GoogleAuthUserController.class);
-
+    //https://cloud.google.com/identity-platform/docs/multi-tenancy-managing-tenants#creating_a_user
+    private static final String DEFAULT_GYM_SERVICE_URL = "http://localhost:7081/gym";
     private IUserRepository userRepository;
     private GoogleAuthTenantController googleAuthTenantController;
-    //https://cloud.google.com/identity-platform/docs/multi-tenancy-managing-tenants#creating_a_user
+    @Value("${billingmodel.free.max-user-count}")
+    private long freeMaxUserCount;
+
+    @Value("${billingmodel.standard.max-user-count}")
+    private long standardMaxUserCount;
 
     @PostMapping("/verify")
     public boolean verifyToken(@RequestBody VerifyTokenData verifyTokenData) {
@@ -51,7 +61,7 @@ public class GoogleAuthUserController {
     }
 
     @PostMapping("/user")
-    public UserData registerUserWithTenant(@RequestBody RegisterUserData registerUserData) throws IOException, InterruptedException {
+    public UserData registerUserWithTenant(@RequestBody RegisterUserData registerUserData) {
         if (StringUtils.isBlank(registerUserData.tenantId())) {
             LOGGER.error("tenantId is null or empty on registerUserWithTenant");
             return null;
@@ -62,6 +72,11 @@ public class GoogleAuthUserController {
         }
         TenantAwareFirebaseAuth tenantAuth = FirebaseAuth.getInstance().getTenantManager()
                 .getAuthForTenant(registerUserData.tenantId());
+
+        if (!isCreationOfUserAllowed(registerUserData.tenantId())) {
+            LOGGER.error("User limit reached for billing model");
+            throw new ResponseStatusException(HttpStatus.UPGRADE_REQUIRED, "User limit reached for billing model");
+        }
 
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(registerUserData.email())
@@ -176,4 +191,28 @@ public class GoogleAuthUserController {
     }
 
 
+    public boolean isCreationOfUserAllowed(String tenantId) {
+        String gymServiceUrl = System.getenv("GYM_SERVICE_URL");
+        if (gymServiceUrl == null) {
+            gymServiceUrl = DEFAULT_GYM_SERVICE_URL;
+        }
+
+        Gym gym = WebClient.create(gymServiceUrl + "/" + tenantId)
+                .get()
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(Gym.class)
+                .block();
+
+        List<UserData> users = getAllUserForTenant(tenantId);
+
+        return switch (gym.billingModel()) {
+            case FREE:
+                yield users.size() < freeMaxUserCount;
+            case STANDARD:
+                yield users.size() < standardMaxUserCount;
+            case ENTERPRISE:
+                yield true;
+        };
+    }
 }
