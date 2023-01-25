@@ -37,4 +37,25 @@ spec:
                 name: workout-service-service
                 port:
                   number: {{ .Values.workoutService.port }}
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service-service
+                port:
+                  number: {{ .Values.gatewayService.port }}
+          - path: /api-docs
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service-service
+                port:
+                  number: {{ .Values.gatewayService.port }}
+          - path: /reporting
+            pathType: Prefix
+            backend:
+              service:
+                name: reporting-service-service
+                port:
+                  number: {{ .Values.reportingService.port }}
 

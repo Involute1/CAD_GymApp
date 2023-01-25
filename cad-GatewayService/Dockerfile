@@ -7,10 +7,7 @@ RUN mvn clean package -DskipTests=true
 
 FROM openjdk:17-bullseye
 
-# Get wait-for-it
-RUN wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
-RUN chmod +x wait-for-it.sh
 
 # Command to run on standalone container execution
 COPY --from=builder /app/target/*.jar GatewayService.jar
-ENTRYPOINT ["java", "-jar", "/GatewayService.jar"]
+ENTRYPOINT ["java", "-jar", "/GatewayService.jar", "--spring.config.name=prod"]
