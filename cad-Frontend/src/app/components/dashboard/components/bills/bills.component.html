@@ -1,0 +1,10 @@
+<div class="inner-adjust">
+  <div class="pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Bills</h1>
+  </div>
+  <div *ngFor="let bill of bills$ | async" class="border-bottom">
+    <div>Bill from {{ bill.billingDate | date }}</div>
+    <div>Amount: {{ bill.amount | number : "1.2-2" }}€</div>
+    <div>Due at: {{ bill.dueDate | date }}</div>
+  </div>
+</div>

@@ -14,7 +14,7 @@ import {
 } from '../../../../shared/services/workout.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService, User } from '../../../../shared/services/auth.service';
-import { Observable, of, take } from 'rxjs';
+import { map, Observable, of, take } from 'rxjs';
 import { UserService } from '../../../../shared/services/user.service';
 
 @Component({
@@ -40,17 +40,42 @@ export class WorkoutPlanComponent implements OnInit {
   ) {
     this.hasTrainerPermissions = this.authService.hasRole(['Trainer']);
     if (this.hasTrainerPermissions) {
-      this.gymUsers$ = this.userService.getUsers(
-        this.authService.userData.tenantId
-      );
+      this.gymUsers$ = this.userService
+        .getUsers(this.authService.userData.tenantId)
+        .pipe(
+          map((users) =>
+            users.filter(
+              (user) =>
+                user.role === 'User' ||
+                user.uid === this.authService.userData.uid
+            )
+          )
+        );
     }
   }
 
   ngOnInit() {
+    this.formGroup.get('uid')?.setValue(this.authService.userData.uid);
     this.workoutService
       .getWorkoutPlan(this.authService.userData.uid)
       .pipe(take(1))
       .subscribe((workoutPlan) => {
+        if (workoutPlan) {
+          this.populateData(workoutPlan.exercises);
+        } else {
+          this.onAdd();
+        }
+      });
+  }
+
+  getWorkoutPlanForUid() {
+    this.workoutService
+      .getWorkoutPlan(this.formGroup.get('uid')?.value)
+      .pipe(take(1))
+      .subscribe((workoutPlan) => {
+        const uid = this.formGroup.get('uid')?.value;
+        this.formGroup = this.initFormGroup();
+        this.formGroup.get('uid')?.setValue(uid);
         if (workoutPlan) {
           this.populateData(workoutPlan.exercises);
         } else {
@@ -88,7 +113,7 @@ export class WorkoutPlanComponent implements OnInit {
   private initFormGroup() {
     return this.formBuilder.group({
       exercises: new FormArray([]),
-      uid: new FormControl(this.authService.userData.uid, Validators.required),
+      uid: ['', Validators.required],
     });
   }
 
@@ -114,7 +139,6 @@ export class WorkoutPlanComponent implements OnInit {
   private populateData(exercises: Exercise[]) {
     exercises.forEach((data, index) => {
       this.onAdd();
-      console.log(index);
       if (this.exercises.controls[index]) {
         this.exercises.controls[index].setValue({
           name: data.name,
