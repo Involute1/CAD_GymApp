@@ -81,7 +81,7 @@
 #
 #affinity: {}
 
-domain: "dev.drescherflo.de"
+domain: ""
 letsencrypt:
   mail: ""
   issuer: "staging"

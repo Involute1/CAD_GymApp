@@ -211,12 +211,7 @@ jobs:
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml
             echo "Deploying gymapp"
-            helm upgrade --install gymapp cad-gymapp \
-              --set userService.springDatasourceUsername="${{ secrets.USER_SERVICE_DB_USER }}" \
-              --set userService.springDatasourcePassword="${{ secrets.USER_SERVICE_DB_PW }}" \
-              --set workoutService.springDatasourceUsername="${{ secrets.WORKOUT_SERVICE_DB_USER }}" \
-              --set workoutService.springDatasourcePassword="${{ secrets.WORKOUT_SERVICE_DB_PW }}" \
-              --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }}
+            helm upgrade --install gymapp cad-gymapp
           elif [[ $DEPLOYMENT_TYPE == 'staging' ]]; then
             echo "Deploying to staging"
             # Free Deployment
