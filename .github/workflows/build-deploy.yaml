@@ -138,7 +138,21 @@ jobs:
             --repo https://kubernetes.github.io/ingress-nginx \
             --set controller.service.loadBalancerIP="$INGRESS_IP" \
             --namespace ingress-nginx --create-namespace
+          sleep 10  # required for ingress to fully start up
+          helm install \
+          cert-manager cert-manager \
+          --namespace cert-manager \
+          --create-namespace \
+          --set installCRDs=true \
+          --repo https://charts.jetstack.io
           
+          if [[ $DEPLOYMENT_TYPE == 'dev' || $DEPLOYMENT_TYPE == 'staging' ]]; then
+            CERT_ISSUER="staging"
+          else
+            CERT_ISSUER="prod"
+          fi
+          echo "Cert Issuer: $CERT_ISSUER"
+
           cd helm || exit -1
           if [[ $DEPLOYMENT_TYPE == 'dev' ]]; then
             echo "Deploying to dev"
@@ -150,9 +164,10 @@ jobs:
             helm upgrade --install postgresql-workout postgresql-ha \
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml
-            sleep 10  # required for ingress to fully start up
             echo "Deploying gymapp"
-            helm upgrade --install gymapp cad-gymapp
+            helm upgrade --install gymapp cad-gymapp \
+            --set letsencrypt.mail=${{ secrets.SSL_CERT_MAIL }} \
+            --set letsencrypt.issuer="$CERT_ISSUER"
           elif [[ $DEPLOYMENT_TYPE == 'staging' ]]; then
             echo "Deploying to staging"
             # Free Deployment
@@ -167,7 +182,6 @@ jobs:
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml \
               --namespace free --create-namespace
-            sleep 10  # required for ingress to fully start up
             echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-staging-free-deployment.yaml \
@@ -221,7 +235,6 @@ jobs:
               --repo https://charts.bitnami.com/bitnami \
               --values=postgresql-workout-values.yaml \
               --namespace free --create-namespace
-            sleep 10  # required for ingress to fully start up
             echo "Deploying gymapp"
             helm upgrade --install gymapp cad-gymapp \
               --values=gymapp-prod-free-deployment.yaml \
