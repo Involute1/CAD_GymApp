@@ -81,7 +81,7 @@
 #
 #affinity: {}
 
-domain: ""
+domain: "dev.drescherflo.de"
 letsencrypt:
   mail: ""
   issuer: "staging"
@@ -90,7 +90,7 @@ replicas: 2
 autoscaling:
   enabled: false
   minReplicas: 2
-  maxReplicas: 10
+  maxReplicas: 100
   targetCPUUtilizationPercentage: 50
   # targetMemoryUtilizationPercentage: 80
 
