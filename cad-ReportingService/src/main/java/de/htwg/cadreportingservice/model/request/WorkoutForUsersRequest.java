@@ -5,12 +5,11 @@ import de.htwg.cadreportingservice.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 public class WorkoutForUsersRequest {
-    private LocalDate workoutDate;
+    private Long workoutDate;
     private List<User> users;
 }

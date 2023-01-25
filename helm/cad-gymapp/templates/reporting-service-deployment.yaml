@@ -33,6 +33,16 @@ spec:
                 configMapKeyRef:
                   name: reporting-service-configmap
                   key: workout_service_url
+            - name: GMAIL_SMTP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: reporting-service-secret
+                  key: gmail_smtp_username
+            - name: GMAIL_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: reporting-service-secret
+                  key: gmail_smtp_password
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - containerPort: {{ .Values.reportingService.port }}

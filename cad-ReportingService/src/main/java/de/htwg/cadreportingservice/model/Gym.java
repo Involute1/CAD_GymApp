@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 public class Gym implements Serializable {
-    private String firebaseId;
+    private String firestoreId;
     private String name;
     private String tenantId;
     private String description;

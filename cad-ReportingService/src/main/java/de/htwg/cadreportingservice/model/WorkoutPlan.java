@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.UUID;
 
 @NoArgsConstructor
 @Getter
@@ -13,6 +12,6 @@ import java.util.UUID;
 public class WorkoutPlan {
     private Long id;
     private List<Exercise> exercises;
-    private UUID userId;
-    private UUID creatorId;
+    private String userId;
+    private String creatorId;
 }

@@ -7,7 +7,6 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @NoArgsConstructor
 @Getter
@@ -16,7 +15,7 @@ public class Workout implements Serializable {
     private Long id;
     private LocalDate workoutDate;
 
-    private UUID userId;
+    private String userId;
 
     private List<Exercise> exercises;
 

@@ -9,6 +9,7 @@ export const environment = {
   gymPort: ':7081',
   userPort: ':7082',
   workoutPort: ':7083',
+  reportingPort: ':7084',
   firebase: {
     apiKey: apiKey.firebaseApiKey,
     authDomain: 'cad-gym-app.firebaseapp.com',

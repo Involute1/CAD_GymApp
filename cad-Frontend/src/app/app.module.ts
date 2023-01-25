@@ -37,6 +37,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { UsersComponent } from './components/dashboard/components/users/users.component';
 import { BillsComponent } from './components/dashboard/components/bills/bills.component';
 import { CommonModule } from '@angular/common';
+import { ReportComponent } from './components/dashboard/components/report/report.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { CommonModule } from '@angular/common';
     WorkoutPlanComponent,
     UsersComponent,
     BillsComponent,
+    ReportComponent,
   ],
   imports: [
     BrowserModule,

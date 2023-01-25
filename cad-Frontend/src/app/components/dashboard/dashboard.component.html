@@ -41,6 +41,11 @@
               <i class="fas fa-calendar"></i>Configure Workout Plan
             </a>
           </li>
+          <li class="nav-item" *ngIf="isUserOrTrainer">
+            <a class="nav-link" routerLink="./report">
+              <i class="fas fa-table"></i>Create Report
+            </a>
+          </li>
           <li class="nav-item" *ngIf="isGymOwner">
             <a class="nav-link" routerLink="./users">
               <i class="fas fa-users"></i>Users
