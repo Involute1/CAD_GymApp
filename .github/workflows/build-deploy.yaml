@@ -58,6 +58,17 @@ jobs:
         with:
           cli_config_credentials_token: ${{ secrets.TERRAFORM_TOKEN }}
       -
+        name: Generate monitoring config
+        run: |
+          BASE_URL="drescherflo.de"
+          URLS="\"$BASE_URL\", \"premium.BASE_URL\""
+
+          while read client; do
+              URLS+=", \"$client.$BASE_URL\""
+          done < helm/enterprise-clients.txt
+
+          echo "$URLS" > terraform/modules/monitoring/urls.txt
+      -
         name: Terraform init and apply
         run: |
           export GOOGLE_CREDENTIALS='${{ secrets.GCP_KEY }}'
