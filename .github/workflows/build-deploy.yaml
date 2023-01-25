@@ -206,7 +206,7 @@ jobs:
             --set controller.service.loadBalancerIP="$INGRESS_IP" \
             --namespace ingress-nginx --create-namespace
           sleep 10  # required for ingress to fully start up
-          helm install \
+          helm upgrade --install \
           cert-manager cert-manager \
           --namespace cert-manager \
           --create-namespace \
