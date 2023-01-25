@@ -4,13 +4,18 @@
   </div>
   <form [formGroup]="formGroup">
     <h3>Exercises</h3>
-    <mat-form-field *ngIf="hasTrainerPermissions" class="width-20">
-      <mat-select formControlName="uid">
-        <mat-option *ngFor="let user of gymUsers$ | async" [value]="user.uid">
-          {{ user.displayName }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div>
+      <mat-form-field *ngIf="hasTrainerPermissions" class="width-20">
+        <mat-select
+          formControlName="uid"
+          (selectionChange)="getWorkoutPlanForUid()"
+        >
+          <mat-option *ngFor="let user of gymUsers$ | async" [value]="user.uid">
+            {{ user.displayName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
     <div formArrayName="exercises">
       <p-table [value]="exercises.controls" [(selection)]="selectedExercises">
         <ng-template pTemplate="header">

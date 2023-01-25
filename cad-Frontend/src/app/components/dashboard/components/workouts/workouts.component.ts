@@ -3,7 +3,7 @@ import {
   Workout,
   WorkoutService,
 } from '../../../../shared/services/workout.service';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { AuthService, User } from '../../../../shared/services/auth.service';
 import { UserService } from '../../../../shared/services/user.service';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -29,9 +29,17 @@ export class WorkoutsComponent implements OnInit {
   ) {
     this.hasTrainerPermissions = this.authService.hasRole(['Trainer']);
     if (this.hasTrainerPermissions) {
-      this.gymUsers$ = this.userService.getUsers(
-        this.authService.userData.tenantId
-      );
+      this.gymUsers$ = this.userService
+        .getUsers(this.authService.userData.tenantId)
+        .pipe(
+          map((users) =>
+            users.filter(
+              (user) =>
+                user.role === 'User' ||
+                user.uid === this.authService.userData.uid
+            )
+          )
+        );
     }
     this.getWorkoutsForUid();
   }
