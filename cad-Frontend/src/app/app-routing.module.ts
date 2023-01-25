@@ -13,6 +13,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CaptureWorkoutComponent } from './components/dashboard/components/capture-workout/capture-workout.component';
 import { WorkoutsComponent } from './components/dashboard/components/workouts/workouts.component';
 import { WorkoutPlanComponent } from './components/dashboard/components/workout-plan/workout-plan.component';
+import { RoleGuard } from './shared/guard/role.guard';
+import { UsersComponent } from './components/dashboard/components/users/users.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
@@ -26,7 +28,8 @@ const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
-        canActivate: [AuthGuard],
+        canActivate: [RoleGuard],
+        data: { roles: ['User', 'Trainer'] },
       },
       {
         path: 'user',
@@ -36,17 +39,26 @@ const routes: Routes = [
       {
         path: 'capture-workout',
         component: CaptureWorkoutComponent,
-        canActivate: [AuthGuard],
+        canActivate: [RoleGuard],
+        data: { roles: ['User', 'Trainer'] },
       },
       {
         path: 'workouts',
         component: WorkoutsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [RoleGuard],
+        data: { roles: ['User', 'Trainer'] },
       },
       {
         path: 'workout-plan',
         component: WorkoutPlanComponent,
-        canActivate: [AuthGuard],
+        canActivate: [RoleGuard],
+        data: { roles: ['User', 'Trainer'] },
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['GymOwner'] },
       },
     ],
   },

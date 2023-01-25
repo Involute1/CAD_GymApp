@@ -1,496 +1,80 @@
-<h2>Configure Workout Plan</h2>
-<form [formGroup]="formGroup">
-  <h3 class="dayHeader">Monday</h3>
-  <div formArrayName="monday">
-    <p-table [value]="monday.controls" [(selection)]="selectedRows.monday">
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 5%"></th>
-          <th>Name</th>
-          <th>Sets</th>
-          <th>Repetitions</th>
-          <th>Weight</th>
-          <th>Tag</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-ri="rowIndex">
-        <tr [formGroupName]="ri">
-          <td>
-            <p-tableCheckbox [value]="ri + 1"></p-tableCheckbox>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="name" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="sets" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="repetition" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-select formControlName="weight">
-                <mat-option
-                  *ngFor="let weight of weights"
-                  [value]="weight.value"
-                >
-                  {{ weight.value }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="tag" />
-            </mat-form-field>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-    <div style="margin-top: 10px">
-      <button class="btn btn-primary mr-1" (click)="onAdd('monday')">
-        Add New Row
-      </button>
-      <button
-        [disabled]="monday.controls.length === 1"
-        class="btn btn-primary mr-1 row-button"
-        (click)="onDelete('monday')"
-      >
-        Delete Selected Row
-      </button>
-    </div>
+<div class="inner-adjust">
+  <div class="pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Configure Workout Plan</h1>
   </div>
-  <hr />
-  <h3 class="dayHeader">Tuesday</h3>
-  <div formArrayName="tuesday">
-    <p-table
-      #dt
-      [value]="tuesday.controls"
-      [(selection)]="selectedRows.tuesday"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 5%"></th>
-          <th>Name</th>
-          <th>Sets</th>
-          <th>Repetitions</th>
-          <th>Weight</th>
-          <th>Tag</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-controls let-ri="rowIndex">
-        <tr [formGroupName]="ri">
-          <td>
-            <p-tableCheckbox [value]="ri + 1"></p-tableCheckbox>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="name" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="sets" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="repetition" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-select formControlName="weight">
-                <mat-option
-                  *ngFor="let weight of weights"
-                  [value]="weight.value"
-                >
-                  {{ weight.value }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="tag" />
-            </mat-form-field>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-    <div style="margin-top: 10px">
-      <button class="btn btn-primary mr-1" (click)="onAdd('tuesday')">
-        Add New Row
-      </button>
-      <button
-        [disabled]="tuesday.controls.length === 1"
-        class="btn btn-primary mr-1 row-button"
-        (click)="onDelete('tuesday')"
-      >
-        Delete Selected Row
-      </button>
+  <form [formGroup]="formGroup">
+    <h3>Exercises</h3>
+    <mat-form-field *ngIf="hasTrainerPermissions" class="width-20">
+      <mat-select formControlName="uid">
+        <mat-option *ngFor="let user of gymUsers$ | async" [value]="user.uid">
+          {{ user.displayName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div formArrayName="exercises">
+      <p-table [value]="exercises.controls" [(selection)]="selectedExercises">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 5%"></th>
+            <th>Name</th>
+            <th>Sets</th>
+            <th>Repetitions</th>
+            <th>Weight</th>
+            <th>Tag</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-ri="rowIndex">
+          <tr [formGroupName]="ri">
+            <td>
+              <p-tableCheckbox [value]="ri + 1"></p-tableCheckbox>
+            </td>
+            <td>
+              <mat-form-field class="example-full-width">
+                <input matInput formControlName="name" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="example-full-width">
+                <input matInput formControlName="sets" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="example-full-width">
+                <input matInput formControlName="repetition" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="example-full-width">
+                <input matInput formControlName="weight" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="example-full-width">
+                <input matInput formControlName="tag" />
+              </mat-form-field>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <div style="margin-top: 10px">
+        <button class="btn btn-primary mr-1" (click)="onAdd()">
+          Add New Row
+        </button>
+        <button
+          [disabled]="exercises.controls.length === 1"
+          class="btn btn-primary mr-1 row-button"
+          (click)="onDelete()"
+        >
+          Delete Selected Row
+        </button>
+        <button
+          [disabled]="formGroup.invalid"
+          class="btn btn-primary mr-1 row-button"
+          (click)="onSubmit()"
+        >
+          Submit
+        </button>
+      </div>
     </div>
-  </div>
-  <hr />
-  <h3 class="dayHeader">Wednesday</h3>
-  <div formArrayName="wednesday">
-    <p-table
-      #dt
-      [value]="wednesday.controls"
-      [(selection)]="selectedRows.wednesday"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 5%"></th>
-          <th>Name</th>
-          <th>Sets</th>
-          <th>Repetitions</th>
-          <th>Weight</th>
-          <th>Tag</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-controls let-ri="rowIndex">
-        <tr [formGroupName]="ri">
-          <td>
-            <p-tableCheckbox [value]="ri + 1"></p-tableCheckbox>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="name" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="sets" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="repetition" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-select formControlName="weight">
-                <mat-option
-                  *ngFor="let weight of weights"
-                  [value]="weight.value"
-                >
-                  {{ weight.value }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="tag" />
-            </mat-form-field>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-    <div style="margin-top: 10px">
-      <button class="btn btn-primary mr-1" (click)="onAdd('wednesday')">
-        Add New Row
-      </button>
-      <button
-        [disabled]="wednesday.controls.length === 1"
-        class="btn btn-primary mr-1 row-button"
-        (click)="onDelete('wednesday')"
-      >
-        Delete Selected Row
-      </button>
-    </div>
-  </div>
-  <hr />
-  <h3 class="dayHeader">Thursday</h3>
-  <div formArrayName="thursday">
-    <p-table
-      #dt
-      [value]="thursday.controls"
-      [(selection)]="selectedRows.thursday"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 5%"></th>
-          <th>Name</th>
-          <th>Sets</th>
-          <th>Repetitions</th>
-          <th>Weight</th>
-          <th>Tag</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-controls let-ri="rowIndex">
-        <tr [formGroupName]="ri">
-          <td>
-            <p-tableCheckbox [value]="ri + 1"></p-tableCheckbox>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="name" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="sets" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="repetition" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-select formControlName="weight">
-                <mat-option
-                  *ngFor="let weight of weights"
-                  [value]="weight.value"
-                >
-                  {{ weight.value }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="tag" />
-            </mat-form-field>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-    <div style="margin-top: 10px">
-      <button class="btn btn-primary mr-1" (click)="onAdd('thursday')">
-        Add New Row
-      </button>
-      <button
-        [disabled]="thursday.controls.length === 1"
-        class="btn btn-primary mr-1 row-button"
-        (click)="onDelete('thursday')"
-      >
-        Delete Selected Row
-      </button>
-    </div>
-  </div>
-  <hr />
-  <h3 class="dayHeader">Friday</h3>
-  <div formArrayName="friday">
-    <p-table #dt [value]="friday.controls" [(selection)]="selectedRows.friday">
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 5%"></th>
-          <th>Name</th>
-          <th>Sets</th>
-          <th>Repetitions</th>
-          <th>Weight</th>
-          <th>Tag</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-controls let-ri="rowIndex">
-        <tr [formGroupName]="ri">
-          <td>
-            <p-tableCheckbox [value]="ri + 1"></p-tableCheckbox>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="name" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="sets" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="repetition" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-select formControlName="weight">
-                <mat-option
-                  *ngFor="let weight of weights"
-                  [value]="weight.value"
-                >
-                  {{ weight.value }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="tag" />
-            </mat-form-field>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-    <div style="margin-top: 10px">
-      <button class="btn btn-primary mr-1" (click)="onAdd('friday')">
-        Add New Row
-      </button>
-      <button
-        [disabled]="friday.controls.length === 1"
-        class="btn btn-primary mr-1 row-button"
-        (click)="onDelete('friday')"
-      >
-        Delete Selected Row
-      </button>
-    </div>
-  </div>
-  <hr />
-  <h3 class="dayHeader">Saturday</h3>
-  <div formArrayName="saturday">
-    <p-table
-      #dt
-      [value]="saturday.controls"
-      [(selection)]="selectedRows.saturday"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 5%"></th>
-          <th>Name</th>
-          <th>Sets</th>
-          <th>Repetitions</th>
-          <th>Weight</th>
-          <th>Tag</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-controls let-ri="rowIndex">
-        <tr [formGroupName]="ri">
-          <td>
-            <p-tableCheckbox [value]="ri + 1"></p-tableCheckbox>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="name" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="sets" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="repetition" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-select formControlName="weight">
-                <mat-option
-                  *ngFor="let weight of weights"
-                  [value]="weight.value"
-                >
-                  {{ weight.value }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="tag" />
-            </mat-form-field>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-    <div style="margin-top: 10px">
-      <button class="btn btn-primary mr-1" (click)="onAdd('saturday')">
-        Add New Row
-      </button>
-      <button
-        [disabled]="saturday.controls.length === 1"
-        class="btn btn-primary mr-1 row-button"
-        (click)="onDelete('saturday')"
-      >
-        Delete Selected Row
-      </button>
-    </div>
-  </div>
-  <hr />
-  <h3 class="dayHeader">Sunday</h3>
-  <div formArrayName="sunday">
-    <p-table #dt [value]="sunday.controls" [(selection)]="selectedRows.sunday">
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 5%"></th>
-          <th>Name</th>
-          <th>Sets</th>
-          <th>Repetitions</th>
-          <th>Weight</th>
-          <th>Tag</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-controls let-ri="rowIndex">
-        <tr [formGroupName]="ri">
-          <td>
-            <p-tableCheckbox [value]="ri + 1"></p-tableCheckbox>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="name" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="sets" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="repetition" />
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-select formControlName="weight">
-                <mat-option
-                  *ngFor="let weight of weights"
-                  [value]="weight.value"
-                >
-                  {{ weight.value }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput formControlName="tag" />
-            </mat-form-field>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-    <div style="margin-top: 10px">
-      <button class="btn btn-primary mr-1" (click)="onAdd('sunday')">
-        Add New Row
-      </button>
-      <button
-        [disabled]="sunday.controls.length === 1"
-        class="btn btn-primary mr-1 row-button"
-        (click)="onDelete('sunday')"
-      >
-        Delete Selected Row
-      </button>
-    </div>
-  </div>
-  <hr />
-
-  <button
-    [disabled]="formGroup.invalid"
-    class="btn btn-primary mr-1 submit-button"
-    (click)="onSubmit()"
-  >
-    Submit
-  </button>
-</form>
+  </form>
+</div>

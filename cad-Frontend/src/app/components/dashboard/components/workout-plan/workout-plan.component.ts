@@ -6,14 +6,16 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { SelectItem } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import {
   Exercise,
   WorkoutPlan,
   WorkoutService,
 } from '../../../../shared/services/workout.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from '../../../../shared/services/auth.service';
+import { AuthService, User } from '../../../../shared/services/auth.service';
+import { Observable, of, take } from 'rxjs';
+import { UserService } from '../../../../shared/services/user.service';
 
 @Component({
   selector: 'app-workout-plan',
@@ -24,95 +26,69 @@ export class WorkoutPlanComponent implements OnInit {
   protected data: any;
   formGroup: FormGroup = this.initFormGroup();
 
-  weights: SelectItem[] = [];
-  selectedRows = {
-    monday: [],
-    tuesday: [],
-    wednesday: [],
-    thursday: [],
-    friday: [],
-    saturday: [],
-    sunday: [],
-  };
-
-  values = [
-    {
-      name: 'Benchpress',
-      sets: 3,
-      repetition: 10,
-      weight: 50,
-      tag: 'asd',
-    },
-    {
-      name: 'Pullup',
-      sets: 3,
-      repetition: 5,
-      weight: 80,
-      tag: 'asd',
-    },
-  ];
+  selectedExercises: any = [];
+  hasTrainerPermissions: boolean;
+  gymUsers$: Observable<User[]> = of([]);
 
   constructor(
     private formBuilder: FormBuilder,
+    private messageService: MessageService,
     private workoutService: WorkoutService,
     private snackBar: MatSnackBar,
-    private authService: AuthService
-  ) {}
-
-  ngOnInit() {
-    this.weights = [
-      { label: '5', value: 5 },
-      { label: '10', value: 10 },
-      { label: '20', value: 20 },
-      { label: '50', value: 50 },
-      { label: '80', value: 80 },
-    ];
-
-    this.populateData();
+    private authService: AuthService,
+    private userService: UserService
+  ) {
+    this.hasTrainerPermissions = this.authService.hasRole(['Trainer']);
+    if (this.hasTrainerPermissions) {
+      this.gymUsers$ = this.userService.getUsers(
+        this.authService.userData.tenantId
+      );
+    }
   }
 
-  onAdd(day: string) {
+  ngOnInit() {
+    this.workoutService
+      .getWorkoutPlan(this.authService.userData.uid)
+      .pipe(take(1))
+      .subscribe((workoutPlan) => {
+        if (workoutPlan) {
+          this.populateData(workoutPlan.exercises);
+        } else {
+          this.onAdd();
+        }
+      });
+  }
+
+  onAdd() {
     this.formGroup.markAllAsTouched();
-    // @ts-ignore
-    this[day].push(this.addControls());
+    this.exercises.push(this.addControls());
   }
 
   onSubmit() {
     this.workoutService
       .createWorkoutPlan(this.mapToWorkoutPlan())
       .subscribe((workout) => {
-        this.snackBar.open('Workout Captured!', 'Dismiss', {
+        this.snackBar.open('Workout Plan Updated!', 'Dismiss', {
           duration: 3000,
         });
-        this.formGroup = this.initFormGroup();
       });
   }
 
   /**
    * delete an existing row
    */
-  onDelete(day: string) {
-    // @ts-ignore
-    for (let i = this.selectedRows[day].length - 1; i >= 0; i--) {
-      // @ts-ignore
-      this[day].controls.splice(this.selectedRows[day][i] - 1, 1);
+  onDelete() {
+    for (let i = this.selectedExercises.length - 1; i >= 0; i--) {
+      this.exercises.controls.splice(this.selectedExercises[i] - 1, 1);
     }
-    // @ts-ignore
-    this[day].updateValueAndValidity(this[day].value);
-
-    // @ts-ignore
-    this.selectedRows[day] = [];
+    this.exercises.updateValueAndValidity(this.exercises.value);
+    this.selectedExercises = [];
   }
 
   private initFormGroup() {
     return this.formBuilder.group({
-      monday: new FormArray([]),
-      tuesday: new FormArray([]),
-      wednesday: new FormArray([]),
-      friday: new FormArray([]),
-      thursday: new FormArray([]),
-      saturday: new FormArray([]),
-      sunday: new FormArray([]),
+      exercises: new FormArray([]),
+      uid: new FormControl(this.authService.userData.uid, Validators.required),
     });
   }
 
@@ -131,112 +107,47 @@ export class WorkoutPlanComponent implements OnInit {
         Validators.required,
         Validators.pattern('^[0-9]*$'),
       ]),
-      tag: new FormControl(''),
+      tag: new FormControl('', Validators.required),
     });
   }
 
-  private populateData() {
-    this.values.forEach((data, index) => {
-      this.onAdd('monday');
-      this.monday.controls[index].setValue(data);
-      this.onAdd('tuesday');
-      this.tuesday.controls[index].setValue(data);
-      this.onAdd('wednesday');
-      this.wednesday.controls[index].setValue(data);
-      this.onAdd('thursday');
-      this.thursday.controls[index].setValue(data);
-      this.onAdd('friday');
-      this.friday.controls[index].setValue(data);
-      this.onAdd('saturday');
-      this.saturday.controls[index].setValue(data);
-      this.onAdd('sunday');
-      this.sunday.controls[index].setValue(data);
+  private populateData(exercises: Exercise[]) {
+    exercises.forEach((data, index) => {
+      this.onAdd();
+      console.log(index);
+      if (this.exercises.controls[index]) {
+        this.exercises.controls[index].setValue({
+          name: data.name,
+          sets: data.sets,
+          repetition: data.repetition,
+          weight: data.weight,
+          tag: data.tag,
+        });
+      }
     });
   }
 
   private mapToWorkoutPlan(): WorkoutPlan {
     let exercises: Exercise[] = [];
-
-    this.monday.controls.forEach((exercise) => {
-      exercises.push({
-        ...exercise.value,
-        day: 'monday',
-      });
-    });
-
-    this.tuesday.controls.forEach((exercise) => {
-      exercises.push({
-        ...exercise.value,
-        day: 'tuesday',
-      });
-    });
-
-    this.wednesday.controls.forEach((exercise) => {
-      exercises.push({
-        ...exercise.value,
-        day: 'wednesday',
-      });
-    });
-
-    this.thursday.controls.forEach((exercise) => {
-      exercises.push({
-        ...exercise.value,
-        day: 'thursday',
-      });
-    });
-
-    this.friday.controls.forEach((exercise) => {
-      exercises.push({
-        ...exercise.value,
-        day: 'friday',
-      });
-    });
-
-    this.saturday.controls.forEach((exercise) => {
-      exercises.push({
-        ...exercise.value,
-        day: 'saturday',
-      });
-    });
-
-    this.sunday.controls.forEach((exercise) => {
-      exercises.push({
-        ...exercise.value,
-        day: 'sunday',
-      });
+    this.exercises.controls.forEach((exercise) => {
+      let exerciseEntry: Exercise = {
+        name: exercise.get('name')?.value,
+        sets: exercise.get('sets')?.value,
+        repetition: exercise.get('repetition')?.value,
+        weight: exercise.get('weight')?.value,
+        tag: exercise.get('tag')?.value,
+      };
+      exercises.push(exerciseEntry);
     });
 
     return {
       exercises,
-      userId: this.authService.userData.userId,
+      userId: this.formGroup.get('uid')?.value,
+      creatorId: this.authService.userData.uid,
     };
   }
 
-  get monday() {
-    return this.formGroup.get('monday') as FormArray;
-  }
-
-  get tuesday() {
-    return this.formGroup.get('tuesday') as FormArray;
-  }
-
-  get wednesday() {
-    return this.formGroup.get('wednesday') as FormArray;
-  }
-
-  get thursday() {
-    return this.formGroup.get('thursday') as FormArray;
-  }
-
-  get friday() {
-    return this.formGroup.get('friday') as FormArray;
-  }
-
-  get saturday() {
-    return this.formGroup.get('saturday') as FormArray;
-  }
-
-  get sunday() {
-    return this.formGroup.get('sunday') as FormArray;
+  get exercises() {
+    return this.formGroup.get('exercises') as FormArray;
   }
 }

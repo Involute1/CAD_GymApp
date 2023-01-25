@@ -26,8 +26,12 @@ export class UserService {
     return this.http.post<Tenant>(`${this.userUrl}/tenant/`, tenant);
   }
 
-  getUser(userId: string): Observable<User> {
-    return this.http.get<User>(`${this.userUrl}/user/${userId}`);
+  getUser(userId: string, tenantId: string): Observable<User> {
+    return this.http.get<User>(`${this.userUrl}/${userId}/${tenantId}`);
+  }
+
+  getUsers(tenantId: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.userUrl}/all/${tenantId}`);
   }
 
   getTenants(): Observable<Tenant[]> {

@@ -1,8 +1,39 @@
-<ng-container *ngIf="workouts$ | async; let workouts">
-  <div *ngFor="let workout of workouts">
-    <div>{{ workout.workoutDate | date }}</div>
-    <div *ngFor="let exercise of workout.exercises">
-      <div>{{ exercise.name }}</div>
-    </div>
+<div class="inner-adjust">
+  <div class="pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Workouts</h1>
   </div>
-</ng-container>
+  <form [formGroup]="formGroup">
+    <div>
+      <mat-form-field *ngIf="hasTrainerPermissions" class="width-20">
+        <mat-select
+          formControlName="uid"
+          (selectionChange)="getWorkoutsForUid()"
+        >
+          <mat-option *ngFor="let user of gymUsers$ | async" [value]="user.uid">
+            {{ user.displayName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <ng-container *ngIf="workouts$ | async; let workouts">
+      <ng-container *ngIf="workouts.length === 0">
+        No Workouts have been captured so far. Please go to
+        <b>Capture Workout</b> to capture your first step to glory.
+      </ng-container>
+      <div *ngFor="let workout of workouts">
+        <div>{{ workout.workoutDate | date }}</div>
+        <div *ngFor="let exercise of workout.exercises; let i = index">
+          <div>Exercise {{ i + 1 }} - {{ exercise.name }}:</div>
+          {{
+            exercise.sets +
+              " Sets of " +
+              exercise.repetition +
+              " repetitions with " +
+              exercise.weight +
+              " kg; "
+          }}
+        </div>
+      </div>
+    </ng-container>
+  </form>
+</div>

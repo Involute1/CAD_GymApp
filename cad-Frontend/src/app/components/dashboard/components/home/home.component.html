@@ -1,18 +1,29 @@
-<h2>Workout Plan</h2>
-<ng-container *ngIf="workoutPlan$ | async; let workoutPlan">
-  <div class="container">
-    <div
-      class="item"
-      *ngFor="let dailyExcercies of workoutPlan.dailyExcercises"
-    >
-      {{ dailyExcercies.day }}
-      <div *ngFor="let exercise of dailyExcercies.exercises">
-        <div>
-          {{ exercise.name + ":" + exercise.sets + " Sets of " + exercise.repetition + " repetitions with " + exercise.weight + " kg; " }}
-        </div>
-        <div>{{"Tag: " + exercise.tag}}</div>
+<div class="inner-adjust">
+  <div class="pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Workout Plan</h1>
+  </div>
 
+  <ng-container *ngIf="!(workoutPlan$ | async)">
+    No Workout Plan has been created yet. Please go to
+    <b>Configure Workout Plan</b> to create one.
+  </ng-container>
+  <ng-container *ngIf="workoutPlan$ | async; let workoutPlan">
+    <div>
+      <div *ngFor="let exercise of workoutPlan.exercises">
+        <div>
+          {{
+            exercise.name +
+              ":" +
+              exercise.sets +
+              " Sets of " +
+              exercise.repetition +
+              " repetitions with " +
+              exercise.weight +
+              " kg; "
+          }}
+        </div>
+        <div>{{ "Tag: " + exercise.tag }}</div>
       </div>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
+</div>

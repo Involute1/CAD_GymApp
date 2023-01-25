@@ -3,8 +3,10 @@ import {
   Workout,
   WorkoutService,
 } from '../../../../shared/services/workout.service';
-import { Observable } from 'rxjs';
-import { AuthService } from '../../../../shared/services/auth.service';
+import { Observable, of } from 'rxjs';
+import { AuthService, User } from '../../../../shared/services/auth.service';
+import { UserService } from '../../../../shared/services/user.service';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-workouts',
@@ -12,14 +14,33 @@ import { AuthService } from '../../../../shared/services/auth.service';
   styleUrls: ['./workouts.component.scss'],
 })
 export class WorkoutsComponent implements OnInit {
-  workouts$: Observable<Workout[]>;
+  formGroup = this.formBuilder.group({
+    uid: [this.authService.userData.uid, Validators.required],
+  });
+  workouts$: Observable<Workout[]> | undefined;
+  gymUsers$: Observable<User[]> = of([]);
+  hasTrainerPermissions: boolean;
 
   constructor(
     private workoutService: WorkoutService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService,
+    private formBuilder: FormBuilder
   ) {
-    this.workouts$ = this.workoutService.getWorkouts(this.authService.userData);
+    this.hasTrainerPermissions = this.authService.hasRole(['Trainer']);
+    if (this.hasTrainerPermissions) {
+      this.gymUsers$ = this.userService.getUsers(
+        this.authService.userData.tenantId
+      );
+    }
+    this.getWorkoutsForUid();
   }
 
   ngOnInit(): void {}
+
+  getWorkoutsForUid() {
+    this.workouts$ = this.workoutService.getWorkouts(
+      this.formGroup.get('uid')?.value
+    );
+  }
 }
