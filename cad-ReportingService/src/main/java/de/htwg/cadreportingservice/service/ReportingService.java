@@ -35,7 +35,7 @@ public class ReportingService {
     private static final String DEFAULT_WORKOUT_SERVICE_URL = "http://localhost:7083/workout";
     private JavaMailSender mailSender;
 
-    @Scheduled(cron = "* * 5 * * ?")
+    @Scheduled(cron = "0 0 5 * * ?")
     public void sendWorkoutsToUsers() throws IOException, InterruptedException {
         LOGGER.info("Starting cronjob");
         Gson gson = new Gson();
