@@ -81,6 +81,30 @@ jobs:
     secrets:
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
 
+  build-gateway-service:
+    name: Build GatewayService
+    uses: ./.github/workflows/docker-build.yaml
+    with:
+      context: ./cad-GatewayService
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-gateway-service
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+  build-reporting-service:
+    name: Build ReportingService
+    uses: ./.github/workflows/docker-build.yaml
+    with:
+      context: ./cad-ReportingService
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-reporting-service
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
   wait-for-builds:
     name: Wait for all docker build to complete
     runs-on: ubuntu-latest
@@ -90,6 +114,8 @@ jobs:
       - build-user-service
       - build-workout-service
       - build-invoice-cronjob
+      - build-gateway-service
+      - build-reporting-service
     steps:
       - run: echo "docker build finished for all components"
 
@@ -158,6 +184,34 @@ jobs:
       server: ${{ inputs.server }}
       repo: ${{ inputs.repo }}
       tag: cad-gym-invoice-cronjob
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_KEY: ${{ secrets.GCP_KEY }}
+
+  push-gateway-service:
+    name: Push GatewayService
+    needs:
+      - wait-for-builds
+    uses: ./.github/workflows/docker-push.yaml
+    with:
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-gateway-service
+      version: latest
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_KEY: ${{ secrets.GCP_KEY }}
+
+  push-reporting-service:
+    name: Push ReportingService
+    needs:
+      - wait-for-builds
+    uses: ./.github/workflows/docker-push.yaml
+    with:
+      server: ${{ inputs.server }}
+      repo: ${{ inputs.repo }}
+      tag: cad-gym-reporting-service
       version: latest
     secrets:
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
