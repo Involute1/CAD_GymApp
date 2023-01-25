@@ -1,10 +1,11 @@
-package de.htwg.cadworkoutservice.service;
+package de.htwg.cadworkoutservice.service.impl;
 
 import de.htwg.cadworkoutservice.model.Exercise;
 import de.htwg.cadworkoutservice.model.User;
 import de.htwg.cadworkoutservice.model.Workout;
 import de.htwg.cadworkoutservice.model.request.WorkoutForUsersRequest;
 import de.htwg.cadworkoutservice.repository.IWorkoutRepository;
+import de.htwg.cadworkoutservice.service.IWorkoutService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class WorkoutServiceImpl implements IWorkoutService {
     }
 
     @Override
-    public Workout getWorkoutById(long id) {
-        return workoutRepository.getReferenceById(id);
+    public List<Workout> getAllWorkoutByUserId(String userId) {
+        return workoutRepository.getAllByUserId(userId);
     }
 
     @Override

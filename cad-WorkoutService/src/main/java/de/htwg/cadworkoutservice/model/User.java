@@ -3,12 +3,10 @@ package de.htwg.cadworkoutservice.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 @AllArgsConstructor
 public class User {
-    private UUID uid;
+    private String uid;
     private String email;
     private String password;
     private String displayName;

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface IWorkoutRepository extends JpaRepository<Workout, Long> {
@@ -16,5 +17,7 @@ public interface IWorkoutRepository extends JpaRepository<Workout, Long> {
     @Modifying
     @Query("update Workout w set w.workoutDate = ?1, w.exercises = ?2 where w.id = ?3")
     int updateWorkoutDateAndExercisesById(LocalDate workoutDate, Exercise exercises, Long id);
+
+    List<Workout> getAllByUserId(String userId);
 
 }

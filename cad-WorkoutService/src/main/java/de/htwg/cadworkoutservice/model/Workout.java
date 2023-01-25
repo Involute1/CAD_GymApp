@@ -8,7 +8,6 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "WORKOUT")
@@ -23,9 +22,9 @@ public class Workout implements Serializable {
     private LocalDate workoutDate;
 
     @Column(name = "USER_ID")
-    private UUID userId;
+    private String userId;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Exercise.class, mappedBy = "id")
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Exercise> exercises;
 
     public Workout(Long id, LocalDate workoutDate, List<Exercise> exercises) {
