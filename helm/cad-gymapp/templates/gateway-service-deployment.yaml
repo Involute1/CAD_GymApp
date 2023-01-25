@@ -38,6 +38,11 @@ spec:
                 configMapKeyRef:
                   name: gateway-service-configmap
                   key: reporting_service_url
+            - name: GATEWAY_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: gateway-service-configmap
+                  key: gateway_service_url
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - containerPort: {{ .Values.gatewayService.port }}
