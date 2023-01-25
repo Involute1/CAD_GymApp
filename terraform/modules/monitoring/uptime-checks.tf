@@ -128,6 +128,31 @@ resource "google_monitoring_uptime_check_config" "frontend_uptime_check" {
   }
 }
 
+resource "google_monitoring_uptime_check_config" "gateway_service_uptime_check" {
+  for_each     = toset(split(",", data.local_file.urls.content))
+  display_name = "Gateway Service Uptime Check"
+  timeout      = "60s"
+  period       = "60s"
+
+  http_check {
+    path           = "/api/healthcheck"
+    port           = "8080"
+    request_method = "GET"
+
+    accepted_response_status_codes {
+      status_class = "STATUS_CLASS_2XX"
+    }
+  }
+
+  monitored_resource {
+    labels = {
+      "project_id" : var.project_id,
+      "host" : each.key
+    }
+    type = local.uptime_url_type
+  }
+}
+
 resource "google_monitoring_notification_channel" "ln_email" {
   display_name = "Luis Email"
   type         = "email"
