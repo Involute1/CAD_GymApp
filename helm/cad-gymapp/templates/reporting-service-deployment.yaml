@@ -46,15 +46,6 @@ spec:
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - containerPort: {{ .Values.reportingService.port }}
-#          livenessProbe:
-#            httpGet:
-#              path: /user/healthcheck
-#              port: 7082
-#            initialDelaySeconds: 10
-#            timeoutSeconds: 5
-#          readinessProbe:
-#            httpGet:
-#              path: /user/healthcheck
-#              port: 7082
-#            initialDelaySeconds: 10
-#            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: "250m"

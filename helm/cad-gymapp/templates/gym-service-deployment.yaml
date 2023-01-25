@@ -20,17 +20,8 @@ spec:
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - containerPort: 7081
-#          livenessProbe:
-#            httpGet:
-#              path: /gym/healthcheck
-#              port: 7081
-#            initialDelaySeconds: 10
-#            timeoutSeconds: 5
-#          readinessProbe:
-#            httpGet:
-#              path: /gym/healthcheck
-#              port: 7081
-#            initialDelaySeconds: 10
-#            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: "250m"
 
 
