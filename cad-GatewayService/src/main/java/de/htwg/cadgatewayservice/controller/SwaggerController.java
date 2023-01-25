@@ -45,7 +45,7 @@ public class SwaggerController {
 //            swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Workout Service", workoutServiceUrl + "/v3/api-docs", "Workout Service"));
 //            swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Reporting Service", reportingServiceUrl + "/v3/api-docs", "Reporting Service"));
         } else {
-            swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Gateway Service", url + "/api/v3/api-docs", "Gateway Service"));
+            swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Gateway Service", url + "/v3/api-docs", "Gateway Service"));
             swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Gym Service", url.replace("8080", "7081") + "/gym/v3/api-docs", "Gym Service"));
             swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("User Service", url.replace("8080", "7082") + "/user/v3/api-docs", "User Service"));
             swaggerUrls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl("Workout Service", url.replace("8080", "7083") + "/workout/v3/api-docs", "Workout Service"));

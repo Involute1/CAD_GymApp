@@ -30,4 +30,12 @@ public class Workout implements Serializable {
         this.workoutDate = workoutDate;
         this.exercises = exercises;
     }
+
+    @Override
+    public String toString() {
+        return "Workout{" +
+                "workoutDate=" + workoutDate +
+                ", exercises=" + exercises +
+                '}';
+    }
 }
