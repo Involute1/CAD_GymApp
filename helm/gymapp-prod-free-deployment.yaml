@@ -16,3 +16,9 @@ userService:
   
 workoutService:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-prod/cad-gym-workout-service:latest
+
+reportingService:
+  image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-prod/cad-gym-reporting-service:latest
+
+gatewayService:
+  image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-prod/cad-gym-gateway-service:latest
