@@ -1,5 +1,6 @@
 locals {
   uptime_url_type = "uptime_url"
+  urls            = ["drescherflo.de", "premium.drescherflo.de", "eiglsperger-gym.drescherflo.de"]
 }
 
 variable "environment" {
