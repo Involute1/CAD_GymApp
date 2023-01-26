@@ -6,3 +6,5 @@ data:
   sql_db_url: {{ .Values.userService.sqlDbUrl }}
   spring_datasource_url: {{ .Values.userService.springDatasourceUrl }}
   gym_service_url: {{ .Values.gymServiceUrl }}
+  free_max_user_count: {{ .Values.userService.freeMaxUserCount }}
+  standard_max_user_count: {{ .Values.userService.standardMaxUserCount }}

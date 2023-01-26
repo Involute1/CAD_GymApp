@@ -121,6 +121,8 @@ userService:
   springDatasourceUrl: "jdbc:postgresql://postgresql-user-postgresql-ha-pgpool:5432/cad"
   springDatasourceUsername: postgres
   springDatasourcePassword: test123
+  freeMaxUserCount: 10
+  standardMaxUserCount: 100
 
 workoutService:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-workout-service:latest

@@ -43,6 +43,16 @@ spec:
                 configMapKeyRef:
                   name: user-service-configmap
                   key: gym_service_url
+            - name: FREE_MAX_USER_COUNT
+              valueFrom:
+                configMapKeyRef:
+                  name: user-service-configmap
+                  key: free_max_user_count
+            - name: STANDARD_MAX_USER_COUNT
+              valueFrom:
+                configMapKeyRef:
+                  name: user-service-configmap
+                  key: standard_max_user_count
           command: [ "./wait-for-it.sh" ]
           args: [ "$(SQL_DB_URL)", "--", "java", "-jar", "/UserService.jar" ]
           imagePullPolicy: {{ .Values.imagePullPolicy }}
