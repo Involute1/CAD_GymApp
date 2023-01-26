@@ -86,7 +86,7 @@ letsencrypt:
   mail: ""
   issuer: "staging"
 
-replicas: 2
+replicas: 1
 autoscaling:
   enabled: false
   minReplicas: 2
@@ -113,6 +113,7 @@ invoiceCronjob:
   schedule: "* * 1 * *"
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-invoice-cronjob:latest
   restartPolicy: OnFailure
+  costPerUser: "0.3"
 
 userService:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-user-service:latest
@@ -121,6 +122,8 @@ userService:
   springDatasourceUrl: "jdbc:postgresql://postgresql-user-postgresql-ha-pgpool:5432/cad"
   springDatasourceUsername: postgres
   springDatasourcePassword: test123
+  freeMaxUserCount: 10
+  standardMaxUserCount: 100
 
 workoutService:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-workout-service:latest

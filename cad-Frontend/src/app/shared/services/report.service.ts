@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 export class ReportService {
   reportUrl =
     `${window.location.protocol}//${window.location.hostname}${environment.reportingPort}` +
-    '/reporting';
+    '/api/reporting';
 
   constructor(private http: HttpClient) {}
 

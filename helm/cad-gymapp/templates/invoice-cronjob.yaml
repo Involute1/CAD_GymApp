@@ -21,6 +21,11 @@ spec:
                     configMapKeyRef:
                       name: invoice-cronjob-configmap
                       key: user_service_url
+                - name: COST_PER_USER
+                  valueFrom:
+                    configMapKeyRef:
+                      name: invoice-cronjob-configmap
+                      key: cost_per_user
               imagePullPolicy: {{ .Values.imagePullPolicy }}
               name: invoice-cronjob
           restartPolicy: {{ .Values.invoiceCronjob.restartPolicy }}

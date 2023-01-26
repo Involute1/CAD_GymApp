@@ -45,5 +45,5 @@ spec:
             - containerPort: 7083
           resources:
             requests:
-              cpu: "250m"
+              cpu: "500m"
 

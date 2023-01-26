@@ -4,8 +4,8 @@ letsencrypt:
 autoscaling:
   enabled: true
   minReplicas: 2
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 50
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
 
 frontend:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-prod/cad-gym-frontend:latest
