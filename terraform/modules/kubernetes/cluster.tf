@@ -1,6 +1,6 @@
 resource "google_container_cluster" "primary" {
   name     = var.cluster_name
-  location = "europe-west3"
+  location = var.eu_location
 
   # We can't create a cluster with no node pool defined, but we want to only use
   # separately managed node pools. So we create the smallest possible default
