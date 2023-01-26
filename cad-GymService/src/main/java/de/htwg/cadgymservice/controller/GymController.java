@@ -10,8 +10,12 @@ import de.htwg.cadgymservice.service.GymServiceImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -39,7 +43,8 @@ public class GymController {
     public Gym getGymById(@PathVariable String firestoreId) {
         FirestoreGym firestoreGym = gymService.getGymByTenantId(firestoreId);
         Blob blob = gymBucketService.getLogo(firestoreId);
-        return new Gym(firestoreGym.getId(), firestoreGym.getName(), firestoreGym.getTenantId(), firestoreGym.getDescription(), firestoreGym.getBillingModel(), blob.getContent());
+        byte[] content = blob != null ? blob.getContent() : new byte[0];
+        return new Gym(firestoreGym.getId(), firestoreGym.getName(), firestoreGym.getTenantId(), firestoreGym.getDescription(), firestoreGym.getBillingModel(), content);
     }
 
     @DeleteMapping("/{firestoreId}")
@@ -55,6 +60,24 @@ public class GymController {
         FirestoreGym firestoreGym = gymService.updateGym(new FirestoreGym(updatedGym.getFirebaseId(), updatedGym.getName(), updatedGym.getTenantId(), updatedGym.getDescription(), updatedGym.getBillingModel(), firestoreGymToUpdate.getInvoices()));
         Blob blob = gymBucketService.updateLogo(firestoreId, updatedGym.getLogo());
         return new Gym(firestoreGym.getId(), firestoreGym.getName(), firestoreGym.getTenantId(), firestoreGym.getDescription(), updatedGym.getBillingModel(), blob.getContent());
+    }
+
+    @PostMapping("/{firestoreId}/logo")
+    public Gym addLogo(@PathVariable String firestoreId, @RequestParam("image") MultipartFile file) throws IOException {
+        FirestoreGym firestoreGym = gymService.getGymByTenantId(firestoreId);
+        Blob blob = gymBucketService.updateLogo(firestoreId, file.getBytes());
+        return new Gym(firestoreGym.getId(), firestoreGym.getName(), firestoreGym.getTenantId(), firestoreGym.getDescription(), firestoreGym.getBillingModel(), blob.getContent());
+    }
+
+    @GetMapping(path = {"/{firestoreId}/logo"})
+    public ResponseEntity<byte[]> getImage(@PathVariable String firestoreId) throws IOException {
+
+        Blob blob = gymBucketService.getLogo(firestoreId);
+
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(blob.getContent());
     }
 
     @GetMapping("/{tenantId}/invoice")

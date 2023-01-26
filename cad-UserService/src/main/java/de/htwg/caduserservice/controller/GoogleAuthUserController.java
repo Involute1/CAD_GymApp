@@ -8,7 +8,7 @@ import de.htwg.caduserservice.model.UserData;
 import de.htwg.caduserservice.model.requests.RegisterUserData;
 import de.htwg.caduserservice.model.requests.VerifyTokenData;
 import de.htwg.caduserservice.repository.IUserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,13 +23,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GoogleAuthUserController {
     private static final Log LOGGER = LogFactory.getLog(GoogleAuthUserController.class);
     //https://cloud.google.com/identity-platform/docs/multi-tenancy-managing-tenants#creating_a_user
     private static final String DEFAULT_GYM_SERVICE_URL = "http://localhost:7081/gym";
-    private IUserRepository userRepository;
+
+    private final IUserRepository userRepository;
     private GoogleAuthTenantController googleAuthTenantController;
+
     @Value("${billingmodel.free.max-user-count}")
     private long freeMaxUserCount;
 
