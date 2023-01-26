@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InvoiceCronjob {
     private static final Log LOGGER = LogFactory.getLog(InvoiceCronjob.class);
-    private static final double COST_PER_USER = 0.3;
+    private static final double DEFAULT_COST_PER_USER = 0.3;
     private static final String DEFAULT_GYM_SERVICE_URL = "http://localhost:7081";
     private static final String DEFAULT_USER_SERVICE_URL = "http://localhost:7082";
 
@@ -56,6 +56,15 @@ public class InvoiceCronjob {
             userServiceUrl = DEFAULT_USER_SERVICE_URL;
         }
         LOGGER.debug("User Service URL: " + userServiceUrl);
+
+        String costPerUserString = System.getenv("COST_PER_USER");
+        double costPerUser;
+        if (costPerUserString != null) {
+            costPerUser = Long.parseLong(costPerUserString);
+        } else {
+            costPerUser = DEFAULT_COST_PER_USER;
+        }
+        LOGGER.debug("Costs per user: " + costPerUser);
 
         LOGGER.info("Requesting gyms");
         HttpClient httpClient = HttpClient.newBuilder().build();
@@ -95,7 +104,7 @@ public class InvoiceCronjob {
                     LOGGER.info("Unmarshalling response");
                     User[] users = gson.fromJson(usersResponse.body(), User[].class);
                     long userCount = Arrays.stream(users).filter(user -> !user.isDisabled()).count();
-                    yield userCount * COST_PER_USER;
+                    yield userCount * costPerUser;
                 }
             };
             return new Invoice(null, LocalDateTime.now(), amount, LocalDateTime.now().plusDays(3), gym.getFirebaseId());
