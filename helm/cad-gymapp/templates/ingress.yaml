@@ -51,6 +51,13 @@ spec:
                 name: gateway-service-service
                 port:
                   number: {{ .Values.gatewayService.port }}
+#          - path: /v3
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: gateway-service-service
+#                port:
+#                  number: {{ .Values.gatewayService.port }}
           - path: /api-docs
             pathType: Prefix
             backend:

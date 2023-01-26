@@ -6,10 +6,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { SelectItem } from 'primeng/api';
-import { Tenant, UserService } from '../../../shared/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Gym, GymService } from '../../../shared/services/gym.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,7 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class SignUpComponent implements OnInit {
   roles = Roles;
-  tenants$: Observable<Tenant[]>;
+  gyms$: Observable<Gym[]>;
   showBillingModel = true;
 
   billingModels: SelectItem[] = [];
@@ -36,10 +36,29 @@ export class SignUpComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
-    private userService: UserService,
+    private gymService: GymService,
     private snackbar: MatSnackBar
   ) {
-    this.tenants$ = this.userService.getTenants();
+    let splitHostname = window.location.hostname.split('.');
+    let level = splitHostname.at(0);
+    this.gyms$ = this.gymService.getGyms().pipe(
+      map((gyms) =>
+        gyms.filter((gym) => {
+          if (window.location.hostname.startsWith('premium')) {
+            return gym.billingModel === 'STANDARD';
+          } else if (
+            splitHostname.length === 2 ||
+            level === 'staging' ||
+            level === 'dev'
+          ) {
+            return gym.billingModel === 'FREE';
+          } else {
+            // @ts-ignore
+            return gym.name.toLowerCase() === level.replaceAll('-', '');
+          }
+        })
+      )
+    );
   }
 
   ngOnInit() {

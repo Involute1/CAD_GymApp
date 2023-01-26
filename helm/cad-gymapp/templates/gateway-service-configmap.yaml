@@ -3,7 +3,8 @@ kind: ConfigMap
 metadata:
   name: gateway-service-configmap
 data:
-  gym_service_url: {{ .Values.gymServiceUrl }}
-  user_service_url: {{ .Values.userServiceUrl }}
-  workout_service_url: {{ .Values.workoutServiceUrl }}
-  reporting_service_url: {{ .Values.reportingServiceUrl }}
+  gym_service_url: "http://gym-service-service:7081/"
+  user_service_url: "http://user-service-service:7082/"
+  workout_service_url: "http://workout-service-service:7083/"
+  reporting_service_url: "http://reporting-service-service:7084/"
+  gateway_service_url: "http://gateway-service-service:7084/"

@@ -51,7 +51,9 @@ public class GymBucketServiceImpl implements IGymBucketService {
     public Blob updateLogo(String firebaseId, byte[] updatedData) {
         this.bucket.reload();
         Blob oldBlob = this.bucket.get(firebaseId);
-        oldBlob.delete();
+        if (oldBlob != null) {
+            oldBlob.delete();
+        }
         return saveLogo(firebaseId, updatedData);
     }
 
