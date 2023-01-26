@@ -8,10 +8,12 @@ fi
 
 if [[ $1 == "" ]]; then
     echo "You must specify a customer as the first command line argument!"
+    exit 1
 fi
 
 if [[ $2 == "" ]]; then
     echo "You must specify a pipeline/corresponding branch to push to!"
+    exit 1
 fi
 
 echo "Adding new enterprise customer \"$1\" and pushing to pipeline $2"
