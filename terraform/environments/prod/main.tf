@@ -60,10 +60,10 @@ module "kubernetes" {
   service_account_email = module.services.kubernetes_service_account
 }
 
-#module "monitoring" {
-#  source = "../../modules/monitoring"
-#  depends_on = [module.services, module.project-services]
-#
-#  project_id     = var.project_id
-#  environment    = local.environment
-#}
+module "monitoring" {
+  source     = "../../modules/monitoring"
+  depends_on = [module.services, module.project-services]
+
+  project_id  = var.project_id
+  environment = local.environment
+}

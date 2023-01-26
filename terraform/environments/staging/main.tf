@@ -61,10 +61,10 @@ module "kubernetes" {
 }
 
 
-#module "monitoring" {
-#  source     = "../../modules/monitoring"
-#  depends_on = [module.services, module.project-services]
-#
-#  project_id  = var.project_id
-#  environment = local.environment
-#}
+module "monitoring" {
+  source     = "../../modules/monitoring"
+  depends_on = [module.services, module.project-services]
+
+  project_id  = var.project_id
+  environment = local.environment
+}
