@@ -86,7 +86,7 @@ letsencrypt:
   mail: ""
   issuer: "staging"
 
-replicas: 2
+replicas: 1
 autoscaling:
   enabled: false
   minReplicas: 2

@@ -4,7 +4,7 @@ letsencrypt:
 autoscaling:
   enabled: true
   minReplicas: 2
-  maxReplicas: 10
+  maxReplicas: 3
   targetCPUUtilizationPercentage: 80
 
 frontend:
