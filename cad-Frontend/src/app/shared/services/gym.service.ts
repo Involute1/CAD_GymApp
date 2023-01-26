@@ -18,7 +18,7 @@ export class GymService {
   }
 
   getGyms(): Observable<Gym[]> {
-    return this.http.get<Gym[]>(this.gymUrl + '/gym');
+    return this.http.get<Gym[]>(this.gymUrl + '/');
   }
 
   getGym(tenantId: string): Observable<Gym> {

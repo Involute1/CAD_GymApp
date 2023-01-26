@@ -7,10 +7,10 @@
           <mat-label>Gym</mat-label>
           <mat-select #tenantId>
             <mat-option
-              *ngFor="let tenant of tenants$ | async"
-              [value]="tenant.tenantId"
+              *ngFor="let gym of gyms$ | async"
+              [value]="gym.tenantId"
             >
-              {{ tenant.displayName }}
+              {{ gym.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -73,12 +73,12 @@
 
     <div class="redirectToLogin">
       <span
-        >Don't have an account?<span
-          class="redirect"
-          routerLink="/register-user"
-        >
+      >Don't have an account?<span
+        class="redirect"
+        routerLink="/register-user"
+      >
           Sign Up</span
-        ></span
+      ></span
       >
     </div>
   </div>
