@@ -20,3 +20,4 @@ target
 /helper/data2/
 
 cad-Frontend/package-lock.json
+.DS_Store
