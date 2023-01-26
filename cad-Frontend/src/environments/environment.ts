@@ -6,10 +6,10 @@ import apiKey from './apiKey.json';
 
 export const environment = {
   production: false,
-  gymPort: ':8080',
-  userPort: ':8080',
-  workoutPort: ':8080',
-  reportingPort: ':8080',
+  gymPort: ':7081',
+  userPort: ':7082',
+  workoutPort: ':7083',
+  reportingPort: ':7084',
   firebase: {
     apiKey: apiKey.firebaseApiKey,
     authDomain: 'cad-gym-app.firebaseapp.com',

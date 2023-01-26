@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
 export class UserService {
   userUrl =
     `${window.location.protocol}//${window.location.hostname}${environment.userPort}` +
-    '/api/user';
+    '/user';
 
   constructor(private http: HttpClient) {}
 

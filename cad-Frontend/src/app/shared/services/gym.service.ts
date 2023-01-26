@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 export class GymService {
   gymUrl =
     `${window.location.protocol}//${window.location.hostname}${environment.gymPort}` +
-    '/api/gym';
+    '/gym';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -19,7 +19,6 @@ export class GymService {
   }
 
   getGyms(): Observable<Gym[]> {
-    console.log(this.authService.token);
     return this.http.get<Gym[]>(this.gymUrl + '/');
   }
 
