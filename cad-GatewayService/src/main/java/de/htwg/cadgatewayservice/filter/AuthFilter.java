@@ -33,6 +33,9 @@ public class AuthFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         if (exchange.getRequest().getPath().toString().contains("healthcheck")) return chain.filter(exchange);
+        if (exchange.getRequest().getPath().toString().contains("tenant")) return chain.filter(exchange);
+        if (exchange.getRequest().getPath().toString().contains("user")) return chain.filter(exchange);
+        if (exchange.getRequest().getPath().toString().contains("gym")) return chain.filter(exchange);
         List<String> authHeader = exchange.getRequest().getHeaders().get("Authorization");
         if (authHeader == null || authHeader.size() == 0) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         List<String> tenantIdHeader = exchange.getRequest().getHeaders().get("TenantID");
