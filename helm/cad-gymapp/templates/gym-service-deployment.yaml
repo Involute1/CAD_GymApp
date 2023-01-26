@@ -17,6 +17,12 @@ spec:
       containers:
         - name: gym-service
           image: {{ .Values.gymService.image }}
+          env:
+            - name: GYM_BUCKET_TYPE
+              valueFrom:
+                configMapKeyRef:
+                  name: gym-service-configmap
+                  key: gym_bucket_type
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - containerPort: 7081

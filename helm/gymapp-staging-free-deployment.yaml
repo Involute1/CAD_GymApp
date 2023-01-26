@@ -5,6 +5,7 @@ frontend:
   
 gymService:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-staging/cad-gym-gym-service:latest
+  gymBucketType: "gym-bucket-staging"
   
 invoiceCronjob:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-staging/cad-gym-invoice-cronjob:latest

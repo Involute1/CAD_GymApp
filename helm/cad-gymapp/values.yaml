@@ -108,6 +108,7 @@ frontend:
 gymService:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-gym-service:latest
   port: 7081
+  gymBucketType: "gym-bucket-def"
 
 invoiceCronjob:
   schedule: "* * 1 * *"
