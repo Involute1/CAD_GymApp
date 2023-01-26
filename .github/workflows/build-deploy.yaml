@@ -194,7 +194,7 @@ jobs:
           gcloud components install gke-gcloud-auth-plugin --quiet
           DEPLOYMENT_TYPE=${{ needs.set-deployment-type.outputs.deployment-type }}
           export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-          gcloud container clusters get-credentials cluster-$DEPLOYMENT_TYPE --zone europe-west3-c
+          gcloud container clusters get-credentials cluster-$DEPLOYMENT_TYPE --region europe-west3
       -
         name: Deploy application
         run: |
