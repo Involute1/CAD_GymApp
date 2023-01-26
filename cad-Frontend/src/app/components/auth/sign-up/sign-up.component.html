@@ -44,10 +44,10 @@
               <mat-label>Gym</mat-label>
               <mat-select formControlName="tenantId">
                 <mat-option
-                  *ngFor="let tenant of tenants$ | async"
-                  [value]="tenant.tenantId"
+                  *ngFor="let gym of gyms$ | async"
+                  [value]="gym.tenantId"
                 >
-                  {{ tenant.displayName }}
+                  {{ gym.name }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -57,7 +57,7 @@
               <mat-label>Gym</mat-label>
               <mat-select formControlName="tenantId">
                 <mat-option
-                  *ngFor="let tenant of tenants$ | async"
+                  *ngFor="let tenant of gyms$ | async"
                   [value]="tenant.tenantId"
                 >
                   {{ tenant.displayName }}

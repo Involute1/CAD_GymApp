@@ -29,5 +29,16 @@
       </div>
     </div>
   </div>
+  <div *ngIf="(gym$ | async)?.billingModel === 'ENTERPRISE'">
+    <div>
+      <input type="file" (change)="onImageUpload($event)" />
+    </div>
+    <button
+      class="btn btn-primary mr-1 row-button"
+      (click)="imageUploadAction()"
+    >
+      Upload new Gym Logo
+    </button>
+  </div>
   <app-health-checks></app-health-checks>
 </div>

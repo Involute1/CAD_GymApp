@@ -18,17 +18,35 @@ export class GymService {
   }
 
   getGyms(): Observable<Gym[]> {
-    return this.http.get<Gym[]>(this.gymUrl + '/gym');
+    return this.http.get<Gym[]>(this.gymUrl + '/');
+  }
+
+  getGym(tenantId: string): Observable<Gym> {
+    return this.http.get<Gym>(this.gymUrl + '/' + tenantId);
   }
 
   getBills(tenantId: string): Observable<Invoice[]> {
     return this.http.get<Invoice[]>(`${this.gymUrl}/${tenantId}/invoice`);
+  }
+
+  uploadGymLogo(imageFormData: FormData, tenantId: string) {
+    return this.http
+      .post(this.gymUrl + `/${tenantId}/logo`, imageFormData, {
+        observe: 'response',
+      })
+      .subscribe();
+  }
+
+  getImage(tenantId: string) {
+    return this.http.get(this.gymUrl + `/${tenantId}/logo`);
   }
 }
 
 export interface Gym {
   tenantId: string;
   name: string;
+  billingModel: string;
+  displayName: string;
 }
 
 export interface Invoice {
