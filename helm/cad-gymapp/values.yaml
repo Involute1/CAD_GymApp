@@ -113,7 +113,7 @@ invoiceCronjob:
   schedule: "* * 1 * *"
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-invoice-cronjob:latest
   restartPolicy: OnFailure
-  costPerUser: "0.3"
+  costPerUser: "0.01"
 
 userService:
   image: europe-west3-docker.pkg.dev/cad-gym-app/cad-repo-dev/cad-gym-user-service:latest

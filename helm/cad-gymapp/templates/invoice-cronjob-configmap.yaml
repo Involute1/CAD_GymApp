@@ -5,4 +5,4 @@ metadata:
 data:
   gym_service_url: {{ .Values.gymServiceUrl }}
   user_service_url: {{ .Values.userServiceUrl }}
-  cost_per_user: {{ .Values.invoiceCronjob.costPerUser }}
+  cost_per_user: "{{ .Values.invoiceCronjob.costPerUser }}"
