@@ -1,7 +1,8 @@
 {
   "category": "CUSTOM",
   "dashboardFilters": [],
-  "displayName": "MY DASHBOARD",
+  "displayName": "MY_TF_DASHBOARD",
+  "etag": "51be9c0c00f7f81980020111be393aec",
   "labels": {},
   "mosaicLayout": {
     "columns": 12,
@@ -9,7 +10,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Check passed for ^fronted* [MEAN]",
+          "title": "Check passed for fronted-uptime-check-.* [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -27,7 +28,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_COUNT_TRUE"
                     },
-                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"^fronted*\")",
+                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"fronted-uptime-check-.*\")",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -358,7 +359,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Check passed for ^gym* [MEAN]",
+          "title": "Check passed for gym-service-uptime-check-.* [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -376,7 +377,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_COUNT_TRUE"
                     },
-                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"^gym*\")",
+                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"gym-service-uptime-check-.*\")",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -401,7 +402,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Check passed for ^user* [MEAN]",
+          "title": "Check passed for user-service-uptime-check-.* [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -419,7 +420,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_COUNT_TRUE"
                     },
-                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"^user*\")",
+                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"user-service-uptime-check-.*\")",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -444,7 +445,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Check passed for ^workout* [MEAN]",
+          "title": "Check passed for workout-service-uptime-check-.* [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -462,7 +463,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_COUNT_TRUE"
                     },
-                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"^workout*\")",
+                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"workout-service-uptime-check-.*\")",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -487,7 +488,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Check passed for ^reporting* [MEAN]",
+          "title": "Check passed for reporting-service-uptime-check-.* [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -505,7 +506,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_COUNT_TRUE"
                     },
-                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"^reporting*\")",
+                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"reporting-service-uptime-check-.*\")",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -616,7 +617,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Check passed for ^gateway* [MEAN]",
+          "title": "Check passed for gateway-service-uptime-check-.* [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -634,7 +635,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_COUNT_TRUE"
                     },
-                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"^gateway*\")",
+                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"gateway-service-uptime-check-.*\")",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -659,7 +660,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Uptime Check URL - Request latency for ^frontend* [MEAN]",
+          "title": "Uptime Check URL - Request latency for fronted-uptime-check-.* [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -677,7 +678,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/request_latency\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"^frontend*\")",
+                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/request_latency\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"fronted-uptime-check-.*\")",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -714,7 +715,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Uptime Check URL - Request latency for ^gateway* [MEAN]",
+          "title": "Uptime Check URL - Request latency for gateway-service-uptime-check-.* [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -732,7 +733,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/request_latency\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"^gateway*\")",
+                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/request_latency\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"gateway-service-uptime-check-.*\")",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -757,7 +758,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Uptime Check URL - Request latency for ^gym* [MEAN]",
+          "title": "Uptime Check URL - Request latency for gym-service-uptime-check-.* [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -775,7 +776,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/request_latency\" resource.type=\"uptime_url\" metric.label.\"check_id\"=\"^gym*\"",
+                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/request_latency\" resource.type=\"uptime_url\" metric.label.\"check_id\"=\"gym-service-uptime-check-.*\"",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -800,7 +801,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Uptime Check URL - Request latency for ^user* [MEAN]",
+          "title": "Uptime Check URL - Request latency for user-service-uptime-check-.* [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -818,7 +819,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/request_latency\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"^user*\")",
+                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/request_latency\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"user-service-uptime-check-.*\")",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -843,7 +844,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Uptime Check URL - Request latency for ^workout* [MEAN]",
+          "title": "Uptime Check URL - Request latency for workout-service-uptime-check-.* [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -861,7 +862,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/request_latency\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"^workout*\")",
+                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/request_latency\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"workout-service-uptime-check-.*\")",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -886,7 +887,7 @@
       {
         "height": 4,
         "widget": {
-          "title": "Uptime Check URL - Request latency for ^reporting* [MEAN]",
+          "title": "Uptime Check URL - Request latency for reporting-service-uptime-check-.* [MEAN]",
           "xyChart": {
             "chartOptions": {
               "mode": "COLOR"
@@ -904,7 +905,7 @@
                       "crossSeriesReducer": "REDUCE_NONE",
                       "perSeriesAligner": "ALIGN_MEAN"
                     },
-                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/request_latency\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"^reporting*\")",
+                    "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/request_latency\" resource.type=\"uptime_url\" metric.label.\"check_id\"=monitoring.regex.full_match(\"reporting-service-uptime-check-.*\")",
                     "secondaryAggregation": {
                       "alignmentPeriod": "60s",
                       "crossSeriesReducer": "REDUCE_NONE",
@@ -927,5 +928,6 @@
         "yPos": 12
       }
     ]
-  }
+  },
+  "name": "projects/516614744007/dashboards/f3e7e0a3-f4ec-4346-aebc-3dc696a033d9"
 }

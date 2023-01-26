@@ -91,7 +91,7 @@ autoscaling:
   enabled: false
   minReplicas: 2
   maxReplicas: 100
-  targetCPUUtilizationPercentage: 50
+  targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
 imagePullPolicy: Always
