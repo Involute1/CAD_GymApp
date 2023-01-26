@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { SelectItem } from 'primeng/api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Gym, GymService } from '../../../shared/services/gym.service';
@@ -57,7 +57,12 @@ export class SignUpComponent implements OnInit {
             return gym.name.toLowerCase() === level.replaceAll('-', '');
           }
         })
-      )
+      ),
+      tap((gyms) => {
+        if (gyms.length === 1) {
+          this.formGroup.get('tenantId')?.setValue(gyms.at(0)?.tenantId);
+        }
+      })
     );
   }
 
@@ -90,7 +95,10 @@ export class SignUpComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.formGroup.get('role')?.value === Roles.GYMOWNER) {
+    if (
+      this.formGroup.get('role')?.value === Roles.GYMOWNER &&
+      this.formGroup.get('billingModel')?.value !== 'ENTERPRISE'
+    ) {
       this.authService.signUpNewTenant(
         {
           email: this.formGroup.get('email')?.value,

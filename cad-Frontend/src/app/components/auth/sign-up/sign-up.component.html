@@ -66,30 +66,32 @@
             </mat-form-field>
           </div>
           <div *ngSwitchCase="roles.GYMOWNER">
-            <h3 style="text-align: left">Gym</h3>
-            <div class="formGroup">
-              <input
-                type="text"
-                class="formControl"
-                placeholder="Gym name"
-                formControlName="gymName"
-              />
-            </div>
-            <div *ngIf="showBillingModel" class="formGroup">
-              <mat-form-field class="example-full-width">
-                <mat-label>Billing Model</mat-label>
-                <mat-select
-                  (selectionChange)="onBillingModelChange()"
-                  formControlName="billingModel"
-                >
-                  <mat-option
-                    *ngFor="let billingModel of billingModels"
-                    [value]="billingModel.value"
+            <div *ngIf="showBillingModel">
+              <h3 style="text-align: left">Gym</h3>
+              <div class="formGroup">
+                <input
+                  type="text"
+                  class="formControl"
+                  placeholder="Gym name"
+                  formControlName="gymName"
+                />
+              </div>
+              <div class="formGroup">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Billing Model</mat-label>
+                  <mat-select
+                    (selectionChange)="onBillingModelChange()"
+                    formControlName="billingModel"
                   >
-                    {{ billingModel.label }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+                    <mat-option
+                      *ngFor="let billingModel of billingModels"
+                      [value]="billingModel.value"
+                    >
+                      {{ billingModel.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
             </div>
           </div>
         </div>
