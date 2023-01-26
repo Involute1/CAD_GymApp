@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 export class WorkoutService {
   workoutUrl =
     `${window.location.protocol}//${window.location.hostname}${environment.workoutPort}` +
-    '/workout';
+    '/api/workout';
 
   constructor(private http: HttpClient) {}
 

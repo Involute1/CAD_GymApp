@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,15 +10,16 @@ import { environment } from '../../../environments/environment';
 export class GymService {
   gymUrl =
     `${window.location.protocol}//${window.location.hostname}${environment.gymPort}` +
-    '/gym';
+    '/api/gym';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   gymHealthCheck(): Observable<boolean> {
     return this.http.get<boolean>(this.gymUrl + '/healthcheck');
   }
 
   getGyms(): Observable<Gym[]> {
+    console.log(this.authService.token);
     return this.http.get<Gym[]>(this.gymUrl + '/');
   }
 

@@ -16,7 +16,7 @@ import { AuthService } from './shared/services/auth.service';
 import { HealthChecksComponent } from './components/dashboard/components/health-checks/health-checks.component';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/dashboard/components/home/home.component';
 import { UserProfileComponent } from './components/dashboard/components/user-profile/user-profile.component';
 import { CaptureWorkoutComponent } from './components/dashboard/components/capture-workout/capture-workout.component';
@@ -38,6 +38,7 @@ import { UsersComponent } from './components/dashboard/components/users/users.co
 import { BillsComponent } from './components/dashboard/components/bills/bills.component';
 import { CommonModule } from '@angular/common';
 import { ReportComponent } from './components/dashboard/components/report/report.component';
+import { AuthInterceptor } from './core/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,15 @@ import { ReportComponent } from './components/dashboard/components/report/report
     MessagesModule,
     CommonModule,
   ],
-  providers: [AuthService, MessageService],
+  providers: [
+    AuthService,
+    MessageService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
