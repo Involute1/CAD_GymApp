@@ -27,7 +27,7 @@ resource "google_identity_platform_project_default_config" "default" {
 
 resource "null_resource" "enable_multi_tenancy_script" {
   provisioner "local-exec" {
-    command     = local.is_not_Windows ? "./enable_multi_tenancy.sh ${var.project_id}" : "enable_multi_tenancy.sh ${var.project_id}"
+    command     = (local.is_linux || local.is_macos) ? "./enable_multi_tenancy.sh ${var.project_id}" : "enable_multi_tenancy.sh ${var.project_id}"
     working_dir = "../../scripts"
   }
 }

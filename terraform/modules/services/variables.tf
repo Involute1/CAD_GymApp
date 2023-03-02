@@ -1,5 +1,7 @@
 locals {
-  is_not_Windows = length(regexall("/home/", lower(abspath(path.root)))) > 0
+  is_linux = startswith(abspath(path.root), "/home/")
+  is_macos = startswith(abspath(path.root), "/Users/")
+  is_windows = startswith(abspath(path.root), "C:/Users/")
 }
 
 variable "project_id" {

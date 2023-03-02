@@ -9,6 +9,7 @@ name: Build and Deploy
 # - When pushing was successful, deploy the application
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
